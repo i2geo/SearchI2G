@@ -1,0 +1,9 @@
+<module>
+  <!-- this is an abstract package
+    no big information except a name here -->
+
+    <inherits name="com.google.gwt.user.User"/>
+    <entry-point class='net.i2geo.api.APIEntryPoint'/>
+    <source path="api"/>
+
+</module>

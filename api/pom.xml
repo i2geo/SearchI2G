@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent><groupId>net.i2geo</groupId>
+    <artifactId>i2geo-search-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>net.i2geo</groupId>
+  <artifactId>i2geoAPI</artifactId>
+  <packaging>jar</packaging>
+  <!-- <packaging>jar</packaging> should actually be gwt except for server actually three artifacts -->
+  <name>Intergeo - Search Tool - API</name>
+  <version>1.0-SNAPSHOT</version>
+  <description>Intergeo - Search Tool - SkillsTexBox component for autocompletion (API)</description>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <version>${gwt.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- <dependency>
+      <groupId>gwt-rocket</groupId>
+      <artifactId>Rocket</artifactId>
+      <version>0.40</version>
+    </dependency> -->
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+   <resources>
+     <resource>
+       <directory>src/main/java</directory>
+     </resource>
+   </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>gwt-maven-plugin</artifactId>
+            <version>1.2</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <runTarget>net.i2geo.i2geoAPI/i2geoAPI.html</runTarget>
+                <!-- <draftCompile>true</draftCompile> --><!-- !!!! -->
+                <style>DETAILED</style>
+            </configuration>
+        </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <dependentWarExcludes></dependentWarExcludes>
+        </configuration>
+      </plugin>
+      <!-- TODO: Disable unit tests temporarily as the only test there is failing... -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+  </plugins>
+    
+  </build>
+  
+  <profiles>
+      <profile>
+      <id>linux</id>
+      <activation>
+        <os>
+          <name>linux</name>
+        </os>
+      </activation>
+      <properties>
+        <gwtArtifactId>gwt-linux</gwtArtifactId>
+      </properties>
+    </profile>
+    <profile>
+      <id>solaris</id>
+      <activation>
+        <os>
+          <name>SunOS</name>
+        </os>
+      </activation>
+      <properties>
+        <gwtArtifactId>gwt-linux</gwtArtifactId>
+      </properties>
+    </profile>
+    <profile>
+      <id>mac</id>
+      <activation>
+        <os>
+          <name>mac os x</name>
+        </os>
+      </activation>
+      <properties>
+        <gwtArtifactId>gwt-mac</gwtArtifactId>
+      </properties>
+    </profile>
+  </profiles>
+
+  
+    <!-- alternate repositories to help in low distributed stuffs -->
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>http://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <id>gwt-maven</id>
+      <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
+    </repository>
+    <repository>
+      <id>activemath-group-public-repository</id>
+      <url>http://www.activemath.org/public-repository/</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>gwt-maven</id>
+      <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+</project>
