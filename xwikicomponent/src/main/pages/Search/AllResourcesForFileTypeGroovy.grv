@@ -1,0 +1,29 @@
+// Groovy Code #*
+import org.apache.lucene.search.BooleanQuery
+import org.apache.lucene.search.Query
+import org.apache.lucene.search.BooleanClause
+import org.apache.lucene.search.TermQuery
+import org.apache.lucene.index.Term
+
+
+public void fixBooleanQuery(BooleanQuery bq) {
+    int l=bq.clauses.length;
+    for(int i in 0..(l-1)) {
+        BooleanClause clause = bq.getClauses()[i];
+        Query q = clause.getQuery();
+        if(q instanceof TermQuery) {
+            TermQuery tq = q;
+            if(tq.term.field()=="CurrikiCode.AttachmentAssetClass.file_type") {
+                String replacement = ["cdi":"cdy",
+                            "cabri2plusfil":"cabri2plusFile",
+                        "cabri2fil":"cabri2File",
+                        "tracenpochefil":"tracenpocheFile"].get(tq.term.text());
+                if(replacement!=null) {
+                    clause.setQuery(new TermQuery(new Term(tq.term.field(), replacement)));
+                }
+            }
+        } else if (q instanceof BooleanQuery) {
+            fixBooleanQuery(q);
+        }
+    }
+}//*#

@@ -1,0 +1,15 @@
+<!-- this is SnippetLanguageSelector -->
+<select id="languageCombo" name="searchlang" size="1">
+      <option value="*">-</option>
+      #set($langName = $msg.get("languages2_3.${lang}"))
+      <option value='${msg.get("languages2_3.${lang}")}' #if($!request.searchlang==${msg.get("languages2_3.${lang}")})selected="selected" #end>$msg.get("languages3.label_$langName")</option>
+      #set($supportedLanguages2 = $xwiki.getXWikiPreference("languages").replaceAll(","," "))
+      #foreach($lang2 in $supportedLanguages2.split(" "))##
+          #if($lang!=$lang2)
+              #set($langName = $msg.get("languages2_3.${lang2}"))
+                <option value='${langName}' ##
+                        #if($!request.searchlang==$langName)selected="selected" #end##
+                        >$msg.get("languages3.label_$langName")</option>
+          #end
+      #end
+</select>

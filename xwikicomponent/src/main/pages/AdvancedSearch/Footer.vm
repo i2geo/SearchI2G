@@ -1,0 +1,5 @@
+<p align="center">
+    #if($cursor.hasPreviousPage())<a href="$cursor.getURLtoHereWithoutStart($request)&start=$cursor.getPreviousPageStart()">&lt;&lt;</a>#end
+    results $cursor.start to $cursor.max of $cursor.numHits
+    #if($cursor.hasNextPage())<a href="$cursor.getURLtoHereWithoutStart($request)&start=$cursor.getNextPageStart()">&gt;&gt;</a>#end
+</p>

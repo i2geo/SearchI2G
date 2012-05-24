@@ -1,0 +1,146 @@
+## this page should AdvancedSearch.Resources
+##                  ===========================
+## this page presents a search form as a big text-box and the search results
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="util" type="com.xpn.xwiki.api.Util" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="context" type="com.xpn.xwiki.api.Context" *# ##
+#* @vtlvariable name="msg" type="com.xpn.xwiki.web.XWikiMessageTool" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *# ##
+##
+#set($gcursor = $xwiki.parseGroovyFromPage("AdvancedSearch.GroovyCursor"))
+## Do not translate this page
+## #warning($msg.get("search.form.warning-some-fields"))
+#includeInContext("Search.IndexWarning")
+<AdvancedSearchBody>
+<div id="headerAdvancedSearch">
+<br>
+<ul>
+	<li class="selected"><a href="Resources">$msg.get("search.resource.tab.title")</a></li>
+	<li><a href="Groups">$msg.get("search.group.tab.title")</a></li>
+	<li><a href="Members">$msg.get("search.member.tab.title")</a></li>
+	<li><a href="Blogs">$msg.get("search.blog.tab.title")</a></li>
+	<li><a href="Pages">$msg.get("search.curriki.tab.title")</a></li>
+</ul>
+</div>
+<form action="$doc.name" method="GET" id="advancedSearchForm">
+<div id="contentAdvancedSearch">
+	<div id="AdvancedSearchbar">
+<h2>$msg.get("search.resource.tab.title")</h2>
+		<table cellpadding="5" cellspacing="5">
+		<tr><td>
+			<input id="AdvacedSearch-termPanel-resource-terms"##
+                   class=" " type="text" name="text" ##
+                   size="200" style="font-size: 150%;"##
+                   value="$xwiki.getXMLEncoded("$!request.text")"/>
+		</td><td>
+			<div id="SearchTips">
+			<a target="search_tips" href="/xwiki/bin/view/AdvancedSearch/Tips?xpage=popup">Search Tips</a>
+			</div></td></tr>
+		</table>
+	</div>
+	<div id="AdvancedSearchitems">
+	<table width="100%">
+	<tr><td>
+    <!-- TODO: useful? doable? -->
+    ##<input type="checkbox" name="used" value="used"#if($!request.used) checked #end > only resources which are already used in lessons<br><br>
+	##<div id="SKB-field" class=" ">
+	<h3>$msg.get("sri.eduLevelFine_title") </h3>
+	#skbListHereEditable("level" "eduLevelFine_pane" "level" "$!request.level")<br>
+	<h3>$msg.get("sri.trainedTopicsAndCompetencies_title")</h3>
+	#skbListHereEditable("trained" "trainedTopicsAndCompetencies_pane" "competency,topic" "$!request.trained")
+</td></div><td>
+	<div id="SearchComboFields" class=" ">
+		<table border="0" cellpadding="5" cellspacing="5">
+			<tr><td><h3>$msg.get("rve.information.title_title")</h3></td><td>
+			<input type="text" name="title" style="width: 60%;" value="$xwiki.getXMLEncoded("$!request.title")"/>				</td></tr>
+			<tr><td><br></td><td><br></td></tr>
+			<tr><td><h3>$msg.get("search.resource.column.header.contributor"):</h3></td><td>
+			<input  type="text" name="author" style="width: 60%;"  value="$xwiki.getXMLEncoded("$!request.author")"/>				</td></tr>
+			</td></tr><tr><td><br></td><td><br></td></tr>
+			<tr><td><h3>$msg.get("rve.information.rightsholder_title")</h3></td><td>
+			<input  type="text" name="RightsHolder" style="width: 60%;"  value="$xwiki.getXMLEncoded("$!request.RightsHolder")"/>				</td></tr>
+			<tr><td><br></td><td><br></td></tr>
+			<tr><td><h3>$msg.get("search.form.mediatype.label"): </h3></td><td>
+			<select id="filetypeCombo" name="filetype" size="1"><!-- TODO: filetypes from a trusted source-->
+                <option #if($!request.filetype=="*")selected#end value="*">-</option>
+                <option value="URL" #if($!request.filetype=="URL")selected#end>URL</option>
+                #set($suffixes=["avi","cdy","cabri","doc","g2w","g3w","ggb","gif","gxt","jpg","mov","mp3","odb","odf","odg","odp","ods","odt","pdf","png","rar","swf","wav","wiris","xls","xlsx","zip","zir"]);
+                #foreach($suffix in $suffixes)
+                <option value="$suffix" #if($!request.filetype==$suffix)selected#end>$suffix</option>
+                #end
+			</select>
+			</td></tr><tr><td><br></td><td><br></td></tr>
+			<tr><td><h3>$msg.get("search.resource.column.header.ict"): </h3></td><td> <!-- TODO: ICTs not verbatim -->
+            <select name="ict" multiple="multiple" id="CurrikiCode.AssetClass_0_instructional_component" size="5">
+                #set($ictParamSet=$gcursor.getSetFromParams($request,"ict"))
+                #foreach($ict in $gcursor.getICTPossibleValues($xwiki.curriki))
+                    #set($label=$msg.get("CurrikiCode.AssetClass_instructional_component_$ict"))
+                    <option label="$label" value="$ict" #if($ictParamSet.contains($ict))selected="selected" #end >$label</option>
+                #end
+                    ##<option label="Activity: Assignment/Homework" value="activity_assignment">Activity: Assignment/Homework</option><option label="Activity: Exercise" value="activity_exercise">Activity: Exercise</option><option label="Activity: Experiment/Lab" value="activity_lab">Activity: Experiment/Lab</option><option label="Activity: Game" value="activity_game">Activity: Game</option><option label="Activity: Graphic Organizer/Worksheet" value="activity_worksheet">Activity: Graphic Organizer/Worksheet</option><option label="Activity: Problem Set" value="activity_problemset">Activity: Problem Set</option><option label="Activity: WebQuest" value="activity_webquest">Activity: WebQuest</option><option label="Asset: Animation/Simulation" value="resource_animation">Asset: Animation/Simulation</option><option label="Asset: Article/Essay" value="resource_article">Asset: Article/Essay</option><option label="Asset: Audio/Speech/Lecture" value="resource_speech">Asset: Audio/Speech/Lecture</option><option label="Asset: Diagram/Illustration" value="resource_diagram">Asset: Diagram/Illustration</option><option label="Asset: Glossary/Vocabulary List" value="resource_glossary">Asset: Glossary/Vocabulary List</option><option label="Asset: Index/List" value="resource_index">Asset: Index/List</option><option label="Asset: Photograph" value="resource_photograph">Asset: Photograph</option><option label="Asset: Reference" value="resource_collection">Asset: Reference</option><option label="Asset: Script/Transcript" value="resource_script">Asset: Script/Transcript</option><option label="Asset: Study/Data/Research" value="resource_study">Asset: Study/Data/Research</option><option label="Asset: Table/Graph/Chart" value="resource_table">Asset: Table/Graph/Chart</option><option label="Asset: Template" value="resource_template">Asset: Template</option><option label="Asset: Video/Presentation/Slides" value="resource_presentation">Asset: Video/Presentation/Slides</option><option label="Asset: Webcast/Podcast" value="resource_webcast">Asset: Webcast/Podcast</option><option label="Book: Fiction" value="book_fiction">Book: Fiction</option><option label="Book: Non-Fiction" value="book_nonfiction">Book: Non-Fiction</option><option label="Book: Readings/Excerpts" value="book_readings">Book: Readings/Excerpts</option><option label="Book: Text Book" value="book_textbook">Book: Text Book</option><option label="Curriculum: Assessment/Test" value="curriculum_assessment">Curriculum: Assessment/Test</option><option label="Curriculum: Full Course" value="curriculum_course">Curriculum: Full Course</option><option label="Curriculum: Lesson Plan" value="curriculum_lp">Curriculum: Lesson Plan</option><option label="Curriculum: Rubric" value="curriculum_rubric">Curriculum: Rubric</option><option label="Curriculum: Scope &amp; Sequence" value="curriculum_scope">Curriculum: Scope &amp; Sequence</option><option label="Curriculum: Standards" value="curriculum_standards">Curriculum: Standards</option><option label="Curriculum: Study Guide/Notes" value="curriculum_studyguide">Curriculum: Study Guide/Notes</option><option label="Curriculum: Syllabus" value="curriculum_syllabus">Curriculum: Syllabus</option><option label="Curriculum: Tutorial" value="curriculum_tutorial">Curriculum: Tutorial</option><option label="Curriculum: Unit" value="curriculum_unit">Curriculum: Unit</option><option label="Curriculum: Workbook" value="curriculum_workbook">Curriculum: Workbook</option><option label="Other" value="other">Other</option></select>
+			</td></tr><tr><td><br></td><td><br></td></tr>
+			<tr><td><h3>$msg.get("rve.information.language_title")</h3> </td><td>
+                #includeInContext("AdvancedSearch.SnippetLanguageSelector")
+			</td></tr><tr><td><br></td><td><br></td></tr>
+			<tr><td><h3>$msg.get("QF.overall-ranking-title"): </h3></td><td>
+			<select id="review" name="review" size="1" >
+                #set($review=$!request.review)
+                <option value="*" #if("*"==$review)selected #end >-</option>
+    			<option value="1" #if("1"==$review)selected #end >★☆☆☆</option>
+                <option value="2" #if("2"==$review)selected #end >★★☆☆</option>
+                <option value="3" #if("3"==$review)selected #end >★★★☆</option>
+                <option value="4" #if("4"==$review)selected #end >★★★★</option>
+			</select>
+			</td></tr><tr><td><br></td><td><br></td></tr>
+			<tr><td><h3>$msg.get("rve.information.licensedeed_title")</h3></td><td>
+			<select size="1" name="license" id="license">
+                    <option value="*">-</option>
+                    #foreach($lic in $gcursor.getLicensePossibleValues($xwiki.curriki))
+                        #set($label=$msg.get("CurrikiCode.AssetLicenseClass_licenseType_$lic"))
+                        <option label="$label" value="$lic" #if($!request.license==$lic)selected="selected" #end >$label</option>
+                    #end
+                    ##<option label="i2geo License (Creative Commons Attributions 3.0)" value="Licences.CurrikiLicense">i2geo License (Creative Commons Attributions 3.0)</option><option label="Public Domain" value="Licences.PublicDomain">Public Domain</option><option label="Creative Commons Attribution Non-Commercial" value="Licences.CreativeCommonsAttributionNon-Commercial">Creative Commons Attribution Non-Commercial</option><option label="Creative Commons Attribution No Derivatives" value="Licences.CreativeCommonsAttributionNoDerivatives">Creative Commons Attribution No Derivatives</option><option label="Creative Commons Attribution Non-Commercial No Derivatives" value="Licences.CreativeCommonsAttributionNon-CommercialNoDerivatives">Creative Commons Attribution Non-Commercial No Derivatives</option><option label="Creative Commons Attribution Share Alike" value="Licences.CreativeCommonsAttributionSharealike">Creative Commons Attribution Share Alike</option><option label="Creative Commons Attribution Non-Commercial Share Alike" value="Licences.CreativeCommonsAttributionNon-CommercialShareAlike">Creative Commons Attribution Non-Commercial Share Alike</option><option label="cc-by-sa" value="cc-by-sa">cc-by-sa</option></select>
+			</td></tr>
+			</table>
+			</td></div>
+			</tr>
+    <tr>
+        <td align="left"><button id="Searchbutton" class=" " type="button" onclick="document.getElementById('advancedSearchForm').submit(); return false;" align="right">$msg.get("search.text.entry.button")</button></td>
+        <td align="right"><button id="ResetButton" class=" " type="button" onclick="window.open('$doc.name','_self'); return false;" align="right">Reset</button></td>
+    </tr>
+		</table>
+	</div>
+</div></form>
+</AdvancedSearch-body>
+
+
+
+    <!--  text,level,trained,title,author,RightsHolder,filetype,ict,searchlang,review,license
+            $gcursor.init($xwiki.xWiki,$context.context,$xwiki.getPlugin("lucene"),$msg)
+            Params: $!request.text,$!request.level,$!request.trained,$!request.title,$!request.author,
+                    $!request.RightsHolder,$!request.filetype,$!request.ict,$!request.searchlang,$!request.review,$!request.license
+            #set($luQ=$gcursor.createResourcesQuery($!request.text,$!request.level,$!request.trained,$!request.title,$!request.author,$!request.RightsHolder,$!request.filetype,$!request.ict,$!request.searchlang,$!request.review,$!request.license))
+                   ##(($!request.text,$!request.level,$!request.trained,$!request.authorName,$!request.title,$!request.searchlang))
+            ## TODO: more fields
+            query is $luQ -->
+    <!-- warn messages: $gcursor.warnMessages of size $gcursor.warnMessages.size() -->
+    #foreach($m in $gcursor.warnMessages)#warning($m)#end
+    <!--
+    #if($luQ)
+            #set($lucene = $xwiki.getPlugin("lucene")) ##
+            #set($cursor = $lucene.createResourcesSearchCursor()) ##
+            cursor is $cursor and gcursor = $gcursor
+            $xwiki.getPlugin("searchi2g").makeSureServiceIsInitted($request)##
+            #set($junk = $cursor.graspContexts($xwiki,$context.context,$msg)) ##
+            $cursor.setLuceneQuery($luQ)
+            #set($junk = $cursor.readRequest($request.getParameterMap()))
+            $cursor.doQuery() ##
+            has results: $cursor.resultCount -->
+            ##
+            #set($urlExtra="&text=$!request.text&level=$util.encodeURI($!request.level)&trained=$util.encodeURI($!request.trained)&title=$util.encodeURI($!request.title)&author=$util.encodeURI($!request.author)&RightsHolder=$util.encodeURI($!request.RightsHolder)&filetype=$request.filetype&searchlang=$!request.searchlang&review=$!request.review&license=$!request.review")
+            #includeInContext("Search.Results")
+    #else
+       empty query -->
+    #end

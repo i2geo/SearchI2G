@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ontoUpdates xmlns="http://www.inter2geo.eu/2008/ontology/ontoUpdates.owl#" xmlns:gs="http://www.inter2geo.eu/2008/ontology/GeoSkills#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#">
+  <Session>
+    <Name>3487653846</Name>
+    <ServerResponse>http://www.activemath.org/</ServerResponse>
+  </Session>
+  <Additions />
+  <Updates>
+    <owl:class rdf:ID="Nancy">
+      <gs:creator>user</gs:creator>
+      <gs:created>2009-01-12 14:28:51.0</gs:created>
+      <gs:modified>2009-01-12 14:28:51.0</gs:modified>
+      <rdfs:label xml:lang="en">Nancy</rdfs:label>
+      <rdfs:subClassOf rdf:resource="Construct" />
+      <rdfs:subClassOf rdf:resource="Use_identity" />
+    </owl:class>
+  </Updates>
+  <Deletions />
+</ontoUpdates>

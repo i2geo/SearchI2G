@@ -1,0 +1,38 @@
+<html>
+<head><body>
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css"  href="SkillsTextBox.css" />
+    <title>Skills Text Box Editor Prototype</title>
+</body></head>
+
+<h1>Skills Text Box Editor Prototype</h1>
+
+<p>This is a prototype of an editor <i>edits</i> a set of nodes of GeoSkills.</p>
+<p>This will be made automatic as is <a href="http://draft.i2geo.net/SearchI2G/net.i2geo.skillstextbox.SkillsTextBox/SkillsTextBox.html">SkillsTextBox demo</a> .</p>
+
+
+<!-- table-cell-with round corners -->
+
+<table class="SKBEditor" style="" cellspacing="0">
+    <tr onmouseover="this.className = 'SKBEditor-Topic-Selected'" onmouseout="this.className = 'SKBEditor-Topic-DeSelected'">
+        <td><img src="type-topic.png" alt="topic" style="width:2em"/></td>
+        <td><a href="http://i2geo.net/ontologies/dev/individuals/Real_world_problem_r.html">Anwendungsprobleme</td>
+        <td onmouseover="this.className = 'SKBEditor-DeleteButton-Over'" onmouseout="this.className = 'SKBEditor-DeleteButton-Out'" onclick="deleteNode(this);">x</td>
+    </tr>
+    <tr onmouseover="this.className = 'SKBEditor-Topic-Selected'" onmouseout="this.className = 'SKBEditor-Topic-DeSelected'">
+        <td><img src="type-competency.png" alt="topic" style="width:2em"/></td>
+        <td><a href="http://i2geo.net/ontologies/dev/individuals/Modify_a_sheet_in_a_spreadsheet.html">modifier une feuille de calcul</a></td>
+        <td onmouseover="this.className = 'SKBEditor-DeleteButton-Over'" onmouseout="this.className = 'SKBEditor-DeleteButton-Out'" onclick="deleteNode(this);">x</td>
+    </tr>
+    <tr onmouseover="this.className = 'SKBEditor-Topic-Selected'" onmouseout="this.className = 'SKBEditor-Topic-DeSelected'">
+        <td><img src="type-topic.png" alt="topic" style="width:2em"/></td>
+        <td><a href="http://i2geo.net/ontologies/dev/individuals/Thales-Circle.html">Thales-Circle</a></td>
+        <td onmouseover="this.className = 'SKBEditor-DeleteButton-Over'" onmouseout="this.className = 'SKBEditor-DeleteButton-Out'" onclick="deleteNode(this);">x</td>
+    </tr>
+    <tr>
+
+    </tr>
+</table>
+
+</html>

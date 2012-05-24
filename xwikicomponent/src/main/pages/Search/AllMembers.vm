@@ -1,0 +1,7 @@
+1 $msg.get("search.all-members-page.title")
+
+$msg.get("search.all-members-page.caption")
+
+#set($embedded="true")
+#set($allMembers="true")
+#includeInContext("AdvancedSearch.Members")

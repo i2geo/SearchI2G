@@ -1,0 +1,26 @@
+
+==== $xwiki.getXMLEncoded("'") ===
+
+plugin lucene is $xwiki.getPlugin("lucene")
+
+request URL is $request.getServletPath()$request.getPathInfo()?$request.getQueryString()
+
+context is $context of class $context.getClass()
+
+msg is $msg of class $msg
+
+== Instructional Component Types ==
+#set($curriki=$xwiki.curriki)
+#foreach($i in $curriki.getValues("CurrikiCode.AssetClass","instructional_component"))
+- $i: $msg.get("CurrikiCode.AssetClass_instructional_component_$i")
+#end
+
+== Licenses ==
+#foreach($i in $curriki.getValues("CurrikiCode.AssetLicenseClass","licenseType"))
+- $i: $msg.get("CurrikiCode.AssetLicenseClass_licenseType_$i")
+#end
+
+== Countries ===
+#foreach($i in $curriki.getValues("XWiki.XWikiUsers","country"))
+- $i: $msg.get("XWiki.XWikiUsers_country_$i")
+#end

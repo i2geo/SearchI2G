@@ -1,0 +1,19 @@
+## this page should Softwares.Cinderella
+##                  ===========================
+## this page presents the list of all resources with files for the Cinderella software.
+## The following lines allow IntelliJ to support editing
+##    if the right classpath is there.
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+#* @vtlvariable name="luQ" type="org.apache.lucene.search.BooleanQuery" *#
+
+
+<h1>$msg.get("search.results.all-resources-cinderella.title")</h1>
+
+#set($fileType = "cdy")
+
+----
+
+#includeInContext("Search.AllResourcesForFileType")

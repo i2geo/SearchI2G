@@ -1,0 +1,16 @@
+<label>$msg.get("search.sort-by.label")
+        #set($sortField = $!request.sort)
+        #if($sortField=="")#set($sortField = $!defaultSort)#end<!-- sortField = "$sortField"
+    #if($sortField=="")sortField is indeed empty #else sortField is not empty #end --> 
+        #if($!request.terms!="")<input type="hidden" name="terms" value="$request.terms"/>#end
+        #if($request.start)<input type="hidden" name="start" value="$request.start"/>#end
+        <select onchange="Ext.get('resultSortPopupForm').dom.submit();" name="sort">
+            <option value="" #if($sortField=="")selected#end>$msg.get("search.sort-by.choice.relevance")</option>
+            <option value="title" #if($sortField=="title")selected#end>$msg.get("search.sort-by.choice.title")</option>
+            <option value="ictText" #if($sortField=="ictText")selected#end>$msg.get("search.sort-by.choice.ictText")</option>
+            <option value="contributor" #if($sortField=="contributor")selected#end>$msg.get("search.sort-by.choice.contributor")</option>
+            <option value="rating" #if($sortField=="rating")selected#end>$msg.get("search.sort-by.choice.rating")</option>
+            <option value="updated" #if($sortField=="updated")selected#end>$msg.get("search.sort-by.choice.updated")</option>
+        </select></label>
+        #if($request.sort && $request.sort != "")
+          <label>$msg.get("search.sort-by.reverse.label"): <input type="checkbox" name="dir" value="DESC" onchange="document.getElementById('resultSortPopupForm').submit();" #if($request.dir)=="DESC") checked="checked"#end/></label>#end

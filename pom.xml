@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.i2geo</groupId>
+  <artifactId>i2geo-search-parent</artifactId>
+  <packaging>pom</packaging>
+  <name>Intergeo - Search Tool</name>
+  <version>1.0-SNAPSHOT</version>
+  <description>Intergeo - Search Tool - Parent POM</description>
+  <scm>
+    <connection>scm:svn:http://svn.activemath.org/intergeo/Platform/SearchI2G</connection>
+    <developerConnection>scm:svn:http://svn.activemath.org/intergeo/Platform/SearchI2G</developerConnection>
+    <url>http://svn.activemath.org/intergeo/Platform/SearchI2G</url>
+  </scm>
+  
+    <distributionManagement>
+    <repository>
+      <id>activemath-group-public-repository</id>
+      <url>scp://ilo@dave.activemath.org/project/activemath/javalibs/maven/public-repository</url>
+    </repository>
+  </distributionManagement>
+  
+  <properties>
+      <gwt.version>2.0.3</gwt.version>
+      <gwtVersion>2.0.3</gwtVersion>
+    <!-- <gwt.version>1.5.3</gwt.version>
+    <gwtVersion>1.5.3</gwtVersion> -->
+  </properties>
+  <!-- consider <profiles> with modules -->
+  <build>
+    <plugins>
+        <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <modules>
+    <module>api</module>
+    <module>gwt</module>
+    <module>onto</module>
+    <module>index</module>
+    <module>web</module>
+    <module>xwikicomponent</module>
+  </modules>
+  
+  
+  <!-- alternate repositories to help in low distributed stuffs -->
+  <repositories>
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>activemath-public</id>
+            <url>http://www.activemath.org/public-repository/</url>
+        </repository>
+    </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>gwt-maven</id>
+      <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+</project>

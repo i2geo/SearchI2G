@@ -1,0 +1,24 @@
+
+Close to "index-only" search result display which should be faster.
+Sounds to include all though... here's the expansion result:
+
++((
+(title:"introduction"^2.0 ft:"introduction"^1.5 title.stemmed:introduct^1.2 ft.stemmed:introduct +CurrikiCode.AssetClass.language:fra)^0.6666667)
+(
+  (title:"introduction"^2.0 ft:"introduction"^1.5 title.stemmed:introduct^1.2 ft.stemmed:introduct
+   +CurrikiCode.AssetClass.language:eng)^0.8333334
+
+
+     ) 
+       (title:"introduction"^2.0 ft:"introduction"^1.5 title.stemmed:introduct^1.2 ft.stemmed:introduct)
+        (
+          (title:"introduction"^2.0 ft:"introduction"^1.5 title.stemmed:introduct^1.2 ft.stemmed:introduct)^0.5
+         )
+
+     )
+
+
+
+- unit-test?
+- add explain for SKB and for normal?
+- move i18n out of skb?

@@ -1,0 +1,23 @@
+## This File should be Suggestions.WebHome
+## this page presents the list of suggested nodes
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+
+
+1 Recent Suggestions
+
+#includeForm("Suggest.SuggestionList")
+
+<hr/>
+<small>This is the home page of the GeoSkills suggestions
+    space where every registred annotator can make a suggestion
+    (during the contribution of a resource)
+    which will be processed by the
+    <a href="http://curriculum.i2geo.net/">team of curriculum encoders</a>
+    to either be rejected
+    (see [list of rejects > SuggestionsReject.WebHome])
+    or accepted
+    (see [list of accepts > SuggestionsAccept.WebHome]).</small>
+

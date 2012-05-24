@@ -1,0 +1,56 @@
+## this page should AdvancedSearch.i2geo
+##                  ===========================
+## this page presents a search form as a big text-box and the search results
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="util" type="com.xpn.xwiki.api.Util" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+## Do not translate this page
+##Do not translate this page
+#includeInContext("Search.IndexWarning")
+<AdvancedSearch-body>
+<div id="headerAdvancedSearch">
+<br>
+<ul>
+    <li><a href="Resources">$msg.get("search.resource.tab.title")</a></li>
+    <li><a href="Groups">$msg.get("search.group.tab.title")</a></li>
+    <li><a href="Members">$msg.get("search.member.tab.title")</a></li>
+    <li><a href="Blogs">$msg.get("search.blog.tab.title")</a></li>
+    <li class="selected"><a href="Pages">$msg.get("search.curriki.tab.title")</a></li>
+</ul>
+</div>
+<form action="$doc.name" method="GET" id="advancedSearchForm" style="margin-bottom:2em">
+<div id="contentAdvancedSearch">
+	<div id="AdvancedSearchbar">
+        <h2>$msg.get("search.curriki.tab.title")</h2>
+		<table cellpadding="5" cellspacing="5">
+		<tr><td>
+			<input id="AdvacedSearch-termPanel-resource-terms" class=" " type="text" name="text" autocomplete="off" size="120" style="font-size=150%;"
+                    value="$xwiki.getXMLEncoded("$!request.text")"/>
+		</td><td>
+<div id="SearchTips">
+    <a target="search_tips" href="/xwiki/bin/view/AdvancedSearch/Tips?xpage=popup" title="$msg.get('search.text.entry.help.title')">$msg.get("search.text.entry.help.link")</a>
+			</div>
+</td><td>
+</td></tr>
+            <tr>
+                <td align="left"><button id="Searchbutton" class=" " type="button" onclick="document.getElementById('advancedSearchForm').submit(); return false;" align="right">Search »</button></td>
+                <td align="right"><button id="ResetButton" class=" " type="button" onclick="window.open('$doc.name','_self'); return false;" align="right">Reset</button></td>
+            </tr>
+		</table>
+	</div>
+</div></form>
+</AdvancedSearch-body>
+#set($cursor = $xwiki.parseGroovyFromPage("AdvancedSearch.GroovyCursor"))
+<!-- $cursor.init($xwiki.xWiki,$context.context,$xwiki.getPlugin("lucene"),$msg)
+        $cursor.executeQuery($cursor.createPagesQuery($!request.text),$!request.start,$!request.max) -->
+#if(!$cursor.hasNext())
+    Sorry no results.
+#else
+{pre}
+    <ul style="font-size:120%;">#foreach($x in $cursor)
+        <li style="margin-top:1em"><a href="/xwiki/bin/view/$x.get('web')/$x.get('name')">$cursor.cleanUp($x.get("title"))</a></li>
+    #end</ul>
+{/pre}
+#includeInContext("AdvancedSearch.Footer")
+#end

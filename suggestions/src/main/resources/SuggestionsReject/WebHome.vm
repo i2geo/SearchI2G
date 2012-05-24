@@ -1,0 +1,15 @@
+1 Rejected Suggestions
+
+#set ($hql = " where doc.web='$doc.web' and doc.name!='WebPreferences' and doc.name!='WebHome' order by doc.date desc")
+#set($docs=$xwiki.searchDocuments($hql,50,0))
+
+<ul>
+#foreach($d in $docs)
+  #set($dd = $xwiki.getDocument($d))
+  <li>[$dd.title > $d] by $dd.getAuthor()</li>
+#end
+</ul>
+
+<hr>
+This is the list of rejected suggestions.
+It may be cleaned from time to time.

@@ -1,0 +1,39 @@
+## this page should Search.AllResources
+##                  ===========================
+## this page presents the list of all resources
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+#* @vtlvariable name="luQ" type="org.apache.lucene.search.BooleanQuery" *#
+
+$context.setCacheDuration(180)
+#includeInContext("Search.IndexWarning")
+
+#set($lucene = $xwiki.getPlugin("lucene"))
+#set($cursor = $lucene.createResourcesSearchCursor())
+
+<form action="$doc.name" method="GET" id="resultSortPopupForm">
+    <h1>$msg.get("search.results.all-resources.title")</h1>
+     <p align="right">#includeInContext("Search.SortBar")</p>
+    <input type="hidden" name="terms" value="expert-query">
+</form>
+
+
+#set($junk = $xwiki.getPlugin("searchi2g").makeSureServiceIsInitted($request))
+#set($junk = $cursor.graspContexts($xwiki,$context.context,$msg))
+
+#set($parser = $cursor.buildQueryParser("ft"))
+#set($luQ = $parser.parse('+object:CurrikiCode.AssetClass -XWiki.TextAssetClass.type:2 -name:Favorites -web:AssetTemp -web:"Coll_Templates" -name:WebHome  -name:WebPreferences -name:MyCollections -name:SpaceIndex  -XWiki.AssetClass.hidden_from_search:1'))
+
+<!-- query: $luQ
+$cursor.setLuceneQuery($luQ)
+$cursor.readRequest(${request.getParameterMap()})
+$cursor.doQuery()
+-->
+
+
+
+#set($firstRequestParams = "group=${request.group}")
+#set($isPlainList = "true")
+#includeInContext("Search.Results")

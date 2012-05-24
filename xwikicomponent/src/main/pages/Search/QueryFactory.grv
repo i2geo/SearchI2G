@@ -1,0 +1,29 @@
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.Query;
+import org.curriki.xwiki.plugin.lucene.CurrikiAnalyzer
+import com.xpn.xwiki.api.XWiki;
+import com.xpn.xwiki.api.Context
+import org.apache.lucene.search.BooleanQuery
+import org.apache.lucene.search.BooleanClause
+import org.apache.lucene.search.TermQuery
+import org.apache.lucene.index.Term
+import com.xpn.xwiki.plugin.lucene.I2GLuceneProfile;
+
+public class QueryFactory {
+
+  public QueryFactory() {}
+
+  public Query queryParse(String qText, XWiki xwiki, Context context) {
+
+    Query q =  new QueryParser("ft",
+            CurrikiAnalyzer.getInstance(xwiki.getLanguagePreference() + ",en,x-all",
+                    context.context, I2GLuceneProfile.getInstance())).parse(qText);
+    BooleanQuery bq;
+    if(q instanceof BooleanQuery) bq = q; else {
+      bq = new BooleanQuery(); bq.add(q,BooleanClause.Occur.MUST);
+    }
+    bq.add(new TermQuery(new Term("CurrikiCode.AssetClass.hidden_from_search","1")),BooleanClause.Occur.MUST_NOT)
+    // TODO: add a non-hidden criterion
+    return bq;
+  }
+}

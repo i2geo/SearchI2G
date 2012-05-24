@@ -1,0 +1,63 @@
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="util" type="com.xpn.xwiki.api.Util" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+#* @vtlvariable name="luQ" type="org.apache.lucene.search.BooleanQuery" *#  ##
+#* @vtlvariable name="tq" type="org.apache.lucene.search.TermQuery" *#  ##
+#set($lucene = $xwiki.getPlugin("lucene"))
+#set($cursor = $lucene.createResourcesSearchCursor())
+#includeInContext("Search.IndexWarning")
+
+<form action="$doc.name" method="GET">
+    #set($defaultSort="updated")
+    <p align="right">#includeInContext("Search.SortBar")</p>
+    <input type="hidden" name="terms" value="expert-query">
+</form>
+
+#set($junk = $xwiki.getPlugin("searchi2g").makeSureServiceIsInitted($request))
+#set($junk = $cursor.graspContexts($xwiki,$context.context,$msg))
+#set($groovyFixer=$xwiki.parseGroovyFromPage("Search.AllResourcesForFileTypeGroovy"))
+
+#if($!fileType != "" || $!gsNodeForFileType!="")
+    #set($parser = $cursor.buildQueryParser("identifiersList"))
+    #if($fileType.contains(" "))
+        #set($luT = "-CurrikiCode.AssetClass.hidden_from_search:1 +(")
+        #foreach($t in $fileType.split(" "))
+            #set($luT = "${luT} CurrikiCode.AttachmentAssetClass.file_type:${t}")
+        #end
+        #set($luQ = $parser.parse("${luT})"))
+    <!-- query before parse "-CurrikiCode.AssetClass.hidden_from_search:1 +( $luT)"      -->
+    #else
+        #if("x"!="x$!fileType")
+            #set($q='"')
+            #set($part1 = "CurrikiCode.AttachmentAssetClass.file_type:${fileType}")
+        #else
+            #set($part1 = "")
+        #end
+        #if("x"!="x$!gsNodeForFileType")
+            #set($part2 = "CurrikiCode.AssetClass.trainedTopicsAndCompetencies:${gsNodeForFileType} i2geo.ancestorTopics:${gsNodeForFileType}")
+        #else
+            #set($part2 = "")
+        #end
+    <!-- query before parse "-CurrikiCode.AssetClass.hidden_from_search:1 +( $part1 $part2 )"      -->
+        #set($luQ = $parser.parse("-CurrikiCode.AssetClass.hidden_from_search:1 +( $part1 $part2 )"))
+    #end
+
+    $groovyFixer.fixBooleanQuery($luQ)
+<!--
+{pre}
+  parsedQuery: $luQ
+$cursor.setLuceneQuery($luQ)
+$cursor.setRequestDefaults({"sort":"updated"})
+$cursor.readRequest(${request.getParameterMap()})
+$cursor.doQuery()
+{/pre}
+-->
+
+
+
+    #set($firstRequestParams = "")
+    #set($isPlainList = "true")
+    #includeInContext("Search.Results")
+#end

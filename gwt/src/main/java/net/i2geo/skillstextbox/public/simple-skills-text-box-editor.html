@@ -1,0 +1,43 @@
+
+
+<html>
+
+  <head>
+      <title>Skills Text Box Editor</title>
+      <script type="text/javascript">
+          window.skbPleaseReplaceMeActive =  "SkillsTextBox|idsStorage|  |true";
+          window.skbConfigBasePath = "/SearchI2G/net.i2geo.skillstextbox.SkillsTextBox/";
+          window.browserLanguages = "fr-fr";
+      </script>
+      <script language='javascript' src='/SearchI2G/net.i2geo.skillstextbox.SkillsTextBox/net.i2geo.skillstextbox.SkillsTextBox.nocache.js'></script>
+      <link rel="stylesheet" type="text/css"  href="/SearchI2G/net.i2geo.skillstextbox.SkillsTextBox/SkillsTextBox.css" />
+  </head>
+  <body>
+
+
+  <h3>Skills Text Box Editor</h3>
+  <form action="" onsubmit="return false;">
+      <div id="SkillsTextBox"></div>
+      <!-- <p><a href="javascript:window.skbEdit('SkillsTextBox','idsStorage', '','false'); this.setVisible(false);">edit</a></p> -->
+      <!-- <input id="idsStorage" name="idsStorage_" value=""/> -->
+      <!-- <p>makes strings:</p> -->
+      <input id="idsStorage" name="idsStorage_" value="" size="100"
+      type="text"/>
+
+  </form>
+
+  <!--<p><a onclick="return openEditor();">open another window</a></p>-->
+
+  <script type="text/javascript">
+      var objectHere = document.getElementById("idsStorage");
+      function setIt(value) {
+          alert("Value set " + value);
+      }
+      function openEditor() {
+          var w = window.open('skills-text-box-editor.jsp','skills-text-box-editor','width=520,height=250,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no,resizable=yes');
+          w.setMyValue = window.setIt; 
+          return false;
+      }
+  </script>
+  </body>
+</html>

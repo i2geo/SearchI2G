@@ -1,0 +1,142 @@
+## this page should Search.Results
+##                  ===========================
+## this page presents a search form and the search results
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="luDoc" type="org.apache.lucene.document.Document" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+##
+##
+##
+##
+## This script uses the variables:
+## - $cursor: the ResourcesSearchCursor that has been queried already and will be iterated
+## - $isPlainList: "true" if the query should not be shown
+##
+##
+##
+##
+#if($luQ || $request.getParameter("terms"))
+##
+##
+## query expansion (folded unless desired)
+#if($request.getParameter("terms"))
+#if(!$isPlainList)
+<hr>
+<script type="text/javascript">
+    document.title = document.title + ' : ' + "$request.getParameter("terms").replaceAll('"|\n'," ")";
+    function toggleQueryExpansionVisibility() {
+        var expansion = document.getElementById('expansionResult');
+        var link = document.getElementById('expansionLink');
+        if(typeof expansion != 'undefined' && typeof link != 'undefined') {
+            if(expansion.style.display == 'none') {
+                expansion.style.display = 'block';
+                link.style.display = 'none';
+                document.getElementById("expansionCell").setAttribute("class","expanded");
+            } else {
+                expansion.style.display = 'none';
+                link.style.display = 'block';
+                document.getElementById("expansionCell").setAttribute("class","collapsed");
+            }
+        }
+    }
+</script>
+<table><tr><td>$msg.get("search.you-searched-for")</td><td>
+    #set($terms = $request.getParameter("terms"))
+    #if($terms.startsWith("#"))
+        #skbListHere("searchTerm" $terms)
+    #else
+        <i>$terms</i>
+    #end
+    </td></tr>
+<tr><td colspan="2" class="collapsed" id="expansionCell">
+        <p onclick="toggleQueryExpansionVisibility();">
+           <span id="expansionLink">$msg.get("search.expansion-link")</span>
+        <span style="display:none;" id="expansionResult">$msg.get("search.expansion-head")<i>$cursor.getExpandedQuery()</i></span>
+    </p></td></tr>
+</table>#end
+#end
+## potential messages
+#set($msgs = $cursor.getMessages())
+<!-- msgs of size $msgs.size() -->
+#if(!$msgs.isEmpty())
+<hr/>
+<ul>#foreach($msg in $msgs)
+  <li>$msg</li>
+#end</ul>
+#end
+<!-- end of messages -->
+##
+##
+#if($cursor)
+## search results
+#if($cursor.resultCount == 0)
+## no results
+ <p>$msg.get("search.no-results")</p>
+#else
+<script type="text/javascript">
+function flyingByRow(elt1) {
+    elt1.style.background = 'lightgray';
+  }
+  function flyingAwayRow(elt1) {
+      elt1.style.background = 'transparent';
+  }
+</script>
+##
+#set($first = true)
+<table width="100%">
+#foreach($doc in $cursor) ##{
+<tr><td colspan="6"><hr/></td></tr>
+#set($ictValues = $cursor.getIctValues())
+###set($asset = $cursor.getCurrentDocsAsset())
+<tr><td>
+    <table width="100%" onmouseover="flyingByRow(this);" onmouseout="flyingAwayRow(this);" onclick="window.location = '$xwiki.getURL("$cursor.fullName")';"><tr >
+            <td colspan="3">
+              <h3><a href="$xwiki.getURL("$cursor.fullName")">${cursor.readTitle()}</a></h3>
+            </td>
+            <td align="right">
+                #if($cursor.luceneDocument.get("i2geo.reviewOverallRanking"))
+                    #displayRating($cursor.luceneDocument.get("i2geo.reviewOverallRanking"))
+                #end
+             </td>
+        <td rowspan="2" align="right">#mycurriki_ict_str($!cursor.luceneDocument.get("CurrikiCode.AssetClass.instructional_component.key"))</td>
+        <td rowspan="3" align="right">#assetSmallVignetteIfPresent($cursor.luceneDocument)</td>
+    </tr>
+    <tr>
+        <!-- assetType = $!cursor.luceneDocument.get("assetType")
+        fileType = $!cursor.luceneDocument.get("CurrikiCode.AttachmentAssetClass.file_type")  -->
+    <td rowspan="2">#mycurriki_filetype_str($!cursor.luceneDocument.get("assetType"),$!cursor.luceneDocument.get("CurrikiCode.AttachmentAssetClass.file_type"))</td>
+    <td colspan="4"><small>${cursor.getShortTokenizedDescription()}</small></td>
+    </tr>
+    <tr>
+        #if($cursor.isOwnResource())
+            <td colspan="2">$msg.get("search.contributed-own-by",[${cursor.getRightsHolder()}])</td>
+        #else
+            <td>##by ${cursor.getRightsHolder()}
+           </td>
+            <td><small style="text-color:gray">$msg.get("search.contributed-by",[${xwiki.getUserName($cursor.contributor)}])</small></td>
+        #end
+        <td><small style="text-color:gray">$msg.get("search.updated-on",[${cursor.lastModifiedShortDate}])</small></td>
+        <td align="right">${cursor.getHtmlTableOfScore()}</td>
+    </tr>
+    </table></td></tr>
+#end ##}
+</table>
+
+<hr>
+<p align="center">
+    {pre}<small>#set($earlierStart=$cursor.earlierStart)
+    #set($laterStart=$cursor.laterStart)
+    #if($urlExtra)#else#set($urlExtra = "")#end
+    #if($request.sort)#set($urlExtra="${urlExtra}&sort=$request.sort")#end
+    #if($request.dir)#set($urlExtra="${urlExtra}&dir=$request.dir")#end
+    #if($earlierStart)<a href="${doc.name}?start=${earlierStart}#if($request.terms)&terms=$util.encodeURI($!request.terms)#end${urlExtra}">$msg.get("search.nav.previous")</a> &lt;&lt;#end
+    #set($start = $cursor.startCount)#set($start=$start+1)
+    $msg.get("search.nav.showing",[${start},${cursor.endCount},${cursor.resultCount}])
+    #if($laterStart)&gt;&gt; <a href="${doc.name}?start=${laterStart}#if($request.terms)&terms=$util.encodeURI($!request.terms)#end${urlExtra}">$msg.get("search.nav.next")</a>#end
+    </small></p>{/pre}
+##
+#end
+#end
+#end

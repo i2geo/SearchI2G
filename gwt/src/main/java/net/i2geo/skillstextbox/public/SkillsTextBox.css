@@ -1,0 +1,100 @@
+
+.console-with-frame {
+    border: inset 2pt;
+}
+
+.query-list td {
+    border: inset 0pt;
+}
+
+
+.gwt-SuggestBoxPopup {
+    z-index: 30000;
+}
+
+.gwt-SuggestBoxPopup .item {
+    border: 3px solid transparent;
+    background:#EEEEEE;
+}
+.gwt-SuggestBoxPopup .item-selected {    border: 3px solid black; background:#EEEEEE;}
+
+
+.gwt-SuggestBoxPopup a:link,.w,.w a:link{color:#0000cc}
+.gwt-SuggestBoxPopup a:visited{color:#551a8b}
+.gwt-SuggestBoxPopup a:active{color:#ff0000}
+
+.static-node-list-entry {
+    width:99%;
+    text-align:left;
+    padding: 2px;
+}
+
+.SKBEditor {
+    border: inset 1pt;
+}
+
+.SKBEditor tr td {
+    padding: 2pt;
+}
+
+.SKBItemSuggest tr td {
+    text-align:left;
+}
+
+a:link.SKBEditorTitle {color:black; text-decoration: none;}
+a:visited.SKBEditorTitle  {color:#111111; text-decoration: none;}
+a:active.SKBEditorTitle  {color:red; text-decoration: none;}
+a:hover.SKBEditorTitle  {color:black; text-decoration: underline;}
+
+.SKBEditor-Topic {
+    background:lightGray;
+}
+
+.SKBEditor-Topic-Selected {
+    background: lightGray;
+}
+
+.SKBEditor-Topic-DeSelected {
+    background: white;
+}
+
+.SKBEditor-DeleteButton-Over {
+    background:darkGray;
+}
+.SKBEditor-DeleteButton-Out {
+    background:none;
+}
+
+
+
+.skbButton {
+    background:darkGray;
+    text-align:right;
+    margin-right:30%;
+}
+
+
+.skb-empty-label {
+    font-size: 100%;
+    font-style: inherit;
+    color: #AAAAAA;
+}
+
+
+.SKBSuggestButton {
+    border:medium none;
+}
+
+.SKB_searchBox_inFocus {
+    color: black;
+    width: 100%;
+}
+
+.SKB_searchBox_outFocus {
+    color: #AAAAAA;
+    width: 100%;
+}
+
+.waitingWheel {
+    width:15px; height:15px;
+}

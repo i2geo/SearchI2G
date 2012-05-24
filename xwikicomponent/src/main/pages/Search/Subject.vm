@@ -1,0 +1,33 @@
+## this page should Search.Subject
+##                  ===========================
+## this page presents a search form and the search results
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+
+## parameters
+###set($subject = "http://inter2geo.eu/2008/ontologies/Subjects#Analysis")
+##1 Subject: Analysis
+##
+#if(!$subject)
+    Please define the subject variable.
+#else
+#set($lucene = $xwiki.getPlugin("lucene"))
+#set($cursor = $lucene.createResourcesSearchCursor())
+
+#set($junk = $xwiki.getPlugin("searchi2g").makeSureServiceIsInitted($request))
+#set($junk = $cursor.graspContexts($xwiki,$context.context,$msg))
+
+#set($luQ = $xwiki.searchi2g.expandSubjectQuery($subject).getQuery())
+
+<!-- query:
+$cursor.setLuceneQuery($luQ)
+$cursor.readRequest(${request.getParameterMap()})
+$cursor.doQuery()
+-->
+
+#set($firstRequestParams = "group=${request.group}")
+#set($isPlainList = "true")
+#includeInContext("Search.Results")
+#end 

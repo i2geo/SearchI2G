@@ -1,0 +1,57 @@
+## this page should Search.Group
+##                  ===========================
+## this page presents a search form and the search results
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+#* @vtlvariable name="luQ" type="org.apache.lucene.search.BooleanQuery" *#
+
+#set($lucene = $xwiki.getPlugin("lucene"))
+#set($cursor = $lucene.createResourcesSearchCursor())
+#includeInContext("Search.IndexWarning")
+
+#if(!$request.group) 1 $msg.get("search.results.group-resources.title"))#end
+
+
+  <form action="$doc.name" method="GET">
+    <select name="group">
+      #foreach($g in $xwiki.getXWiki().getGroupService($context.getContext()).listAllGroups($context.getContext()))
+        <option value="$g" #if($request.group == $g)selected#end>$g</option>
+      #end
+    </select><input type="hidden" name="terms" value="group-search"/>
+  <input type="submit" value="go"/>
+</form>
+
+#if($request.group)
+1 $msg.get("search.results.group-resources.title",[${request.group}])
+
+#if($request.getParameter("terms"))
+##
+##
+##
+#set($junk = $xwiki.getPlugin("searchi2g").makeSureServiceIsInitted($request))
+#set($junk = $cursor.graspContexts($xwiki,$context.context,$msg))
+##
+
+#set($parser = $cursor.buildQueryParser("ft"))
+#set($luQ = $parser.parse('+object:CurrikiCode.AssetClass -CurrikiCode.TextAssetClass.type:2 -name:Favorites -web:AssetTemp -web:"Coll_Templates" -name:WebHome  -name:WebPreferences -name:MyCollections -name:SpaceIndex  -CurrikiCode.AssetClass.hidden_from_search:1'))
+#foreach($m in $xwiki.getXWiki().getGroupService($context.getContext()).listMemberForGroup($request.group,$context.getContext()))
+  $cursor.addQueryShould($luQ,$parser.parse("author:$m"))
+#end
+
+<!-- query: $luQ
+$cursor.setLuceneQuery($luQ)
+$cursor.readRequest(${request.getParameterMap()})
+$cursor.doQuery()
+-->
+## query expansion (folded unless desired)
+
+#set($firstRequestParams = "group=${request.group}")
+#set($isPlainList = "true")
+#includeInContext("Search.Results")
+#end
+
+#end
+
+

@@ -1,0 +1,80 @@
+## this page should AdvancedSearch.Blogs
+##                  ===========================
+## this page presents a search form as a big text-box and the search results
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="util" type="com.xpn.xwiki.api.Util" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+## Do not translate this page
+##Do not translate this page
+## #warning($msg.get("search.form.warning-some-fields3"))
+#includeInContext("Search.IndexWarning")
+<AdvancedSearch-body>
+<div id="headerAdvancedSearch">
+<br>
+<ul> 
+    <li><a href="Resources">$msg.get("search.resource.tab.title")</a></li>
+    <li><a href="Groups">$msg.get("search.group.tab.title")</a></li>
+    <li><a href="Members">$msg.get("search.member.tab.title")</a></li>
+    <li class="selected"><a href="Blogs">$msg.get("search.blog.tab.title")</a></li>
+    <li><a href="Pages">$msg.get("search.curriki.tab.title")</a></li>
+</ul>
+</div>
+<form action="$doc.name" method="GET" id="advancedSearchForm" style="margin-bottom:2em">
+<div id="contentAdvancedSearch">
+	<div id="AdvancedSearchbar">
+        <h2>$msg.get("search.blog.tab.title")</h2>
+		<table cellpadding="5" cellspacing="5">
+		<tr><td>
+			<input id="AdvancedSearch-termPanel-resource-terms" class=" " type="text" name="text" autocomplete="off" size="200" style=" font-size: 150%;"
+                        value="$xwiki.getXMLEncoded("$!request.text")"/>
+		</td><td>
+			<div id="SearchTips">
+                <a target="search_tips" href="/xwiki/bin/view/AdvancedSearch/Tips?xpage=popup" title="$msg.get('search.text.entry.help.title')">$msg.get("search.text.entry.help.link")</a>
+			</div></td></tr>
+		</table>
+	</div>
+	<div id="AdvancedSearchitems">
+	<table width="50%">
+	<div id="SearchComboFields" class=" ">
+		<tr><td><h3>$msg.get("search.blog.keywords"):</h3> </td><td>
+		<input  type="text" name="keywords" autocomplete="off" style="width: 80%;"
+                value="$xwiki.getXMLEncoded("$!request.keywords")"/>				</td></tr>
+<tr><td><br></td></tr>
+<tr><td><h3>$msg.get("search.resource.column.header.contributor"): </h3></td><td>
+		<input  type="text" name="author" autocomplete="off" style="width: 80%;"
+                value="$xwiki.getXMLEncoded("$!request.author")"/>				</td></tr>
+        <tr>
+            <td align="left"><button id="Searchbutton" class=" " type="button" onclick="document.getElementById('advancedSearchForm').submit(); return false;" align="right">Search »</button></td>
+            <td align="right"><button id="ResetButton" class=" " type="button" onclick="window.open('$doc.name','_self'); return false;" align="right">Reset</button></td>
+        </tr>
+	</table><br>
+	<div id="AdvancedSearchButton">
+	</div>
+	</div>
+</div>
+</form>
+</AdvancedSearch-body>
+#set($cursor = $xwiki.parseGroovyFromPage("AdvancedSearch.GroovyCursor"))
+<!-- $cursor.init($xwiki.xWiki,$context.context,$xwiki.getPlugin("lucene"),$msg)
+        Params: $!request.text,$!request.author,$!request.keywords
+        #set($query=$cursor.createBlogsQuery($!request.text,$!request.author,$!request.keywords))
+        query is $query
+        has results: $cursor.executeQuery($query,$!request.start,$!request.max) -->
+#if(!$query)
+#elseif(!$cursor.hasNext())
+    Sorry no results.
+#else
+{pre}
+    #foreach($x in $cursor)
+        #set($blogDoc = $xwiki.getDocument("$x.get('web').$x.get('name')"))
+      <div><h3><a href="/xwiki/bin/view/$x.get('web')/$x.get('name')">$cursor.cleanUp($x.get("title"))</a></h3>
+          <p>$blogDoc.getObject("XWiki.ArticleClass").get("extract")</p>
+          <p>Filed on $blogDoc.creationDate</p>
+      </div>
+    <hr/>
+    #end
+{/pre}
+#includeInContext("AdvancedSearch.Footer")
+#end

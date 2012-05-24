@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+  <head>
+      <title>Skills Text Box Editor</title>
+      <script type="text/javascript">
+          window.skbStartWithWidget =  "SkillsTextBox|idsStorage|  |true";
+          window.skbConfigBasePath = "/SearchI2G/net.i2geo.skillstextbox.SkillsTextBox/";
+          window.browserLanguages = "fr-fr";
+      </script>
+      <meta name="gwt:module" content="net.i2geo.skillstextbox.SkillsTextBox"/>
+
+      <script language='javascript' src='../net.i2geo.skillstextbox.SkillsTextBox.nocache.js'></script>
+      <link rel="stylesheet" type="text/css"  href="../SkillsTextBox.css" />
+  </head>
+  <body>
+
+
+  <h3>Make a Sugestion</h3>
+  <a target="gsSuggest" onclick="window.open('http://draft.i2geo.net/xwiki/bin/view/Suggest/CreateSuggestion?title=TITLE','gsSuggest','width=640,height=480,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no,resizable=yes');"
+     href="http://draft.i2geo.net/xwiki/bin/view/Suggest/CreateSuggestion?title=TITLE">Suggest for insertion to GeoSkills: TITLE</a>
+
+
+
+  <!--<p><a onclick="return openEditor();">open another window</a></p>-->
+
+  <script type="text/javascript">
+      var objectHere = document.getElementById("idsStorage");
+      function setIt(value) {
+          alert("Value set " + value);
+      }
+      function openEditor() {
+          var w = window.open('skills-text-box-editor.jsp','skills-text-box-editor','width=520,height=250,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no,resizable=yes');
+          w.setMyValue = window.setIt;
+          return false;
+      }
+  </script>
+  </body>
+</html>

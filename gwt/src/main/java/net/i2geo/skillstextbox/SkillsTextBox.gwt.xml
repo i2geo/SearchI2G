@@ -1,0 +1,94 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+    <inherits name="com.google.gwt.i18n.I18N"/>
+    <inherits name="com.google.gwt.http.HTTP"/>    
+    <inherits name="com.google.gwt.xml.XML"/>    
+    <inherits name='net.i2geo.i2geoAPI'/>
+
+    <!-- <extend-property name="locale" values="en"/>
+    <extend-property name="locale" values="de"/>
+    <extend-property name="locale" values="fr"/>
+    <extend-property name="locale" values="es"/>
+    <extend-property name="locale" values="nl"/>
+    <extend-property name="locale" values="cs"/>
+    <extend-property name="locale" values="pt"/>
+    <extend-property name="locale" values="eu"/>
+    <extend-property name="locale" values="ru"/>
+    <extend-property name="locale" values="it"/>
+    <extend-property name="locale" values="mk"/>
+    <extend-property name="locale" values="zh"/>
+    <extend-property name="locale" values="ch"/>-->
+
+
+  <property-provider name="locale">
+    <![CDATA[
+      try {
+      var locale = null;
+
+      function log(msg) {
+        if(window.console) window.console.log(msg);
+        //alert(msg);
+      }
+
+
+      // Look for the locale as a url argument
+      if (locale == null) {
+        var args = location.search;
+        var startLang = args.indexOf("locale");
+        if (startLang >= 0) {
+          var language = args.substring(startLang);
+          var begin = language.indexOf("=") + 1;
+          var end = language.indexOf("&");
+          if (end == -1) {
+            end = language.length;
+          }
+          locale = language.substring(begin, end);
+        }
+      }
+
+      /* if (locale == null) {
+        // Look for the locale on the web page
+        log("reading meta property locale");
+        locale = __gwt_getMetaProperty("locale")
+      }*/
+
+      if(window.top.browserLanguages === undefined) {
+        log("browserLanguages is undefined, using english.");
+        window.browserLangues = "en";
+      }
+      if(window.top.browserLanguages === undefined) {
+        log("using default language.");
+          if(!navigator.language)
+            window.top.browserLanguages = "en"
+          else
+            window.top.browserLanguages = navigator.language;
+      }
+
+      log("Will attempt language from list \"" + window.top.browserLanguages + "\".") ;
+          var langs = window.top.browserLanguages.split(",");
+          var l = langs.length, i=0;
+          while (i<l && !__gwt_isKnownPropertyValue("locale",  locale)) {
+            locale = langs[i];
+            if(locale.length>2) locale=locale.substring(0,2);
+            i++;
+          }
+
+      if (locale == null || !__gwt_isKnownPropertyValue("locale",  locale)) {
+        return "en";
+      }
+      log("reached locale \"" + locale + "\"");
+      return locale;
+    } catch(e){
+      alert("Unexpected exception in locale detection, using default: " + e);
+      return "default";
+    }
+  ]]>
+  </property-provider>
+
+    <!-- <source path="client"/> -->
+    <!-- Specify the app entry point class.                   -->
+	<entry-point class='net.i2geo.skillstextbox.client.SkillsTextBox'/>
+  	<servlet path="/search"
+  		class="net.i2geo.search.TokenSearchServerImpl"/>
+</module>

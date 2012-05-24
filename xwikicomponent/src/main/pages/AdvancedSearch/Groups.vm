@@ -1,0 +1,98 @@
+## this page should AdvancedSearch.Groups
+##                  ===========================
+## this page presents a search form as a big text-box and the search results
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="util" type="com.xpn.xwiki.api.Util" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+## Do not translate this page
+## #warning($msg.get("search.form.warning-some-fields2"))
+#includeInContext("Search.IndexWarning")
+<AdvancedSearch-body>
+<div id="headerAdvancedSearch">
+<ul>
+    <li><a href="Resources">$msg.get("search.resource.tab.title")</a></li>
+    <li class="selected"><a href="Groups">$msg.get("search.group.tab.title")</a></li>
+    <li><a href="Members">$msg.get("search.member.tab.title")</a></li>
+    <li><a href="Blogs">$msg.get("search.blog.tab.title")</a></li>
+    <li><a href="Pages">$msg.get("search.curriki.tab.title")</a></li>
+</ul>
+</div>
+<form action="$doc.name" method="GET" id="advancedSearchForm" style="margin-bottom:2em">
+<div id="contentAdvancedSearch">
+	<div id="AdvancedSearchbar">
+<h2>$msg.get("search.group.tab.title")</h2>
+		<table cellpadding="5" cellspacing="5">
+		<tr><td>
+			<input id="AdvacedSearch-termPanel-resource-terms" class=" " type="text" name="text" autocomplete="off" size="200" style="font-size:150%;"
+                    value="$xwiki.getXMLEncoded("$!request.text")"/>
+		</td><td>
+			<div id="SearchTips">
+			<a target="search_tips" href="/xwiki/bin/view/AdvancedSearch/Tips?xpage=popup" title="$msg.get('search.text.entry.help.title')">$msg.get("search.text.entry.help.link")</a>
+			</div></td></tr>
+		</table>
+	</div>
+	<div id="AdvancedSearchitems">
+	<table width="100%">
+	<tr><td>
+	<div id="SKB-field" class=" ">
+        <h3>$msg.get("sri.eduLevelFine_title") </h3>
+        #skbListHereEditable("level" "eduLevelFine_pane" "level" "$!request.level")<br>
+        <h3>$msg.get("sri.trainedTopicsAndCompetencies_title")</h3>
+       #skbListHereEditable("trained" "trainedTopicsAndCompetencies_pane" "competency,topic" "$!request.trained")
+</td></div><td>
+	<div id="SearchComboFields" class=" ">
+		<table border="0" cellpadding="5" cellspacing="5">
+			<tr><td><h3>$msg.get("search.group.column.header.name"): </h3></td><td>
+			<input  type="text" name="groupname" autocomplete="off" style="width: 70%;"
+                    value="$xwiki.getXMLEncoded("$!request.groupname")"/>				</td></tr>
+			<tr><td><br></td><td><br></td></tr>
+			<tr><td><h3>$msg.get("search.group.creator"): </h3></td><td>
+			<input type="text" name="creator" autocomplete="off" style="width: 70%;"
+                    value="$xwiki.getXMLEncoded("$!request.creator")"/>				</td></tr>
+			</td></tr><tr><td><br></td><td><br></td></tr>
+			<tr><td><h3>$msg.get("rve.information.language_title"):</h3> </td><td>
+                #includeInContext("AdvancedSearch.SnippetLanguageSelector")
+			</td></tr>
+			</table>
+			</td></div>
+			</tr>
+    <tr>
+        <td align="left"><button id="Searchbutton" class=" " type="button" onclick="document.getElementById('advancedSearchForm').submit(); return false;" align="right">$msg.get("search.text.entry.button")</button></td>
+        <td align="right"><button id="ResetButton" class=" " type="button" onclick="window.open('$doc.name','_self'); return false;" align="right">$msg.get("search.form.reset")</button></td>
+    </tr>
+		</table><br>
+		<div id="AdvancedSearchButton">
+		</div>
+	</div>
+</div></form>
+</AdvancedSearch-body>
+##
+##
+##
+#set($cursor = $xwiki.parseGroovyFromPage("AdvancedSearch.GroovyCursor"))
+<!--  text,level,trained,groupname, creator,searchlang
+    $cursor.init($xwiki.xWiki,$context.context,$xwiki.getPlugin("lucene"),$msg)
+        Params: $!request.text,$!request.level,$!request.trained,$!request.groupname,$!request.searchlang
+        #set($query=$cursor.createGroupsQuery($!request.text,$!request.level,$!request.trained,$!request.creator,$!request.groupname,$!request.searchlang))
+        query is $query
+        has results: $cursor.executeQuery($query,$!request.start,$!request.max) -->
+#if(!$query)
+#elseif(!$cursor.hasNext())
+    Sorry no results.
+#else
+{pre}<hr/>
+    #foreach($x in $cursor)
+        #set($groupDoc= $xwiki.getDocument("$x.get('web').$x.get('name')"))
+        #set($title=$groupDoc.getObject("XWiki.SpaceClass").get("displayTitle"))
+        <h3><a href="/xwiki/bin/view/$x.get('web')/">$title</a></h3>
+        <p ="margin-bottom:2em"><a title="$title" href="/xwiki/bin/view/$x.get('web')/">
+            <img width="50" height="50" alt="$title" title="$title" align="left" style="margin-right:1em"
+            src="/xwiki/bin/download/$x.get('web')/WebHome/${groupDoc.getObject("XWiki.CurrikiSpaceClass").get("logo")}"></a>
+        $groupDoc.getObject("XWiki.SpaceClass").get("description")</p>
+<hr/>
+    #end
+{/pre}
+#includeInContext("AdvancedSearch.Footer")
+#end

@@ -1,0 +1,60 @@
+## this page should Search.IndexDoc
+##                  ===========================
+## this page renders an index-document
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+#* @vtlvariable name="luQ" type="org.apache.lucene.search.BooleanQuery" *#
+
+1 Indexed Data
+
+This page allows you to choose a document and obtain its indexed data.
+
+<form action="$doc.name" method="get">
+    Document: (space.name):<br/>
+    <input type="text" name="doc" size="30" value="$!request.doc"><input type="submit" value="show">
+</form>
+
+
+<%
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Token;
+import com.xpn.xwiki.plugin.lucene.I2GResourceData;
+import org.curriki.xwiki.plugin.lucene.CurrikiAnalyzer;
+
+
+if(request.doc!=null  && xwiki.getUser().hasAdminRights()) {
+    com.xpn.xwiki.api.Document d = xwiki.getDocument(request.doc);
+    I2GResourceData data = new I2GResourceData(d.getDocument(),context.context);
+
+    org.apache.lucene.document.Document luceneDoc = new org.apache.lucene.document.Document();
+    data.addDataToLuceneDocument(luceneDoc,d.getDocument(),context.context);
+    //luceneDoc.add(new Field("ft",data.getFullText(d.document,context.context),Field.Store.YES, Field.Index.UN_TOKENIZED));
+    println("1.1 Indexed Data of Document [" + request.doc + "]");
+    println();
+    println("<table cellpadding='4' border='1'><thead><tr><td>name</td><td>value</td></tr></thead><tbody>");
+    for(Field f : (List<Field>) luceneDoc.getFields()) {
+        print("<tr><td>");
+        print(f.name());
+        print("</td><td>");
+        java.io.Reader reader = f.readerValue();
+        if(reader==null) reader = new java.io.StringReader(f.stringValue());
+        TokenStream ts = new CurrikiAnalyzer(d.document,context.context).tokenStream(f.name(), reader);
+        if(ts!=null) {
+            Token t = ts.next();
+            while( t!=null) {
+                print(xwiki.escapeText(t.termText())); print(' ');
+                t = ts.next(t);
+            }
+        }
+        //print(xwiki.escapeText(f.stringValue()));
+        println("</td></tr>");
+    }
+    println("</tbody></table>");
+} else {
+  println "No document received or no admin rights."
+}
+%>

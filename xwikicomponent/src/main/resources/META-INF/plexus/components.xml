@@ -1,0 +1,11 @@
+<component-set>
+  <components>
+    <component>
+      <role>net.i2geo.xwiki.SearchI2GXWiki</role>
+      <implementation>net.i2geo.xwiki.impl.DefaultSearchI2GXWiki</implementation>
+      <configuration>
+        <name>Hello World!</name>
+      </configuration>
+    </component>
+  </components>
+</component-set>

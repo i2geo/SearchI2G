@@ -1,0 +1,37 @@
+<html>
+
+  <head>
+      <title>Skills Text Box Editor</title>
+      <script type="text/javascript">
+          window.skbStartWithWidget =  "SkillsTextBox|idsStorage|  |true";
+          window.skbConfigBasePath = "/SearchI2G/net.i2geo.skillstextbox.SkillsTextBox/";
+          window.browserLanguages = "fr-fr";
+      </script>
+      <meta name="gwt:module" content="net.i2geo.skillstextbox.SkillsTextBox"/>
+
+      <script language='javascript' src='../net.i2geo.skillstextbox.SkillsTextBox.nocache.js'></script>
+      <link rel="stylesheet" type="text/css"  href="../SkillsTextBox.css" />
+  </head>
+  <body>
+
+
+  <h3>Skills Text Box Editor</h3>
+  <form action="" onsubmit="return false;">
+      <div id="SkillsTextBox"></div>
+  </form>
+
+  <!--<p><a onclick="return openEditor();">open another window</a></p>-->
+
+  <script type="text/javascript">
+      var objectHere = document.getElementById("idsStorage");
+      function setIt(value) {
+          alert("Value set " + value);
+      }
+      function openEditor() {
+          var w = window.open('skills-text-box-editor.jsp','skills-text-box-editor','width=520,height=250,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no,resizable=yes');
+          w.setMyValue = window.setIt;
+          return false;
+      }
+  </script>
+  </body>
+</html>

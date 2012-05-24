@@ -1,0 +1,60 @@
+## this page should Search.Expert
+##                  ===========================
+## this page presents a search form as a big text-box and the search results
+#* @vtlvariable name="lucene" type="com.xpn.xwiki.plugin.lucene.LucenePluginApi" *# ##
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *# ##
+#* @vtlvariable name="util" type="com.xpn.xwiki.api.Util" *# ##
+#* @vtlvariable name="request" type="javax.servlet.http.HttpServletRequest" *# ##
+#* @vtlvariable name="cursor" type="org.curriki.xwiki.plugin.lucene.ResourcesSearchCursor" *#  ##
+
+1 #if($request.title)$request.title#else Expert Search#end
+#includeInContext("Search.IndexWarning")
+
+#if($request.noInput)
+{pre}
+<form action="$doc.name" method="GET" id="resultSortPopupForm">
+<input type="hidden" name="terms" value="expert-query">
+<input type="hidden" name="expertQuery" value="$request.expertQuery.replaceAll("\n","&#10;").replaceAll('"',"&quot;")"/>
+<input type="hidden" name="title" value="$util.escapeText("$!request.title")"/>
+<input type="hidden" name="noInput" value="true"/>
+<input type="hidden" name="start" value=#if($request.start)"$request.start"#else"0"#end/>
+<p align="right">#includeInContext("Search.SortBar")</p>
+</form>
+{pre}
+#else
+{pre}
+<p>(you have the wealth of <a href="http://lucene.apache.org/java/2_9_2/queryparsersyntax.html">Lucene query syntax</a>)</p>
+
+<form action="$doc.name" method="GET">
+<input type="hidden" name="terms" value="expert-query">
+<input type="hidden" name="start" value=#if($request.start)"$request.start"#else"0"#end/>
+<textarea name="expertQuery" width="50" rows="10">
+#if($request.expertQuery)$request.expertQuery#else
+object:currikicode.assetclass -XWiki.TextAssetClass.type:2
+-web:assettemp -web:"coll templates" -name:webhome -name:webpreferences -name:mycollections -name:spaceindex
+-CurrikiCode.AssetClass.hidden_from_search:1
++(+(CurrikiCode.AssetClass.trainedTopicsAndCompetencies:#Triangle_r i2geo.ancestorTopics:#Triangle^0.8))
+(i2geo.reviewOverallRanking:5^2.0 i2geo.reviewOverallRanking:4^1.5 i2geo.reviewOverallRanking:3^1.1 i2geo.reviewOverallRanking:2^0.9 i2geo.reviewOverallRanking:1^0.7)
+#end</textarea>
+    <p>Title <input name="title" type="text" size="20" value=#if($request.title)"$request.title"#else"Expert Search"#end/>
+    &nbsp;&nbsp; No-input <input type="checkbox" name="noInput"/></p>
+<p align="right">#includeInContext("Search.SortBar")
+<input type="submit" value="go"></p>
+</form>
+{pre}
+#end
+
+
+#if($request.expertQuery)
+    #set($queryFactory = $xwiki.parseGroovyFromPage("Search.QueryFactory"))
+    #set($query = $queryFactory.queryParse($request.expertQuery,$xwiki,$context))
+        <!-- query: $query of type $query.getClass()
+    $request.setAttribute("luceneQuery",$query) -->
+    #set($isPlainList = "true")
+    ## enable next pages, need to define urlExtra with all the parameters
+    #set($urlExtra = "terms=expert-query&title=$escapetool.url($!{request.title})&expertQuery=$escapetool.url($!{request.expertQuery})&noInput=$!{request.noInput}")
+    #includeForm("Search.Simple")
+#else
+<hr/>
+<p>Please input a query above.</p>
+#end

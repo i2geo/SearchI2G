@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+
+    <display-name>Search I2G WebApplication</display-name>
+    <description>
+      Search I2G WebApplication is the search part of the intergeo
+        platform and the independent search engine.
+    </description>
+
+
+
+
+    <!-- Define servlets that are included in the example application -->
+
+    <servlet>
+        <servlet-name>TokenSearchServer</servlet-name>
+        <servlet-class>net.i2geo.search.TokenSearchServerImpl</servlet-class>
+        <!-- Servlet used to handle the autocompletion requests. -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>RenderingService</servlet-name>
+        <servlet-class>net.i2geo.search.SkillsTextBoxRenderingService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>IndexingMonitor</servlet-name>
+        <servlet-class>net.i2geo.search.IndexingMonitorServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>SKBUpdaterServlet</servlet-name>
+        <servlet-class>net.i2geo.search.SKBUpdaterServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>SearchQueryPlainTextExpander</servlet-name>
+        <servlet-class>net.i2geo.search.PlainTextQueryExpanderServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>CurrikiQueryExpander</servlet-name>
+        <servlet-class>net.i2geo.search.CurrikiQueryExpanderService</servlet-class>
+    </servlet>
+    <servlet>
+        <description>Returns the XML document of autocompletions, a series of skillItem elements with an attribute for
+            each bean-property.</description>
+        <display-name>autoCompletion</display-name>
+        <servlet-name>autoCompletion</servlet-name>
+        <servlet-class>net.i2geo.search.AutoCompletionServlet</servlet-class>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>TokenSearchServer</servlet-name>
+        <url-pattern>/search/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RenderingService</servlet-name>
+        <url-pattern>/render</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IndexingMonitor</servlet-name>
+        <url-pattern>/indexing/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>autoCompletion</servlet-name>
+        <url-pattern>/getAutoCompletions</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>SKBUpdaterServlet</servlet-name>
+        <url-pattern>/skbUpdate</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SearchQueryPlainTextExpander</servlet-name>
+        <url-pattern>/expand</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CurrikiQueryExpander</servlet-name>
+        <url-pattern>/expandCurriki</url-pattern>
+    </servlet-mapping>
+
+    <!-- <servlet-mapping>
+        <servlet-name>OntoUpdateServer</servlet-name>
+        <url-pattern>/ontoUpdate/*</url-pattern>
+    </servlet-mapping>
+    disabled for now -->
+
+    <context-param>
+        <description>A directory where to read and write the index.</description>
+        <param-name>geoSkills-URL</param-name>
+        <param-value>http://i2geo.net/ontologies/dev/GeoSkills.owl</param-value>
+    </context-param>
+    <context-param>
+        <description>A directory where to read and write the index.</description>
+        <param-name>indexPath</param-name>
+        <param-value>work/TokenSearchServer/index</param-value> 
+    </context-param>
+    <context-param>
+        <description>A directory where to store received updates and read them.</description>
+        <param-name>updateQueueDir</param-name>
+        <param-value>work/TokenSearchServer/updateQueue</param-value> 
+    </context-param>
+    <context-param>
+        <description>A directory where to store updates that couldn't be processed.</description>
+        <param-name>rejectsQueueDir</param-name>
+        <param-value>work/TokenSearchServer/updateRejects</param-value> 
+    </context-param>
+
+
+
+</web-app>

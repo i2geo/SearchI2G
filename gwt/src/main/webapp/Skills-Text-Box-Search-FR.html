@@ -1,0 +1,40 @@
+
+
+<html>
+
+  <head>
+      <title>Skills Text Box Search</title>
+      <script type="text/javascript">
+          window.skbSearchPleaseReplaceMe =  "searchField|  |showNode|true";
+          window.skbConfigBasePath = "/SearchI2G/net.i2geo.skillstextbox.SkillsTextBox/";
+          window.browserLanguages = "fr-fr";
+      </script>
+      <script language='javascript' src='/SearchI2G/net.i2geo.skillstextbox.SkillsTextBox/net.i2geo.skillstextbox.SkillsTextBox.nocache.js'></script>
+      <link rel="stylesheet" type="text/css"  href="/SearchI2G/net.i2geo.skillstextbox.SkillsTextBox/SkillsTextBox.css" />
+  </head>
+  <body>
+
+
+  <h3>Skills Text Box Search</h3>
+  <form action="" onsubmit="return false;">
+      <div id="searchField"></div>
+  </form>
+
+  <script type="text/javascript">
+      window.justAlert = new Function("a","b",
+          "alert('choice identified :' + a + ' of type ' + b);");
+      window.showNode = function doShowNode(uri,type) {
+          // http://draft.i2geo.net/comped/showProcess.html?uri=Sketch_graph˜
+          uri = encodeURIComponent(uri);
+          if("topic" == type)
+            window.location.href = "http://i2geo.net/comped/showTopic.html?uri=" + uri;
+          else if ("competency"==type)
+              window.location.href = "http://i2geo.net/comped/showCompetency.html?uri="  + uri;
+          else if ("level"==type)
+              window.location.href = "http://i2geo.net/ontologies/dev/individuals/" + uri;
+          else alert("Don't know what to do with this type \"" + type + "\".");
+      }
+  </script>
+
+  </body>
+</html>
