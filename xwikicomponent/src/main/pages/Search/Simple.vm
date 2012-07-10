@@ -81,14 +81,14 @@ $cursor.doQuery() ##
         var expansion = Ext.get('expansionResult');
         var link = Ext.get('expansionLink');
         if(expansion != null  && link != null) {
-            if(expansion.style.display == 'none') {
-                expansion.style.display = 'block';
-                link.style.display = 'none';
-                Ext.get("expansionCell").setAttribute("class","expanded");
+            if(expansion.getStyle("display")== 'none') {
+                expansion.setDisplayed(true);
+                link.setDisplayed(false);
+                Ext.get("expansionCell").dom.setAttribute("class","expanded");
             } else {
-                expansion.style.display = 'none';
-                link.style.display = 'block';
-                Ext.get("expansionCell").setAttribute("class","collapsed");
+                expansion.setDisplayed(false);
+                link.setDisplayed(true);
+                Ext.get("expansionCell").dom.setAttribute("class","collapsed");
             }
         }
     }
