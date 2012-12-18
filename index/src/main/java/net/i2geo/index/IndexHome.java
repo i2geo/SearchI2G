@@ -107,6 +107,11 @@ public class IndexHome {
     void backItUp() {
         if(pathToBackup==null)
             pathToBackup = new File(new File(pathToIndex).getParentFile(),"index-backup");
+        if(!pathToBackup.isDirectory() || pathToBackup.list()==null || pathToBackup.list().length==0) {
+            log.warn("Index directory empty, resigning backup.");
+            return;
+        }
+
         log.info("Will back-up index : to " + pathToBackup);
         try {
             boolean backupWasThere = pathToBackup.isDirectory();
@@ -421,12 +426,16 @@ public class IndexHome {
     private synchronized void updateReader() {
         try {
             if(reader!=null) {
+                try {
+                    log.info("Updating reader and searcher ("+ reader.numDocs()+" docs).");
+                } catch (Exception e) {}
                 reader.close();
                 searcher.close();
             }
             reader = IndexReader.open(pathToIndex);
             searcher = new IndexSearcher(reader);
             int number = reader.numDocs();
+            log.info("Updated reader and searcher ("+ number+" docs).");
             if(number>10) currentStatus = Status.READ_READY;
         } catch (IOException e) {
             e.printStackTrace();

@@ -15,6 +15,8 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 
 import java.io.Reader;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -65,5 +67,12 @@ public class SKBAnalyzer extends Analyzer {
 
     public static Token START_MARKER_TOKEN = new Token("[start]",0,0,"-start-end-marker-"),
         END_MARKER_TOKEN = new Token("[end]",0,0,"-start-end-marker-");
+
+    public static void main(String[] args) throws Throwable {
+        SKBAnalyzer a = new SKBAnalyzer(Boolean.parseBoolean(args[2]), Arrays.asList(args[1].split(",")));
+        TokenStream t =a.tokenStream(args[0], new StringReader(args[3]));
+        Token tok;
+        while((tok=t.next())!=null) System.out.println("-- " +tok);
+    }
 
 }

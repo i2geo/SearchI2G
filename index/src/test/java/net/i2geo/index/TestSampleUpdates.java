@@ -46,7 +46,8 @@ public class TestSampleUpdates extends TestCase {
         System.out.println("Adding Nancy.");
         updaterQueue.receiveUpdate("",getClass().getResourceAsStream("/Update-addNancy.xml"));
         updaterQueue.waitTillQueueIsEmpty();
-        q= new TermQuery(new Term("name-en","nancy")); // lower-case because of the analyzer!
+
+        q= new TermQuery(new Term("name-en","Nancy")); // lower-case because of the analyzer!
         numHits = indexHome.getSearcher().search(q).length();
         assertTrue("There should be Nancy in english names.",numHits==1);
 

@@ -6,8 +6,7 @@ import java.io.IOException;
 
 //lucene imports
 import net.i2geo.index.SubjectsCollector;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
+import org.apache.lucene.document.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
@@ -245,7 +244,7 @@ public class TokenSearchServerImpl
     private SkillItem renderItem(String uri, List<String> langs) {
         SkillItem item = cache.getSkillItemRendering(uri,langs);
         if(item!=null) return item;
-        log.info("renderItem " + uri);
+        //log.info("renderItem " + uri);
         try {
             if(uri==null) return null;
             if(!uri.startsWith("http://")) {
@@ -327,4 +326,91 @@ public class TokenSearchServerImpl
         weblog.info(msg);
     }
 
+
+    public NamesMap listNames(String uri) {
+        //NamesMap map = cache.getNamesMap(uri);
+        //if(map!=null) return map;
+        final Document doc = indexHome.getDocForUri(uri);
+        NamesMap map = new NamesMap() {
+            List<String> knownLangs = null;
+            @Override
+            public List getSupportedLanguages() {
+                if(knownLangs==null) {
+                    List k = new LinkedList();
+                    knownLangs = k;
+                    if(doc!=null && doc.getFields()!=null)
+                        for(Object fi: doc.getFields()) {
+                            String n = ((Field) fi).name();
+                            if(n.startsWith("name-")) {
+                                String suffix = n.substring("name-".length());
+                                if(!("x-all".equals(suffix))) k.add(suffix);
+                            }
+                        }
+                }
+                return knownLangs;
+            }
+
+            @Override
+            public List getDefaultCommonNamesFor(String language) {
+                return fieldValues(doc, "title-" + language);
+            }
+
+            @Override
+            public List getAllNamesFor(String language) {
+                return fieldValues(doc, "name-" + language);
+            }
+        };
+        // cache.putNamesMap(uri);
+        return map;
+    }
+
+    public List getAncestorFragIDs(String uri) {
+        return fieldValues(indexHome.getDocForUri(uri), "ancestorTopic");
+    }
+
+    public List getChildrenFragIDs() {
+        // TODO: this needs a new field "parent" so that we only go down one level
+        throw new IllegalStateException();
+    }
+
+    public int getLevelAge(String uri) {
+        Document doc = indexHome.getDocForUri(uri);
+        if(doc==null) return -1;
+        String a = doc.get("age");
+        if(a!=null) return Integer.parseInt(a);
+        else return -1;
+        //return Integer.parseInt(doc.get("age"));
+    }
+
+    public List getLevelsOfAge(int age) {
+        try {
+            TermQuery query = new TermQuery(new Term("age", ""+ age));
+            TopDocs hits = indexHome.getSearcher().search(query, 100);
+            List l = new ArrayList(hits.totalHits);
+            for(ScoreDoc scoreDoc: hits.scoreDocs) {
+                l.add(indexHome.getReader().document(scoreDoc.doc, onlyIDs));
+            }
+            return l;
+        } catch (Exception e) {
+            throw new RuntimeException("Trouble at extracting levels of age.", e);
+        }
+    }
+
+
+    // ===================== internal =========================================
+    private List<String> fieldValues(Document doc, String fieldName) {
+        Field[] f = doc.getFields(fieldName);
+        List l = new ArrayList(f.length);
+        for(Field field: f) l.add(field.stringValue());
+        return l;
+    }
+
+
+    private static FieldSelector onlyIDs = new FieldSelector() {
+        @Override
+        public FieldSelectorResult accept(String fieldName) {
+            if("uri-weak".equals(fieldName)) return FieldSelectorResult.LOAD;
+            else return FieldSelectorResult.NO_LOAD;
+        }
+    };
 }

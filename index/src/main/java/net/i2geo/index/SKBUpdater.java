@@ -92,8 +92,10 @@ public class SKBUpdater extends Thread {
         processUpdate(writer,addition);
     }
     private void processUpdate(IndexWriter writer, Element update) throws Exception {
+        String uri = readURI(update);
+        System.out.println("Updating uri " + uri);
         Document doc = createDocBasic(update);
-        writer.deleteDocuments(new Term("uri",readURI(update)));
+        writer.deleteDocuments(new Term("uri",uri));
         writer.addDocument(doc);
     }
     private void processDeletion(IndexWriter writer, Element deletion) throws Exception {
@@ -162,7 +164,7 @@ public class SKBUpdater extends Thread {
     private void addLangField(Document doc, Element nm, String fieldNamePrefix, float boost, Map<String,String> firstNames) {
         String lang = nm.getAttributeValue("lang",Namespace.XML_NAMESPACE);
         if(lang==null) lang = "en";
-        Field field = new Field(fieldNamePrefix + lang,nm.getText(),Field.Store.NO, Field.Index.TOKENIZED);
+        Field field = new Field(fieldNamePrefix + lang,nm.getText(),Field.Store.YES, Field.Index.TOKENIZED);
         if(firstNames.get(lang)==null) firstNames.put(lang,nm.getText());
         field.setBoost(boost);
         doc.add(field);

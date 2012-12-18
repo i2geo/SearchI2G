@@ -234,6 +234,7 @@ public class TestAFewIndexQueries extends TestCase {
         Analyzer analyzer = new SKBAnalyzer(true,IndexHome.supportedLanguages);
         for(int i=0; i<hits.length(); i++) {
             String matchedField = indexHome.computeMatchedField(hits.id(i),hits.doc(i),analyzer,query);
+            if(matchedField==null) continue;
             System.out.println("matchedField: " + matchedField);
             assertEquals("Matching field is different then preferred title: matched Strecke with English preferred.",
                     "<B>Strecke</B>",matchedField);

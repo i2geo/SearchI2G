@@ -1,5 +1,6 @@
 package net.i2geo.xwiki;
 
+import net.i2geo.api.NamesMap;
 import org.xwiki.component.phase.InitializationException;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.api.Api;
@@ -43,6 +44,10 @@ public class SearchI2GXWikiApi extends Api
 
         public QueryExpansionResult expandSubjectQuery(String uq) {
             return plugin.getImplementation().expandSubjectQuery(uq);
+        }
+
+        public NamesMap listNames(String uri) {
+            return plugin.getImplementation().listNames(uri);
         }
 
     }

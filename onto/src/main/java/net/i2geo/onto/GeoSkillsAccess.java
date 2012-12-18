@@ -70,6 +70,7 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
     private OWLObjectProperty hasTopicProp;
     private OWLObjectProperty belongsToEducationalPathway;
     private OWLObjectProperty inEducationalRegion;
+    private OWLObjectProperty age;
 
     private OWLDataProperty creationDateProp, modificationDateProp;
     private OWLDataProperty creationUserProp, modificationUserProp;
@@ -183,6 +184,8 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
             URI.create(ontBaseU + "#belongsToEducationalPathway"));
         inEducationalRegion = manager.getOWLDataFactory().getOWLObjectProperty(
             URI.create(ontBaseU + "#inEducationalRegion"));
+        age = manager.getOWLDataFactory().getOWLObjectProperty(
+            URI.create(ontBaseU + "#age"));
 
         Set<OWLClass> inconsistentClasses = reasoner.getInconsistentClasses();
         if(inconsistentClasses!=null && !inconsistentClasses.isEmpty()) {
@@ -329,6 +332,19 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
         return c;
         //return i.getDataPropertyValues(ont).get(commonNameProp)
         //        .iterator().next().getLiteral().toString();
+    }
+
+    public String getStringPropertyValue(OWLIndividual i, OWLObjectProperty prop) {
+        try {
+            Map<OWLDataPropertyExpression,Set<OWLConstant>> m = i.getDataPropertyValues(ont);
+            Set<OWLConstant> s = reasoner.getDataPropertyRelationships(i).get(prop);
+            if(s==null) return null;
+            OWLConstant c = s.iterator().next();
+            if(c==null) return null;
+            return c.getLiteral();
+        } catch (OWLReasonerException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public Date getModificationDate(OWLIndividual i) {
@@ -603,5 +619,9 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
 
     public OWLObjectProperty getInEducationalRegion() {
         return inEducationalRegion;
+    }
+
+    public OWLObjectProperty getAge() {
+        return age;
     }
 }

@@ -2,11 +2,10 @@ package net.i2geo.xwiki.impl;
 
 
 
-import net.i2geo.xwiki.MatchingResourcesCounterImpl;
+import net.i2geo.api.NamesMap;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import com.xpn.xwiki.web.XWikiServletContext;
-import org.apache.lucene.search.Query;
 import net.i2geo.xwiki.SearchI2GXWiki;
 import net.i2geo.xwiki.SearchI2GXWikiPlugin;
 import net.i2geo.api.*;
@@ -18,6 +17,8 @@ import com.xpn.xwiki.XWikiContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContext;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -135,6 +136,40 @@ public class DefaultSearchI2GXWiki extends Api implements SearchI2GXWiki, Initia
 
     public QueryExpansionResult expandSubjectQuery(String uq) {
         return expander.expandSubjectQuery(uq);
+    }
+
+    public NamesMap listNames(String uri) {
+        return (NamesMap) invokeTokenSearchServerMethod("listNames", uri);
+    }
+
+    public List<String> getAncestorFragIDs(String uri) {
+        return (List<String>) invokeTokenSearchServerMethod("getAncestorFragIDs", uri);
+    }
+
+    public List<String> getChildrenFragIDs(String uri) {
+        return (List<String>) invokeTokenSearchServerMethod("getChildrenFragIDs", uri);
+    }
+
+    public int getLevelAge(String uri) {
+        return (Integer) invokeTokenSearchServerMethod("getLevelAge", uri);
+    }
+
+    public List<String> getLevelsOfAge(int age) {
+        return (List<String>) invokeTokenSearchServerMethod("getLevelsOfAge", age);
+    }
+
+    private Object invokeTokenSearchServerMethod(String methodName, Object... params) {
+        try {
+            Class[] paramClasses = new Class[params.length];
+            int i=0;
+            for(Object p: params) paramClasses[i++] = p.getClass();
+            Method m = skillsSearchService.getClass().getMethod(methodName, paramClasses);
+            return m.invoke(skillsSearchService, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Couldn't invoke " + methodName + ".", e);
+        }
+
     }
 }
 

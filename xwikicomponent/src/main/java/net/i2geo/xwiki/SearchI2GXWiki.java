@@ -1,8 +1,7 @@
 package net.i2geo.xwiki;
 
-import com.xpn.xwiki.api.Api;
+import net.i2geo.api.NamesMap;
 import org.xwiki.component.phase.Initializable;
-import org.apache.lucene.search.Query;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,5 +23,7 @@ public interface SearchI2GXWiki extends Initializable
     public QueryExpansionResult expandUserQuery(UserQuery query);
 
     public QueryExpansionResult expandSubjectQuery(String uq);
+
+    public NamesMap listNames(String uri);
 }
 

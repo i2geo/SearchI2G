@@ -192,6 +192,11 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
                     System.out.println("Here!");
                 }*/
 
+                if(access.isOfLevelType(node)) {
+                    String value = access.getStringPropertyValue(node, access.getAge());
+                    if(value!=null) GSIUtil.addKeywordField(doc, "age", value);
+                }
+
 
                 if(ancestors!=null) for(OWLIndividual n: ancestors) {
                     GSIUtil.addFieldForAncestorTopic(doc, GSIUtil.nameOf(n));
@@ -207,7 +212,10 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
                 GSILogger.log(") :");
 
                 // name properties
-                Map<String,String>defNames  = GSIUtil.transportNames(access.getNamesOfProp(node,access.getDefaultCommonNameProp()),
+                Map<String,Set<String>> defaultCommonNames = access.getNamesOfProp(node,access.getDefaultCommonNameProp());
+                if(defaultCommonNames==null || defaultCommonNames.size()==0)
+                    GSILogger.log("WARNING: missing defaultCommonName: " + fragmentId);
+                Map<String,String>defNames  = GSIUtil.transportNames(defaultCommonNames,
                                 fragmentId,"name", GSIUtil.BOOST_COMMONNAME,true,doc);
                 Map<String,String> names =
                         GSIUtil.transportNames(access.getNamesOfProp(node,access.getCommonNameProp()),
