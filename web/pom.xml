@@ -5,24 +5,24 @@
   <modelVersion>4.0.0</modelVersion>
   <parent><groupId>net.i2geo</groupId>
     <artifactId>i2geo-search-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <groupId>net.i2geo</groupId>
   <artifactId>i2geo-search-web</artifactId>
   <packaging>war</packaging>
   <name>Intergeo - Search Tool - Web Server</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
   <description>Intergeo - Search Tool - Web Server</description>
   <dependencies>
     <!-- search i2g modules: index, onto, api -->
     <dependency><groupId>net.i2geo</groupId><artifactId>i2geo-search-index</artifactId>
-      <version>1.0-SNAPSHOT</version></dependency>
+      <version>1.1-SNAPSHOT</version></dependency>
     <dependency><groupId>net.i2geo</groupId><artifactId>skillstextbox-gwt</artifactId>
       <version>1.0-SNAPSHOT</version><type>war</type></dependency>
     <dependency><groupId>net.i2geo</groupId><artifactId>i2geo-search-ontology</artifactId>
-      <version>1.0-SNAPSHOT</version></dependency>
+      <version>1.1-SNAPSHOT</version></dependency>
     <dependency><groupId>net.i2geo</groupId><artifactId>i2geoAPI</artifactId>
-      <version>1.0-SNAPSHOT</version><scope>provided</scope></dependency>
+      <version>1.1-SNAPSHOT</version><scope>provided</scope></dependency>
       
     <!-- gwt server side: should be all recursive -->
     <dependency><groupId>com.google.gwt</groupId><artifactId>gwt-servlet</artifactId>
@@ -82,6 +82,7 @@
 
 
   <build>
+    <finalName>SearchI2G</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

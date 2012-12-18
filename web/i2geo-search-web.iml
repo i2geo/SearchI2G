@@ -17,7 +17,12 @@
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/target" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target/SearchI2G" />
+      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
+      <excludeFolder url="file://$MODULE_DIR$/target/surefire" />
+      <excludeFolder url="file://$MODULE_DIR$/target/war" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -46,6 +51,11 @@
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.8" level="project" />
     <orderEntry type="library" name="Maven: msv:msv:20050913" level="project" />
     <orderEntry type="module" module-name="i2geoAPI" scope="PROVIDED" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:2.9.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-highlighter:2.9.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-memory:2.9.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers:2.9.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-snowball:2.9.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-io:1.3.2" level="project" />
     <orderEntry type="library" name="Maven: com.thoughtworks.xstream:xstream:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: xpp3:xpp3_min:1.1.3.4.O" level="project" />
@@ -53,8 +63,6 @@
     <orderEntry type="library" name="Maven: commons-io:commons-io:1.4" level="project" />
     <orderEntry type="module" module-name="skillstextbox-gwt" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-servlet:2.0.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:2.9.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers:2.9.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.geronimo.specs:geronimo-servlet_2.4_spec:1.1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.geronimo.specs:geronimo-jsp_2.1_spec:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: net.i2geo:i2geo-servletutils:1.0-SNAPSHOT" level="project" />
