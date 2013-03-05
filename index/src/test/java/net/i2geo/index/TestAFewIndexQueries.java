@@ -18,6 +18,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.commons.io.FileUtils;
+import org.apache.lucene.util.Version;
 
 import java.util.*;
 import java.io.File;
@@ -57,41 +58,41 @@ public class TestAFewIndexQueries extends TestCase {
         Query query = new TermQuery(new Term("ontType", OntType.COMPETENCYPROCESS.getName()));
         IndexSearcher searcher = indexHome.getSearcher();
         System.out.println("Searcher is " + searcher + " for status " + indexHome.getCurrentStatus());
-        Hits hits = searcher.search(query);
-        System.out.println("Found " + hits.length() + " documents of type competency-process");
-        assertTrue("There should be many competency processes.", hits.length()>10);
-        for(int i=0; i<hits.length(); i++) {
-            System.out.println(" - " + hits.doc(i).get("uri"));
+        TopDocs hits = searcher.search(query, 100);
+        System.out.println("Found " + hits.totalHits + " documents of type competency-process");
+        assertTrue("There should be many competency processes.", hits.totalHits>10);
+        for(int i=0; i< Math.min(hits.totalHits, 100); i++) {
+            System.out.println(" - " + indexHome.getReader().document(hits.scoreDocs[i].doc).get("uri"));
         }
     }
 
     public void testAbstractTopicsAreHere() throws Exception {
         IndexSearcher searcher = indexHome.getSearcher();
         Query query = new TermQuery(new Term("ontType",OntType.ABSTRACTTOPIC.getName()));
-        Hits hits = searcher.search(query);
-        System.out.println("Found " + hits.length() + " documents of type abstractTopic");
-        assertTrue("There should be several abstractTopics.", hits.length()>1);
-        for(int i=0; i<hits.length(); i++) {
-            System.out.println(" - " + hits.doc(i).get("uri"));
+        TopDocs hits = searcher.search(query, 100);
+        System.out.println("Found " + hits.totalHits + " documents of type abstractTopic");
+        assertTrue("There should be several abstractTopics.", hits.totalHits>1);
+        for(int i=0; i< Math.min(hits.totalHits, 100); i++) {
+            System.out.println(" - " + indexHome.getReader().document(hits.scoreDocs[i].doc));
         }
 
         // there should be several concrete topics
         query = new TermQuery(new Term("ontType",OntType.CONCRETE_TOPIC.getName()));
-        hits = searcher.search(query);
-        System.out.println("Found " + hits.length() + " documents of type concreteTopic");
-        assertTrue("There should be several concreteTopic.", hits.length()>1);
+        hits = searcher.search(query, 100);
+        System.out.println("Found " + hits.totalHits + " documents of type concreteTopic");
+        assertTrue("There should be several concreteTopic.", hits.totalHits>1);
 
         // there should be several pure abstract topics
         query = new TermQuery(new Term("ontType",OntType.PURE_ABSTRACT_TOPIC.getName()));
-        hits = searcher.search(query);
-        System.out.println("Found " + hits.length() + " documents of type pureAbstractTopic");
-        assertTrue("There should be several pureAbstractTopic.", hits.length()>1);
+        hits = searcher.search(query, 100);
+        System.out.println("Found " + hits.totalHits + " documents of type pureAbstractTopic");
+        assertTrue("There should be several pureAbstractTopic.", hits.totalHits>1);
 
         // there should be several pure abstract topics
         query = new TermQuery(new Term("ontType",OntType.ABSTRACTTOPIC_WITH_REPRESENTATIVE.getName()));
-        hits = searcher.search(query);
-        System.out.println("Found " + hits.length() + " documents of type abstractTopicWithRepresentative");
-        assertTrue("There should be several abstractTopicWithRepresentative.", hits.length()>1);
+        hits = searcher.search(query, 100);
+        System.out.println("Found " + hits.totalHits + " documents of type abstractTopicWithRepresentative");
+        assertTrue("There should be several abstractTopicWithRepresentative.", hits.totalHits>1);
     }
 
     public void testBasicQueryExpansion() throws Exception {
@@ -160,27 +161,28 @@ public class TestAFewIndexQueries extends TestCase {
         queryExpander = new SKBQueryExpander(langs);
         Query query = queryExpander.expandQuery("eerste klas VMBO",new String[]{},langs,true);
         System.out.println("Query: " + query);
-        Hits hits = searcher.search(query);
-        System.out.println("Found " + hits.length() + " with \"erste klas VMBO\" inside");
+        TopDocs hits = searcher.search(query, 10);
+        System.out.println("Found " + hits.totalHits + " with \"erste klas VMBO\" inside");
 
         Set<String> s = new HashSet<String>();
-        for(int i=0; i<hits.length(); i++) {
-            System.out.println("- match: " + hits.doc(i).get("uri"));
-            s.add(hits.doc(i).get("uri"));
+        for(int i=0; i<hits.totalHits; i++) {
+            System.out.println("- match: " + indexHome.getReader().document(hits.scoreDocs[i].doc));
+            s.add(indexHome.getReader().document(hits.scoreDocs[i].doc).get("uri"));
         }
         assertTrue("VMBO_1 should be a match",s.contains("http://www.inter2geo.eu/2008/ontology/GeoSkills#VMBO_1"));
-        System.err.println(indexHome.getSearcher().explain(query, hits.id(1)).toString());
+        System.err.println(indexHome.getSearcher().explain(query, hits.scoreDocs[1].doc).toString());
 
         query = queryExpander.expandQuery("brugklas",new String[]{},langs,true);
-        for(int i=0; i<hits.length(); i++) {
-            System.out.println("- match: " + hits.doc(i).get("uri"));
-            s.add(hits.doc(i).get("uri"));
+        for(int i=0; i<hits.totalHits; i++) {
+            Document doc = indexHome.getReader().document(hits.scoreDocs[i].doc);
+            System.out.println("- match: " + doc.get("uri"));
+            s.add(doc.get("uri"));
         }
         assertTrue("VMBO_1 should be a match brugklass",s.contains("http://www.inter2geo.eu/2008/ontology/GeoSkills#VMBO_1"));
     }
 
     public void testHighlighter() throws Exception {
-        QueryParser parser = new QueryParser("name-nl", AnalyzerPack.getAnalyzerForLanguage("nl"));
+        QueryParser parser = new QueryParser(Version.LUCENE_35, "name-nl", AnalyzerPack.getAnalyzerForLanguage("nl"));
         Query query = parser.parse("klas");
         IndexSearcher searcher = indexHome.getSearcher();
         TopDocs hits = indexHome.getSearcher().search(query, 10);
@@ -222,18 +224,19 @@ public class TestAFewIndexQueries extends TestCase {
         List<String> langs = Arrays.asList(new String[]{"en"});
         queryExpander = new SKBQueryExpander(langs);
         Query query = queryExpander.expandQuery("Strecke",new String[]{},langs,true);
-        Hits hits = searcher.search(query);
-        System.out.println("Found " + hits.length() + " with strecke inside");
-        for(Iterator<Hit> it=(Iterator<Hit>)hits.iterator(); it.hasNext(); ) {
-            Hit hit = it.next();
-            System.out.println("- " + hit.getScore() + " : " + hit.getDocument().get("uri"));
+        TopDocs hits = searcher.search(query, 100);
+        System.out.println("Found " + hits.totalHits + " with strecke inside");
+        int n = hits.totalHits;
+        for(ScoreDoc sd: hits.scoreDocs) {
+           System.out.println("- " + sd.score + " : " + indexHome.getReader().document(sd.doc).get("uri"));
         }
-        assertTrue("There should be some documents with Strecke inside.", hits.length()>=1);
+        assertTrue("There should be some documents with Strecke inside.", hits.totalHits>=1);
 
 
         Analyzer analyzer = new SKBAnalyzer(true,IndexHome.supportedLanguages);
-        for(int i=0; i<hits.length(); i++) {
-            String matchedField = indexHome.computeMatchedField(hits.id(i),hits.doc(i),analyzer,query);
+
+        for(ScoreDoc sd: hits.scoreDocs) {
+            String matchedField = indexHome.computeMatchedField(sd.doc, indexHome.getReader().document(sd.doc),analyzer,query);
             if(matchedField==null) continue;
             System.out.println("matchedField: " + matchedField);
             assertEquals("Matching field is different then preferred title: matched Strecke with English preferred.",
@@ -247,17 +250,16 @@ public class TestAFewIndexQueries extends TestCase {
         queryExpander = new SKBQueryExpander(langs);
         Query query = queryExpander.expandQuery("Bachillerato_Ciencias_y_Tecnologia_2",new String[]{},langs,true);
         System.out.println("Query: " + query);
-        Hits hits = searcher.search(query);
-        System.out.println("Found " + hits.length() + " with Bachillerato_Ciencias inside");
-        for(Iterator<Hit> it=(Iterator<Hit>)hits.iterator(); it.hasNext(); ) {
-            Hit hit = it.next();
-            System.out.println("- " + hit.getScore() + " : " + hit.getDocument().get("uri"));
+        TopDocs hits = searcher.search(query, 100);
+        System.out.println("Found " + hits.totalHits + " with Bachillerato_Ciencias inside");
+        for(ScoreDoc sd: hits.scoreDocs) {
+            System.out.println("- " + sd.score + " : " + indexHome.getReader().document(sd.doc).get("uri"));
             //System.out.println(indexHome.getSearcher().explain(query,hit.getId()));
         }
-        assertTrue("There should be some documents with Bachillerato_Ciencias_y_Tecnologia_2 inside.", hits.length()>1);
+        assertTrue("There should be some documents with Bachillerato_Ciencias_y_Tecnologia_2 inside.", hits.totalHits>1);
 
         Analyzer analyzer = new SKBAnalyzer(true,IndexHome.supportedLanguages);
-        String matchedField = indexHome.computeMatchedField(hits.id(0),hits.doc(0),analyzer,query);
+        String matchedField = indexHome.computeMatchedField(hits.scoreDocs[0].doc, indexHome.getReader().document(hits.scoreDocs[0].doc),analyzer,query);
         System.out.println("Matched Field is \"" + matchedField + "\".");
         //assertTrue("Matching field is uri-value.", matchedField.contains("Bachillerato_Ciencias_y_Tecnologia_2"));
     }
@@ -269,7 +271,7 @@ public class TestAFewIndexQueries extends TestCase {
     public void testDumbSpanQ() throws Exception {
         indexHome.startWriting();
         Document doc = new Document();
-        doc.add(new Field("xx","aa bb cc", Field.Store.YES, Field.Index.TOKENIZED));
+        doc.add(new Field("xx","aa bb cc", Field.Store.YES, Field.Index.ANALYZED));
         indexHome.getWriter().addDocument(doc);
         indexHome.stopWriting();
         SpanTermQuery[] queries = new SpanTermQuery[] {
@@ -278,8 +280,8 @@ public class TestAFewIndexQueries extends TestCase {
                 new SpanTermQuery(new Term("xx","cc")), 
         };
         Query q = new SpanNearQuery(queries,20,false);
-        Hits h = indexHome.getSearcher().search(q);
-        assertTrue("Need to find it with a correct query: aa bb cc",h.length()>0);
+        TopDocs h = indexHome.getSearcher().search(q, 100);
+        assertTrue("Need to find it with a correct query: aa bb cc",h.totalHits>0);
 
         queries = new SpanTermQuery[] {
             new SpanTermQuery(new Term("xx","aa")),
@@ -287,8 +289,8 @@ public class TestAFewIndexQueries extends TestCase {
                 new SpanTermQuery(new Term("xx","cc")),
         };
         q = new SpanNearQuery(queries,20,false);
-        h = indexHome.getSearcher().search(q);
-        assertFalse("Should not find it without a proper term.", h.length()>0);
+        h = indexHome.getSearcher().search(q, 100);
+        assertFalse("Should not find it without a proper term.", h.totalHits>0);
     }
 
 

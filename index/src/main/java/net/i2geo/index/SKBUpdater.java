@@ -111,7 +111,7 @@ public class SKBUpdater extends Thread {
         String uri=readURI(elt);
         // put URI
         GSIUtil.addKeywordField(doc,"uri",uri);
-        doc.add(new Field("name-x-all",uri, Field.Store.NO, Field.Index.UN_TOKENIZED));
+        doc.add(new Field("name-x-all",uri, Field.Store.NO, Field.Index.NOT_ANALYZED));
 
         // all forms of names
         Map<String,String> firstNames = new HashMap<String,String>();
@@ -164,7 +164,7 @@ public class SKBUpdater extends Thread {
     private void addLangField(Document doc, Element nm, String fieldNamePrefix, float boost, Map<String,String> firstNames) {
         String lang = nm.getAttributeValue("lang",Namespace.XML_NAMESPACE);
         if(lang==null) lang = "en";
-        Field field = new Field(fieldNamePrefix + lang,nm.getText(),Field.Store.YES, Field.Index.TOKENIZED);
+        Field field = new Field(fieldNamePrefix + lang,nm.getText(),Field.Store.YES, Field.Index.ANALYZED);
         if(firstNames.get(lang)==null) firstNames.put(lang,nm.getText());
         field.setBoost(boost);
         doc.add(field);

@@ -4,10 +4,8 @@ import net.i2geo.api.GeoSkillsConstants;
 import net.i2geo.api.MatchingResourcesCounter;
 import net.i2geo.index.analysis.AnalyzerPack;
 import org.apache.lucene.analysis.tokenattributes.TermAttribute;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TermDocs;
+import org.apache.lucene.document.Fieldable;
+import org.apache.lucene.index.*;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Token;
@@ -28,6 +26,8 @@ import java.util.List;
 import java.util.Arrays;
 
 import net.i2geo.index.analysis.SKBAnalyzer;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 
 /** Simple class to configure the index and use it
  */
@@ -104,6 +104,15 @@ public class IndexHome {
     private File logFile = null;
     private static String[] languages = new String[] {"en","fr","de","es","nl"};
 
+    boolean hasNoFiles() {
+        File f = new File(pathToIndex);
+        if(!f.exists()) return true;
+        String[] files = f.list();
+        if(files==null) return true;
+        if(files.length==0) return true;
+        return false;
+    }
+
     void backItUp() {
         if(pathToBackup==null)
             pathToBackup = new File(new File(pathToIndex).getParentFile(),"index-backup");
@@ -155,7 +164,7 @@ public class IndexHome {
         if(new File(pathToIndex).listFiles().length==0)
             return;
         try {
-        reader = IndexReader.open(pathToIndex);
+        reader = IndexReader.open(FSDirectory.open(new File(pathToIndex)));
             for(int i=0; i<reader.maxDoc(); i++) {
                 try {
                     reader.deleteDocument(i);
@@ -164,7 +173,7 @@ public class IndexHome {
                 }
             }
             reader.close();
-            reader = IndexReader.open(pathToIndex);
+            reader = IndexReader.open(FSDirectory.open(new File(pathToIndex)));
         } catch (Exception e) {
             log.warn("Deletion failed: ",e);
         }
@@ -177,7 +186,7 @@ public class IndexHome {
         float maxScore = 0;
         String text = null;
         try {
-            for(Field f: (List<Field>) doc.getFields()) {
+            for(Fieldable f: doc.getFields()) {
                 QueryScorer scorer = new QueryScorer(query,reader,f.name());
                 if(!f.name().startsWith("name-")) continue;
                 //System.out.println("Measuring field " + f.name() + ": " + f.stringValue());
@@ -305,7 +314,8 @@ public class IndexHome {
             currentlyWriting = true;
             //if( reader!=null) reader.close();
             //if( searcher!=null ) searcher.close(); TENTATIVE NO CLOSE READER
-            writer = new IndexWriter(pathToIndex,analyzer,create);
+            IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_35, analyzer);
+            writer = new IndexWriter(FSDirectory.open(new File(pathToIndex)),config);
             currentlyWriting = true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -318,7 +328,7 @@ public class IndexHome {
         try {
             if(!currentlyWriting) return;
             if(writer!=null) {
-                writer.flush();
+                //writer.flush();
                 writer.close();
                 writer = null;
             }
@@ -342,7 +352,7 @@ public class IndexHome {
                 if(!doIndexIfNeedBe) return;
             } else {
                 // check status
-                reader = IndexReader.open(pathToIndex);
+                reader = IndexReader.open(FSDirectory.open(new File(pathToIndex)));
                 searcher = new IndexSearcher(reader);
                 int number = reader.numDocs();
                 if(number>10) currentStatus = Status.READ_READY;
@@ -369,8 +379,9 @@ public class IndexHome {
                 catch (IOException e) {e.printStackTrace();}
             if( searcher!=null ) try {searcher.close();}
                 catch (IOException e) {e.printStackTrace();}
-            reader = IndexReader.open(pathToIndex);
-            searcher = new IndexSearcher(pathToIndex);
+            FSDirectory directory = FSDirectory.open(new File(pathToIndex));
+            reader = IndexReader.open(directory);
+            searcher = new IndexSearcher(reader);
             currentStatus = Status.READ_READY;
             if(reader.numDocs()<10) {
                 currentStatus = Status.NEEDS_INDEXING;
@@ -432,7 +443,7 @@ public class IndexHome {
                 reader.close();
                 searcher.close();
             }
-            reader = IndexReader.open(pathToIndex);
+            reader = IndexReader.open(FSDirectory.open(new File(pathToIndex)));
             searcher = new IndexSearcher(reader);
             int number = reader.numDocs();
             log.info("Updated reader and searcher ("+ number+" docs).");
@@ -512,7 +523,7 @@ public class IndexHome {
                         catch(InterruptedException ex) {ex.printStackTrace(); }
                 }
                 GSILogger.log("Closing indexHome " + this + " and writer " + writer);
-                writer.flush();
+                //writer.flush();
                 writer.close();
                 currentlyWriting = false;
             } else {

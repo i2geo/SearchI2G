@@ -1,5 +1,7 @@
 package net.i2geo.index;
 
+import net.i2geo.index.analysis.AnalyzerPack;
+import net.i2geo.index.analysis.SKBAnalyzer;
 import net.i2geo.onto.GeoSkillsAccess;
 import net.i2geo.api.OntType;
 
@@ -47,27 +49,30 @@ public class TestSampleUpdates extends TestCase {
         updaterQueue.receiveUpdate("",getClass().getResourceAsStream("/Update-addNancy.xml"));
         updaterQueue.waitTillQueueIsEmpty();
 
-        q= new TermQuery(new Term("name-en","Nancy")); // lower-case because of the analyzer!
-        numHits = indexHome.getSearcher().search(q).length();
-        assertTrue("There should be Nancy in english names.",numHits==1);
+        String nancyAnalyzed = AnalyzerPack.tokenizeString(new SKBAnalyzer(false, Arrays.asList("en")), "name-en", "Nancy").get(0);
+        q= new TermQuery(new Term("name-en", nancyAnalyzed));
+        numHits = indexHome.getSearcher().search(q, 10).totalHits;
+        assertTrue("There should be Nancy in english names.", numHits > 0);
 
         System.out.println("Adding Grenoble competency.");
         updaterQueue.receiveUpdate("",getClass().getResourceAsStream("/Update-addGrenobleCompetency.xml"));
         updaterQueue.waitTillQueueIsEmpty();
         bq=new BooleanQuery();
-        bq.add(new TermQuery(new Term("name-en","grenoble")), BooleanClause.Occur.MUST);
+        String grenobleAnalyzed = AnalyzerPack.tokenizeString(new SKBAnalyzer(false, Arrays.asList("en")), "name-en", "Grenoble").get(0);
+        bq.add(new TermQuery(new Term("name-en", grenobleAnalyzed )), BooleanClause.Occur.MUST);
         bq.add(new TermQuery(new Term("ontType", OntType.COMPETENCY.getName())), BooleanClause.Occur.MUST);
-        numHits = indexHome.getSearcher().search(bq).length();
+        numHits = indexHome.getSearcher().search(bq, 10).totalHits;
         assertTrue("There should be Grenoble in english names.",numHits==1);
 
         // add Bretagne topic 4
         System.out.println("Adding Bretagne topic.");
-        updaterQueue.receiveUpdate("",getClass().getResourceAsStream("/Update-addBretagneTopic.xml"));
+        updaterQueue.receiveUpdate("", getClass().getResourceAsStream("/Update-addBretagneTopic.xml"));
         updaterQueue.waitTillQueueIsEmpty();
         bq=new BooleanQuery();
-        bq.add(new TermQuery(new Term("name-en","bretagne")), BooleanClause.Occur.MUST);
+        String bretagneAnalyzed = AnalyzerPack.tokenizeString(new SKBAnalyzer(false, Arrays.asList("en")), "name-en", "Bretagne").get(0);
+        bq.add(new TermQuery(new Term("name-en", bretagneAnalyzed)), BooleanClause.Occur.MUST);
         bq.add(new TermQuery(new Term("ontType", OntType.TOPIC.getName())), BooleanClause.Occur.MUST);
-        numHits = indexHome.getSearcher().search(bq).length();
+        numHits = indexHome.getSearcher().search(bq, 10).totalHits;
         assertTrue("There should be bretagne in english names.",numHits==1);
 
 
@@ -86,17 +91,18 @@ public class TestSampleUpdates extends TestCase {
         updaterQueue.receiveUpdate("",getClass().getResourceAsStream("/Update-removeGrenoble.xml"));
         updaterQueue.waitTillQueueIsEmpty();
         bq=new BooleanQuery();
-        bq.add(new TermQuery(new Term("name-en","grenoble")), BooleanClause.Occur.MUST);
-        numHits = indexHome.getSearcher().search(bq).length();
+        bq.add(new TermQuery(new Term("name-en", grenobleAnalyzed)), BooleanClause.Occur.MUST);
+        numHits = indexHome.getSearcher().search(bq, 10).totalHits;
         assertTrue("Grenoble should be gone.",numHits==0);
 
         // delete Forbach and Forbach_r
         System.out.println("Removing topic Forbach.");
+        String forbachAnalyzed = AnalyzerPack.tokenizeString(new SKBAnalyzer(false, Arrays.asList("en")), "name-en", "Forbach").get(0);
         updaterQueue.receiveUpdate("",getClass().getResourceAsStream("/Update-removeForbach.xml"));
         updaterQueue.waitTillQueueIsEmpty();
         bq=new BooleanQuery();
-        bq.add(new TermQuery(new Term("name-en","forbach")), BooleanClause.Occur.MUST);
-        numHits = indexHome.getSearcher().search(bq).length();
+        bq.add(new TermQuery(new Term("name-en", forbachAnalyzed)), BooleanClause.Occur.MUST);
+        numHits = indexHome.getSearcher().search(bq,10).totalHits;
         assertTrue("Forbach should be gone.",numHits==0);
     }
 

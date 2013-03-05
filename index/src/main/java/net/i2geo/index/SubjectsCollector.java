@@ -3,6 +3,7 @@ package net.i2geo.index;
 import net.i2geo.api.GeoSkillsConstants;
 import net.i2geo.onto.GeoSkillsAccess;
 import org.apache.lucene.analysis.WhitespaceAnalyzer;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
@@ -16,6 +17,7 @@ import java.net.URL;
 
 import net.i2geo.index.rsearch.RSConstants;
 import net.i2geo.onto.SubjectsOntologyToGSNodesList;
+import org.apache.lucene.util.Version;
 
 /** Simple class that uses the Subjects ontology to assemble sets of queries
  * the enable the rendering of resources of this subject.
@@ -24,6 +26,7 @@ public class SubjectsCollector {
 
     public SubjectsCollector(URL subjectOntURL) {
         this.subjectOntURL = subjectOntURL;
+        System.out.println("Loading subjects from " + subjectOntURL);
     }
 
     private static final String 
@@ -32,7 +35,7 @@ public class SubjectsCollector {
     private URL subjectOntURL = null;
 
     private static final Field typeField =
-            new Field("type-of-record","subject-content", Field.Store.NO, Field.Index.UN_TOKENIZED);
+            new Field("type-of-record","subject-content", Field.Store.NO, Field.Index.NOT_ANALYZED);
 
 
     public void run(IndexHome index) throws Exception {
@@ -63,7 +66,7 @@ public class SubjectsCollector {
                         if(nodeS.startsWith(GeoSkillsConstants.SUBJECTS_BASE_URI)) continue;
                         GSILogger.log("- " + nodeS);
                         Document doc = new Document();
-                        doc.add(new Field(subjectURIFieldName,subjS, Field.Store.NO,  Field.Index.UN_TOKENIZED));
+                        doc.add(new Field(subjectURIFieldName,subjS, Field.Store.NO,  Field.Index.NOT_ANALYZED));
                         doc.add(new Field(nodeURIFieldName,nodeS,    Field.Store.YES, Field.Index.NO));
                         doc.add(typeField);
                         writer.addDocument(doc);
@@ -102,9 +105,29 @@ public class SubjectsCollector {
                 Query q = new TermQuery(new Term(subjectURIFieldName,subjectID));
 
                 final List<Integer> l = new ArrayList<Integer>(32);
-                index.getSearcher().search(q,new HitCollector() {
+                index.getSearcher().search(q,new Collector() {
                     int n=0;
-                    public void collect(int i, float v) {
+
+                    IndexReader reader;
+                    Scorer scorer;
+
+                    @Override
+                    public void setScorer(Scorer scorer) throws IOException {
+                       this.scorer = scorer;
+                    }
+
+                    @Override
+                    public void setNextReader(IndexReader reader, int docBase) throws IOException {
+                        this.reader = reader;
+                    }
+
+                    @Override
+                    public boolean acceptsDocsOutOfOrder() {
+                        return false;
+                    }
+
+                    @Override
+                    public void collect(int i) {
                         l.add(i);
                         n++;
                         if(n>200) return;
@@ -130,7 +153,7 @@ public class SubjectsCollector {
                 }
             }
 
-            QueryParser parser = new QueryParser("ft",new WhitespaceAnalyzer());
+            QueryParser parser = new QueryParser(Version.LUCENE_35, "ft",new WhitespaceAnalyzer(Version.LUCENE_35));
             BooleanQuery bq = new SubjectBooleanQuery();
             // at least all the topics
             bq.add(query, BooleanClause.Occur.MUST);
@@ -154,6 +177,7 @@ public class SubjectsCollector {
     private static void addQuery(IndexHome index, BooleanQuery query, int docId) throws IOException {
         Document doc = index.getReader().document(docId);
         String nodeURI = doc.get(nodeURIFieldName);
+        if(nodeURI==null) return;
 
         if(nodeURI.startsWith(GeoSkillsConstants.GEOSKILLS_BASE_URI))
             nodeURI = nodeURI.substring(GeoSkillsConstants.GEOSKILLS_BASE_URI.length());

@@ -1,5 +1,6 @@
 package net.i2geo.index.rsearch;
 
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.search.*;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.analysis.Analyzer;
@@ -18,6 +19,7 @@ import net.i2geo.index.analysis.AnalyzerPack;
 import net.i2geo.index.IndexHome;
 import net.i2geo.api.search.UserQuery;
 import net.i2geo.api.OntType;
+import org.apache.lucene.util.Version;
 
 /** Class to expand a user-side query into a server-side query.
  */
@@ -60,7 +62,7 @@ public class RSearchQueryExpander implements RSConstants {
      * word-sets to the possible alternatives. */
     public BooleanQuery peelTerms(String plainText) throws ParseException {
         if(plainText==null || plainText.length()==0) return new BooleanQuery();
-        QueryParser parser = new QueryParser("text", new WhitespaceAnalyzer());
+        QueryParser parser = new QueryParser(Version.LUCENE_35, "text", new WhitespaceAnalyzer(Version.LUCENE_35));
         Query parsed = parser.parse(plainText);
         BooleanQuery query;
         if(! (parsed instanceof BooleanQuery)) {
@@ -148,10 +150,12 @@ public class RSearchQueryExpander implements RSConstants {
                     for(int i=0, l=termsSource.length; i<l; i++) {
                         if("text".equals(termsSource[i].field())) {
                             // now run the analyzer to split in unstemmed tokens (using standard-analyzer for fancy stuffs)
-                            StandardAnalyzer an = new StandardAnalyzer();
+                            StandardAnalyzer an = new StandardAnalyzer(Version.LUCENE_35);
                             TokenStream stream = an.tokenStream("ft",new StringReader(termsSource[i].text()));
-                            for(Token tok = stream.next(); tok!=null; tok = stream.next()) {
-                                targetPQ.add(new Term("ft",tok.term()));
+                            TermAttribute att = stream.getAttribute(TermAttribute.class);
+                            stream.reset();
+                            while(stream.incrementToken()) {
+                                targetPQ.add(new Term("ft",att.term()));
                             }
                         } // TODO: would need to expand to title etc... similarly to #makeTextQuery
                     }
@@ -274,7 +278,7 @@ public class RSearchQueryExpander implements RSConstants {
             titleFld = "title";
 
         List<String> stemmedTokens = AnalyzerPack.tokenizeString(an,textFld, text),
-            unstemmedTokens = AnalyzerPack.tokenizeString(new StandardAnalyzer(),"title-x-all", text);
+            unstemmedTokens = AnalyzerPack.tokenizeString(new StandardAnalyzer(Version.LUCENE_35),"title-x-all", text);
 
         BooleanQuery bq = new BooleanQuery();
         // first with phrase match

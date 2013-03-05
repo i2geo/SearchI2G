@@ -1,5 +1,6 @@
 package net.i2geo.index;
 
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanTermQuery;
@@ -163,17 +164,14 @@ public class SKBQueryExpander {
         List<String> s = new ArrayList<String>(8);
         try {
             TokenStream ts = a.tokenStream("name-" + language, new StringReader(input));
-            Token t;
-            while(true) {
-                t = ts.next();
-                if(t==null) break;
-                if(t.termLength()==0) continue;
+            TermAttribute termAttribute = ts.getAttribute(TermAttribute.class);
+            while(ts.incrementToken()) {
+                String term  = termAttribute.term();
                 boolean hasNonZero = false;
-                for(int i=0; i<t.termLength(); i++)
-                    if(t.termBuffer()[i]!=0) { hasNonZero= true; break; }
+                for(int i=0; i< term.length(); i++)
+                    if(term.charAt(i)!=0) { hasNonZero= true; break; }
                 if(!hasNonZero) continue;
-                String text = new String(t.termBuffer(),0, t.termLength());
-                s.add(text);
+                s.add(term);
             }
         } catch (IOException e) {
             e.printStackTrace();

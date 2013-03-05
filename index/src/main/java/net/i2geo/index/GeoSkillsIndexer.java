@@ -2,7 +2,6 @@ package net.i2geo.index;
 
 
 import net.i2geo.api.GeoSkillsConstants;
-import net.i2geo.api.MatchingResourcesCounter;
 import org.semanticweb.owl.model.*;
 import org.semanticweb.owl.inference.OWLReasoner;
 import org.apache.lucene.document.Document;
@@ -29,10 +28,7 @@ import net.i2geo.onto.GeoSkillsAccess;
  * */
 public class GeoSkillsIndexer implements GeoSkillsConstants {
 
-    public static final String ontBaseURI = GEOSKILLS_BASE_URI;
     private static String logFile ="work/tmp/IndexingLog.log";
-
-
 
     private static final Logger log = Logger.getLogger(GeoSkillsIndexer.class);
     private IndexHome indexHome;
@@ -73,9 +69,11 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
             // start the index
             GSILogger.log("Starting to index.");
             //indexHome = IndexHome.getInstance("target/index");
-            indexHome.backItUp();
-            GSILogger.log("Backup process concluded.");
-            indexHome.emptyIt();
+            if(!indexHome.hasNoFiles()) {
+                indexHome.backItUp();
+                GSILogger.log("Backup process concluded.");
+                indexHome.emptyIt();
+            }
             indexHome.startWriting();
             GSILogger.log("Ready for writing.");
 
@@ -173,16 +171,16 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
                 if (access.isOfCompetencyType(node)) {
                     //PUT THE INCLUDED TOPICS
                     ancestors = access
-                            .getPropertyValue(node,access.getHasTopicProperty());
+                            .getObjectPropertyValue(node, access.getHasTopicProperty());
                     if(ancestors ==null) ancestors = new HashSet<OWLIndividual>();
                     else ancestors = new HashSet<OWLIndividual>(ancestors);
                     ancestors.add(node);
                 } else if (access.isOfLevelType(node)) {
                     ancestors = (HashSet<OWLIndividual>) new HashSet(Arrays.asList(node));
-                    Set<OWLIndividual> pathways = access.getPropertyValue(node,access.getBelongsToEducationalPathway());
+                    Set<OWLIndividual> pathways = access.getObjectPropertyValue(node, access.getBelongsToEducationalPathway());
                     if(pathways!=null) for(OWLIndividual pathway:pathways) {
                         ancestors.add(pathway);
-                        Set<OWLIndividual> regions = access.getPropertyValue(pathway,access.getInEducationalRegion());
+                        Set<OWLIndividual> regions = access.getObjectPropertyValue(pathway, access.getInEducationalRegion());
                         if(regions!=null) ancestors.addAll(regions);
                     }
                 } else // all other cases, topic included
@@ -195,6 +193,7 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
                 if(access.isOfLevelType(node)) {
                     String value = access.getStringPropertyValue(node, access.getAge());
                     if(value!=null) GSIUtil.addKeywordField(doc, "age", value);
+                    log.info("- age: " + value);
                 }
 
 
@@ -250,7 +249,7 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
                     }
 
                 }
-                doc.add(new Field("name-x-all",fragmentId,Field.Store.NO, Field.Index.UN_TOKENIZED));
+                doc.add(new Field("name-x-all",fragmentId,Field.Store.NO, Field.Index.NOT_ANALYZED));
 
                 addResourcesCountToDoc(doc,fragmentId);
                 // add document to Index
@@ -291,8 +290,8 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
             } catch(Exception ex){ex.printStackTrace();}
             // insert modification date special document
             Document doc = new Document();
-            doc.add(new Field("isModifDate","yes", Field.Store.NO, Field.Index.UN_TOKENIZED));
-            doc.add(new Field("modificationDate","modified on " + new Date(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+            doc.add(new Field("isModifDate","yes", Field.Store.NO, Field.Index.NOT_ANALYZED));
+            doc.add(new Field("modificationDate","modified on " + new Date(), Field.Store.YES, Field.Index.NOT_ANALYZED));
             indexHome.getWriter().addDocument(doc);
 
             // close and flush all writes
@@ -327,7 +326,7 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
         String uri = cls.getURI().toString();
         String fragmentId = GSIUtil.uriToName(uri);
         doc.add(new Field("uri",uri,
-                Field.Store.YES,Field.Index.UN_TOKENIZED));
+                Field.Store.YES,Field.Index.NOT_ANALYZED));
         GSILogger.log("- "+ ontType + ":" + fragmentId + " (");
 
         SkillItem theItem = new SkillItem(null,
@@ -335,7 +334,7 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
 
         // compute types
         doc.add(new Field("ontType",ontType.getName(),
-                Field.Store.YES,Field.Index.UN_TOKENIZED));
+                Field.Store.YES,Field.Index.NOT_ANALYZED));
         theItem.setType(ontType.getName());
         theItem.setUrlForNavigator(GSIUtil.urlForMoreInfo(uri,ontType));
 
@@ -365,17 +364,17 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
                     if(tit==null) tit = name;
                     GSILogger.log("  - " + lang + " : " + 5.0 + ":" + name);
                     Field field = new Field("name-" + lang,name,
-                            Field.Store.YES,Field.Index.TOKENIZED);
+                            Field.Store.YES,Field.Index.ANALYZED);
                     field.setBoost(boost);
                     doc.add(field);
                     // universal language as well
                     field = new Field("name-x-all",name,
-                            Field.Store.NO,Field.Index.TOKENIZED);
+                            Field.Store.NO,Field.Index.ANALYZED);
                     field.setBoost(boost);
                     doc.add(field);
                 }
             }
-            doc.add(new Field("name-x-all",fragmentId, Field.Store.YES, Field.Index.UN_TOKENIZED));
+            doc.add(new Field("name-x-all",fragmentId, Field.Store.YES, Field.Index.NOT_ANALYZED));
         }
 
         addResourcesCountToDoc(doc,fragmentId);
@@ -405,7 +404,7 @@ public class GeoSkillsIndexer implements GeoSkillsConstants {
         int count = indexHome.getMatchingResourcesCounter().countMatchingResources(fragmentId);
         GSIUtil.addSimplyStoredField(doc,"numResources",""+count);
         if(count>0)
-            doc.add(new Field("hasResources","true", Field.Store.NO, Field.Index.UN_TOKENIZED));
+            doc.add(new Field("hasResources","true", Field.Store.NO, Field.Index.NOT_ANALYZED));
     }
 
 

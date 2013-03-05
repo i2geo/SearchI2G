@@ -1,5 +1,6 @@
 package net.i2geo.index;
 
+import net.i2geo.api.GeoSkillsConstants;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 //import org.apache.solr.common.SolrInputDocument;
@@ -13,8 +14,6 @@ import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
 
 import net.i2geo.api.OntType;
-import net.i2geo.api.SKBi18n;
-import net.i2geo.api.SKBServiceContext;
 
 /**
  */
@@ -30,7 +29,7 @@ public class GSIUtil {
 
     static void addKeywordField(Document doc, String fieldName, String fieldValue) {
         doc.add(new Field(fieldName,fieldValue,
-                Field.Store.YES,Field.Index.UN_TOKENIZED));
+                Field.Store.YES,Field.Index.NOT_ANALYZED));
     }
 
     static void addSimplyStoredField(Document doc, String fieldName, String fieldValue) {
@@ -53,12 +52,12 @@ public class GSIUtil {
                         firstNames.put(language,n);
                     GSILogger.log("  - " + language + " : " + boost + ":" + n);
                     Field field = new Field(fieldNamePrefix + "-" + language,n,
-                            store?Field.Store.YES:Field.Store.YES,Field.Index.TOKENIZED);
+                            store?Field.Store.YES:Field.Store.YES,Field.Index.ANALYZED);
                     field.setBoost(boost);
                     doc.add(field);
                     // universal language as well
                     field = new Field(fieldNamePrefix + "-x-all",n,
-                            store?Field.Store.YES:Field.Store.NO,Field.Index.TOKENIZED);
+                            store?Field.Store.YES:Field.Store.NO,Field.Index.ANALYZED);
                     field.setBoost(boost);
                     doc.add(field);
                 }
@@ -67,7 +66,7 @@ public class GSIUtil {
                 GSILogger.log(e.toString());
             }
         }
-        doc.add(new Field("name-x-all",fragmentId, Field.Store.NO, Field.Index.UN_TOKENIZED));
+        doc.add(new Field("name-x-all",fragmentId, Field.Store.NO, Field.Index.NOT_ANALYZED));
         return firstNames;
     }
 
@@ -127,23 +126,23 @@ public class GSIUtil {
     static  void addFieldForType(Document doc, String typeName) {
         GSILogger.log("ontType: " + typeName);
         doc.add(new Field("ontType",typeName,
-            Field.Store.YES,Field.Index.UN_TOKENIZED));
+            Field.Store.YES,Field.Index.NOT_ANALYZED));
     }
     /* static  void addFieldForAncestorTopic(SolrInputDocument doc, String typeName) {
         GSILogger.log("ancestorTopic: " + typeName);
-        doc.addField("ancestorTopic",typeName);//,Field.Store.YES,Field.Index.UN_TOKENIZED));
+        doc.addField("ancestorTopic",typeName);//,Field.Store.YES,Field.Index.NOT_ANALYZED));
     }
     static void addFieldForType(SolrInputDocument doc, OntType type) {
         addFieldForType(doc,type.getName());
     }
     static  void addFieldForType(SolrInputDocument doc, String typeName) {
         GSILogger.log("ontType: " + typeName);
-        doc.addField("ontType",typeName);//,Field.Store.YES,Field.Index.UN_TOKENIZED));
+        doc.addField("ontType",typeName);//,Field.Store.YES,Field.Index.NOT_ANALYZED));
     } */
     static  void addFieldForAncestorTopic(Document doc, String ancestorTypeName) {
         GSILogger.log("ancestorTopic: " + ancestorTypeName);
         doc.add(new Field("ancestorTopic",ancestorTypeName,
-            Field.Store.YES,Field.Index.UN_TOKENIZED));
+            Field.Store.YES,Field.Index.NOT_ANALYZED));
     }
 
 
@@ -169,7 +168,7 @@ public class GSIUtil {
 
     public static String makeItGSURI(String inputQuery) {
         if(inputQuery.startsWith("http")) return inputQuery;
-        if(inputQuery.startsWith("#")) return GeoSkillsIndexer.ontBaseURI + inputQuery;
-        else return GeoSkillsIndexer.ontBaseURI + "#" + inputQuery;
+        if(inputQuery.startsWith("#")) return GeoSkillsConstants.ontBaseURI + inputQuery;
+        else return GeoSkillsConstants.ontBaseURI + "#" + inputQuery;
     }
 }

@@ -12,6 +12,10 @@ import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.snowball.SnowballAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 
 import java.io.Reader;
 import java.io.IOException;
@@ -23,7 +27,7 @@ import java.util.List;
 
 /** Configurable analyzer for indexing and queries.
  */
-public class SKBAnalyzer extends Analyzer {
+public final class SKBAnalyzer extends Analyzer {
 
     public SKBAnalyzer(boolean withStartAndEndMarkers, List<String> supportedLangs) {
         this.withStartAndEndMarkers = false;//withStartAndEndMarkers;
@@ -42,26 +46,48 @@ public class SKBAnalyzer extends Analyzer {
     }
 
     private class StartAndEndWrapper extends TokenFilter {
+
         protected StartAndEndWrapper(TokenStream input) {
             super(input);
+            this.tokenStream = input;
+            this.termAttribute = input.getAttribute(TermAttribute.class);
+            this.positionIncrementAttribute = input.getAttribute(PositionIncrementAttribute.class);
+            this.offsetAttribute = input.getAttribute((OffsetAttribute.class));
         }
         boolean hasStarted = false, hasFinished = false;
+        private TokenStream tokenStream;
+        TermAttribute termAttribute;
+        OffsetAttribute offsetAttribute;
+        PositionIncrementAttribute positionIncrementAttribute;
+
+        private void setToken(Token token) {
+            // is this breaking the underlying TokenStream?
+            termAttribute.setTermBuffer(token.term());
+            offsetAttribute.setOffset(token.startOffset(), token.endOffset());
+            positionIncrementAttribute.setPositionIncrement(token.getPositionIncrement());
+        }
 
         @Override
-        public Token next(Token last) throws IOException {
+        public boolean incrementToken() throws IOException {
             if(!hasStarted) {
+                // set start token
                 hasStarted = true;
-                return START_MARKER_TOKEN;
-            }
-            Token n = input.next(last);
-            if(n==null) {
-                if(!hasFinished) {
-                    hasFinished = true;
-                    return END_MARKER_TOKEN;
+                setToken(START_MARKER_TOKEN);
+                return true;
+            } else if(hasFinished) {
+                return false;
+            } else {
+                hasFinished = tokenStream.incrementToken();
+                if(hasFinished) {
+                    setToken(END_MARKER_TOKEN);
+                    return true;
+                    // TODO: change offsets?
                 } else {
-                    return null;
+                    // input tokenStream is working
+                    // in principle all values are set (oddly enough)
+                    return true;
                 }
-            } else return n;
+            }
         }
     }
 
@@ -71,8 +97,8 @@ public class SKBAnalyzer extends Analyzer {
     public static void main(String[] args) throws Throwable {
         SKBAnalyzer a = new SKBAnalyzer(Boolean.parseBoolean(args[2]), Arrays.asList(args[1].split(",")));
         TokenStream t =a.tokenStream(args[0], new StringReader(args[3]));
-        Token tok;
-        while((tok=t.next())!=null) System.out.println("-- " +tok);
+        TermAttribute termAttribute = t.getAttribute(TermAttribute.class);
+        while(t.incrementToken()) System.out.println("-- " + termAttribute.term());
     }
 
 }

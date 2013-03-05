@@ -28,7 +28,6 @@ import net.i2geo.api.search.UserQuery;
 import net.i2geo.api.search.QueryExpander;
 import net.i2geo.api.search.QueryExpansionResult;
 import net.i2geo.index.IndexHome;
-import net.i2geo.index.GeoSkillsIndexer;
 import net.i2geo.index.SKBQueryExpander;
 import net.i2geo.index.rsearch.RSearchQueryExpander;
 import net.i2geo.index.rsearch.RSearchContext;
@@ -164,7 +163,7 @@ public class TokenSearchServerImpl
                 if(!text.contains("#") && !text.startsWith("http://"))
                     text = "#"+text;
                 if(!text.startsWith("http://"))
-                    text = GeoSkillsIndexer.ontBaseURI + text;
+                    text = GeoSkillsConstants.ontBaseURI + text;
                 urisRequested.add(text);
             }
 
@@ -249,9 +248,9 @@ public class TokenSearchServerImpl
             if(uri==null) return null;
             if(!uri.startsWith("http://")) {
                 if(uri.startsWith("#"))
-                    uri = GeoSkillsIndexer.ontBaseURI + uri;
+                    uri = GeoSkillsConstants.ontBaseURI + uri;
                 else
-                    uri = GeoSkillsIndexer.ontBaseURI + "#" + uri;
+                    uri = GeoSkillsConstants.ontBaseURI + "#" + uri;
             }
             Query query = new TermQuery(new Term("uri",uri));
             TopDocs topdocs = indexHome.getSearcher().search(query,20);
@@ -261,7 +260,7 @@ public class TokenSearchServerImpl
                 if(!uri.contains("#") && !uri.startsWith("http://"))
                     uri= "#"+uri;
                 if(!uri.startsWith("http://"))
-                    uri= GeoSkillsIndexer.ontBaseURI + uri;
+                    uri= GeoSkillsConstants.ontBaseURI + uri;
                 if(uri.endsWith("_r")) {
                     // try without _r
                     q = new TermQuery(new Term("uri",uri.substring(0,uri.length()-2)));

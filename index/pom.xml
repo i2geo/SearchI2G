@@ -21,13 +21,13 @@
         <!--  <scope>test</scope>--></dependency>
 
     <dependency><groupId>org.apache.lucene</groupId><artifactId>lucene-core</artifactId>
-      <version>2.9.3</version><!-- <scope>test</scope>--></dependency>
+      <version>3.6.2</version><!-- <scope>test</scope>--></dependency>
       <dependency><groupId>org.apache.lucene</groupId><artifactId>lucene-highlighter</artifactId>
-        <version>2.9.3</version><!-- <scope>test</scope>--></dependency>
+        <version>3.6.2</version><!-- <scope>test</scope>--></dependency>
     <dependency><groupId>org.apache.lucene</groupId><artifactId>lucene-analyzers</artifactId>
-      <version>2.9.3</version><!-- <scope>test</scope> --></dependency>
-      <dependency><groupId>org.apache.lucene</groupId><artifactId>lucene-snowball</artifactId>
-        <version>2.9.3</version><!-- <scope>test</scope>--></dependency>
+      <version>3.6.2</version><!-- <scope>test</scope> --></dependency>
+      <dependency><groupId>org.apache.lucene</groupId><artifactId>lucene-analyzers</artifactId>
+        <version>3.6.2</version><!-- <scope>test</scope>--></dependency>
 
 
     <dependency><groupId>org.apache.commons</groupId><artifactId>commons-io</artifactId>
@@ -37,10 +37,12 @@
       <version>1.1.1</version></dependency>
     <dependency><groupId>log4j</groupId><artifactId>log4j</artifactId>
       <version>1.2.8</version></dependency>
-    <dependency><groupId>jdom</groupId><artifactId>jdom</artifactId>
+    <dependency><groupId>org.jdom</groupId><artifactId>jdom</artifactId>
       <version>1.1</version></dependency>
+    <dependency><groupId>org.jdom</groupId><artifactId>jdom2</artifactId>
+      <version>2.0.4</version></dependency>
 
-    <dependency><groupId>com.thoughtworks.xstream</groupId><artifactId>xstream</artifactId>
+      <dependency><groupId>com.thoughtworks.xstream</groupId><artifactId>xstream</artifactId>
       <version>1.2.2</version></dependency>
     <dependency><groupId>jettison</groupId><artifactId>jettison</artifactId>
       <version>1.0-RC1</version></dependency>
@@ -54,9 +56,11 @@
 
       <dependency>
         <groupId>com.google.gwt</groupId><artifactId>gwt-servlet</artifactId>
-          <version>${gwtVersion}</version><scope>test</scope>
+          <version>${gwtVersion}</version>
       </dependency>
 
+      <dependency><groupId>semanticvectors</groupId><artifactId>semanticvectors</artifactId>
+          <version>3.8</version></dependency>
 
   </dependencies>
 
@@ -99,6 +103,21 @@
           </execution>
         </executions>
       </plugin>-->
+        <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+                <archive><manifest><mainClass>net.i2geo.index.GeoSkillsIndexer</mainClass></manifest></archive>
+                <descriptorRefs><descriptorRef>jar-with-dependencies</descriptorRef></descriptorRefs>
+                <finalName>indexer</finalName>
+                <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+            <executions><execution><id>make-assembly</id>
+                <phase>package</phase>
+                <goals><goal>single</goal></goals>
+            </execution></executions>
+        </plugin>
+
     </plugins>
       
   </build>
