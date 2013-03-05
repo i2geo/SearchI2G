@@ -25,8 +25,10 @@ public class SubjectsOntologyToGSNodesList implements GeoSkillsConstants {
     private static boolean DEBUG = LOG.isDebugEnabled();
 
     public SubjectsOntologyToGSNodesList(URL geoskillsOntologyURL, URL subjectsOntologyURL) throws Exception {
+        System.out.println("Loading GeoSkills from " + geoskillsOntologyURL);
         manager = OWLManager.createOWLOntologyManager();
         manager.loadOntologyFromPhysicalURI(geoskillsOntologyURL.toURI());
+        System.out.println("Loading Subjects from " + subjectsOntologyURL);
         manager.loadOntologyFromPhysicalURI(subjectsOntologyURL.toURI());
         subjectsOntology = manager.getOntology(SubjectsOntoURI);
         String reasonerClassName = "org.mindswap.pellet.owlapi.Reasoner";

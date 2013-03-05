@@ -1,0 +1,170 @@
+<definitions>
+    <!-- the definitions here are extracted from the firt section of wikipedia entries in the respective language -->
+    <term id="Peregrine_falcon">
+        <definition xml:lang="en">
+            The Peregrine Falcon (Falco peregrinus), also known as the Peregrine,[2] and historically as the Duck Hawk in North America,[3] is a widespread bird of prey in the family Falconidae. A large, crow-sized falcon, it has a blue-grey back, barred white underparts, and a black head and "moustache". As is typical of bird-eating raptors, Peregrine Falcons are sexually dimorphic, females being considerably larger than males.[4][5] The Peregrine is renowned for its speed, reaching over 322 km/h (200 mph) during its characteristic hunting stoop (high speed dive),[6] making it the fastest member of the animal kingdom.[7][8] According to a National Geographic program, the highest measured speed of a Peregrine Falcon is 242 mph (389 km/h).[9][10]
+            The Peregrine's breeding range includes land regions from the Arctic tundra to the tropics. It can be found nearly everywhere on Earth, except extreme polar regions, very high mountains, and most tropical rainforests; the only major ice-free landmass from which it is entirely absent is New Zealand. This makes it the world's most widespread raptor[11] and one of the most widely found bird species. In fact, the only land-based bird species found over a larger geographic area is not always naturally occurring but one widely introduced by humans, the Rock Pigeon, which in turn now supports many Peregrine populations as a prey species. Both the English and scientific names of this species mean "wandering falcon", referring to the migratory habits of many northern populations. Experts recognize 17 to 19 subspecies which vary in appearance and range; there is disagreement over whether the distinctive Barbary Falcon is represented by two subspecies of Falco peregrinus, or is a separate species, F. pelegrinoides.
+            While its diet consists almost exclusively of medium-sized birds, the Peregrine will occasionally hunt small mammals, small reptiles, or even insects. Reaching sexual maturity at one year, it mates for life and nests in a scrape, normally on cliff edges or, in recent times, on tall human-made structures.[12] The Peregrine Falcon became an endangered species in many areas because of pesticides, especially DDT. Since the ban on DDT from the early 1970s, populations have recovered, supported by large-scale protection of nesting places and releases to the wild.[13]
+        </definition>
+        <definition xml:lang="fr">
+            Le Faucon pèlerin (Falco peregrinus) est une espèce de rapace robuste, de taille moyenne, réputé pour être l’oiseau le plus rapide du monde en piqué. Ses proies sont presque exclusivement des oiseaux, mais certains individus peuvent également s'attaquer à de petits animaux terrestres. Ce faucon ne construit pas de nid, et niche essentiellement sur des falaises, plus rarement sur des arbres, des structures ou des bâtiments élevés. Ses populations ont très fortement diminué après la Seconde Guerre mondiale, en particulier du fait de la pollution au DDT. Depuis sa protection dans les années 1970, ses populations sont à nouveau en expansion.
+            L'aire de répartition de l'espèce s'étend sur 10 000 000 km2. Elle compte une vingtaine de sous-espèces et est l'un des oiseaux dont l'aire de dispersion est la plus importante au monde, l'espèce est en effet présente sur tous les continents sauf l'Antarctique. Il a souvent été apprivoisé dans le cadre de la fauconnerie, tout en ayant été – comme les autres falconidés – considéré en Europe comme nuisible lorsqu'à l'état sauvage1.
+        </definition>
+        <definition xml:lang="de">
+            Der Wanderfalke (Falco peregrinus) ist ein Greifvogel aus der Familie der Falken (Falconidae). Er zählt zu den größten Vertretern der Familie. Der Wanderfalke ist die am weitesten verbreitete Vogelart der Welt; er besiedelt bis auf Antarktika alle Kontinente. Wanderfalken sind primär Felsbrüter und bewohnen in erster Linie gebirgige Landschaften aller Art sowie Steilküsten. In den letzten Jahrzehnten hat die Art in vielen Teilen des Verbreitungsgebietes auch Städte und Industrieanlagen mit ihren zahlreichen „Kunstfelsen“ besiedelt.
+            Wanderfalken sind hochspezialisierte Vogeljäger; die Nahrung besteht fast ausschließlich aus kleinen bis mittelgroßen Vögeln, die im freien Luftraum erjagt werden. Die spektakulären Sturzflüge aus großen Höhen bei der Jagd und die dabei erreichten hohen Geschwindigkeiten, der durch das Insektizid DDT verursachte Bestandseinbruch und die anschließende Bestandserholung mit der Ansiedlung in vielen Städten haben den Wanderfalken zu einer der weltweit bekanntesten Greifvogelarten gemacht.
+        </definition>
+    </term>
+
+
+    <term id="">
+        <definition xml:lang="en">
+            Duck is the common name for a large number of species in the Anatidae family of birds, which also includes swans and geese. The ducks are divided among several subfamilies in the Anatidae family; they do not represent a monophyletic group (the group of all descendants of a single common ancestral species) but a form taxon, since swans and geese are not considered ducks. Ducks are mostly aquatic birds, mostly smaller than the swans and geese, and may be found in both fresh water and sea water.
+            Ducks are sometimes confused with several types of unrelated water birds with similar forms, such as loons or divers, grebes, gallinules, and coots.
+        </definition>
+        <definition xml:lang="de"><!-- apparently not linked to other languages!  Translates to English to Anatidae -->
+            Die Familie der Entenvögel (Anatidae) ist die artenreichste aus der Ordnung der Gänsevögel (Anseriformes). Sie umfasst 47 Gattungen und etwa 150 Arten. Zu dieser Gruppe gehören so bekannte Typen von Wasservögeln wie die Enten, Gänse und Schwäne. Vielleicht abgesehen von den Hühnervögeln hat keine andere Vogelgruppe so zahlreiche Wechselbeziehungen zum Menschen: Allein fünf Arten wurden domestiziert, Entenvögel werden wegen ihres Fleisches, ihrer Eier und ihrer Federn gejagt und gehalten, und in vielerlei Form haben sie Eingang in Märchen, Sagen und Comics erhalten.
+        </definition>
+        <definition xml:lang="fr">
+            « Canard » est un terme générique qui désigne des oiseaux aquatiques, aux pattes palmées et au bec caractéristique, domestiqués ou non. Ils font pour plupart partie de la famille des anatidés. Ce mot désigne des espèces qui ne portent pas nécessairement un nom vernaculaire contenant le terme canard. En effet, certaines espèces qualifiées de canards sont désignées par des noms vernaculaires comportant des termes comme dendrocygnes, sarcelles, tadornes ou brassemers. Le canard le plus connu du grand public est le Canard colvert dont sont issus de nombreux canards domestiques.
+            On peut distinguer plusieurs types de canards suivant leur mode de vie :
+            les canards de surface (genres Anas, Aix, etc.) ;
+            les canards plongeurs (genres Aythya, Netta, etc.) ;
+            les canards piscivores de la sous-famille des merginés.
+            Certains d'entre eux sont des canards marins.
+        </definition>
+    </term>
+
+
+    <term id="Cheetah">
+        <definition xml:lang="en">
+            The cheetah (Acinonyx jubatus) is a large feline (family Felidae, subfamily Felinae) inhabiting most of Africa and parts of the Middle East. It is the only extant member of the genus Acinonyx. The cheetah can run faster than any other land animal— as fast as 112 to 120 km/h (70 to 75 mph)[3][4][5][6][7][8] in short bursts covering distances up to 500 m (1,600 ft), and has the ability to accelerate from 0 to over 100 km/h (62 mph) in five seconds.[9]
+            This cat is also notable for modifications in the species' paws. It is one of the few felids with semi-retractable claws.[10]
+        </definition>
+        <definition xml:lang="de">
+            Der Gepard [ˈɡeːpart/ɡeˈpart] (Acinonyx jubatus) ist eine hauptsächlich in Afrika verbreitete Katze. Die in ihrem Jagdverhalten hoch spezialisierten Geparden gelten als schnellste Landtiere der Welt. Gestalt und Körperbau der Art unterscheiden sich deutlich von anderen Katzen, außerdem weist das Jagdverhalten zahlreiche eher für Caniden typische Merkmale auf. Daher wird der Art traditionell eine Sonderstellung unter den Katzen eingeräumt. Genetische Untersuchungen zeigten jedoch, dass diese entwicklungsgeschichtlich nicht gerechtfertigt ist; die nächsten Verwandten des Gepards sind amerikanische Katzen (Pumas).
+            Der Gattungsname Acinonyx kommt aus dem Altgriechischen und besteht aus den Wortteilen ακίνητος akínetos „unbeweglich“ sowie ὄνυξ ónyx „Kralle“.
+        </definition>
+        <definition xml:lang="fr">
+            Le guépard (Acinonyx jubatus) est un félin vivant en Afrique et dans quelques rares régions du Moyen-Orient. Taillé pour la course, le guépard a une allure svelte et fine, avec de longues pattes fines aux griffes non rétractiles, et une face au museau court marquée par deux traces noires partant des yeux. Entièrement tachetés de noir sur un fond fauve à beige très clair, ses petits arborent également une courte crinière.
+            Classé vulnérable par l'Union internationale pour la conservation de la nature, de nombreuses tentatives de protection sont en cours, incluant des procédés de clonage. Il est considéré comme l'animal terrestre le plus rapide au monde, avec une vitesse pouvant atteindre 110 km/h.
+        </definition>
+    </term>
+
+
+
+    <term id="Lion">
+        <definition xml:lang="en">
+            The lion (Panthera leo) is one of the four big cats in the genus Panthera and a member of the family Felidae. With some males exceeding 250 kg (550 lb) in weight,[4] it is the second-largest living cat after the tiger. Wild lions currently exist in sub-Saharan Africa and in Asia (where an endangered remnant population resides in Gir Forest National Park in India) while other types of lions have disappeared from North Africa and Southwest Asia in historic times. Until the late Pleistocene, about 10,000 years ago, the lion was the most widespread large land mammal after humans. They were found in most of Africa, across Eurasia from western Europe to India, and in the Americas from the Yukon to Peru.[5] The lion is a vulnerable species, having seen a major population decline of 30–50% over the past two decades[date missing] in its African range.[2] Lion populations are untenable outside designated reserves and national parks. Although the cause of the decline is not fully understood, habitat loss and conflicts with humans are currently the greatest causes of concern. Within Africa, the West African lion population is particularly endangered.
+            Lions live for 10–14 years in the wild, while in captivity they can live longer than 20 years. In the wild, males seldom live longer than 10 years, as injuries sustained from continual fighting with rival males greatly reduce their longevity.[6] They typically inhabit savanna and grassland, although they may take to bush and forest. Lions are unusually social compared to other cats. A pride of lions consists of related females and offspring and a small number of adult males. Groups of female lions typically hunt together, preying mostly on large ungulates. Lions are apex and keystone predators, although they scavenge as opportunity allows. While lions do not typically hunt humans, some have been known to do so. Sleeping mainly during the day, lions are primarily nocturnal, although bordering on crepuscular[7][8] in nature.
+            Highly distinctive, the male lion is easily recognised by its mane, and its face is one of the most widely recognised animal symbols in human culture. Depictions have existed from the Upper Paleolithic period, with carvings and paintings from the Lascaux and Chauvet Caves, through virtually all ancient and medieval cultures where they once occurred. It has been extensively depicted in sculptures, in paintings, on national flags, and in contemporary films and literature. Lions have been kept in menageries since the time of the Roman Empire, and have been a key species sought for exhibition in zoos over the world since the late 18th century. Zoos are cooperating worldwide in breeding programs for the endangered Asiatic subspecies.
+        </definition>
+        <definition xml:lang="de">
+            Der Löwe (Panthera leo, veraltet/poetisch Leu) ist eine Art der Katzen. Er lebt im Unterschied zu anderen Katzen in Rudeln, ist durch die Mähne des Männchens gekennzeichnet und ist heute in Afrika sowie im indischen Bundesstaat Gujarat beheimatet.
+        </definition>
+        <definition xml:lang="fr">
+            Le lion (Panthera leo) est un mammifère carnivore de la famille des félidés du genre Panthera (félins). Il est surnommé « le roi des animaux » car sa crinière lui donne un aspect semblable au Soleil, qui apparaît comme « le roi des astres ». Le mâle adulte, aisément reconnaissable à son importante crinière, accuse une masse moyenne qui peut être variable selon les zones géographiques où il se trouve, allant de 174,9 kg pour les lions de Kruger à 217 kg pour les lions de Transvaal. Certains spécimens très rares peuvent atteindre voire exceptionnellement dépasser 250 kg. Un mâle adulte se nourrit de 7 kg de viande chaque jour contre 5 kg chez la femelle. Le lion est un animal grégaire, c'est-à-dire qu'il vit en larges groupes familiaux, contrairement aux autres félins. Son espérance de vie, à l'état sauvage, est comprise entre 7 et 12 ans pour le mâle et 14 à 20 ans pour la femelle, mais il dépasse fréquemment les 30 ans en captivité.
+            La femelle du lion est la lionne, c'est elle qui va chasser, son petit est le lionceau. Le lion mâle ne chasse pas mais il est chargé de combattre les intrusions sur le territoire et les menaces contre la troupe. Le lion rugit. Il n'existe actuellement à l'état sauvage plus que 16 500 à 30 000 spécimens dans la savane africaine, répartis en une dizaine de sous-espèces1 et environ 300 au parc national de Gir Forest au nord-ouest de l'Inde.
+        </definition>
+    </term>
+
+    <term id="Girafe">
+        <definition xml:lang="en">
+            The giraffe (Giraffa camelopardalis) is an African even-toed ungulate mammal, the tallest living terrestrial animal and the largest ruminant. Its species name refers to its camel-like appearance and the patches of color on its fur. Its chief distinguishing characteristics are its extremely long neck and legs, its horn-like ossicones and its distinctive coat patterns. It stands 5–6 m (16–20 ft) tall and has an average weight of 1,600 kg (3,500 lb) for males and 830 kg (1,800 lb) for females. It is classified under the family Giraffidae, along with its closest extant relative, the okapi. The nine subspecies are distinguished by their coat patterns.
+            The giraffe's scattered range extends from Chad in the north to South Africa in the south, and from Niger in the west to Somalia in the east. Giraffes usually inhabit savannas, grasslands, and open woodlands. Their primary food source is acacia leaves, which they browse at heights most other herbivores cannot reach. Giraffes are preyed on by lions, and calves are also targeted by leopards, spotted hyenas and wild dogs. Adult giraffes do not have strong social bonds, though they do gather in loose aggregations if they happen to be moving in the same general direction. Males establish social hierarchies through "necking", which are combat bouts where the neck is used as a weapon. Dominant males gain mating access to females, which bear the sole responsibility for raising the young.
+            The giraffe has intrigued various cultures, both ancient and modern, for its peculiar appearance, and has often been featured in paintings, books and cartoons. It is classified by the International Union for Conservation of Nature as Least Concern, but has been extirpated from many parts of its former range, and some subspecies are classified as Endangered. Nevertheless, giraffes are still found in numerous national parks and game reserves.
+        </definition>
+        <definition xml:lang="de">
+            Die Giraffe (Giraffa camelopardalis) ist ein Säugetier aus der Ordnung der Paarhufer. Sie ist das höchste landlebende Tier der Welt. Zur Unterscheidung vom verwandten Okapi (sogenannte „Waldgiraffe“) wird sie auch als Steppengiraffe bezeichnet.
+        </definition>
+        <definition xml:lang="fr">
+            La girafe (Giraffa camelopardalis) est une espèce de mammifères ongulés artiodactyles et ruminants, originaire des savanes africaines et répandue du Tchad jusqu'en Afrique du Sud. Le mot girafe vient de l'arabe زرافة, zarāfah. Après des millions d'années d'évolution, la girafe a acquis une anatomie unique avec un cou particulièrement allongé qui lui permet notamment de brouter la cime des arbres.
+        </definition>
+    </term>
+
+
+    <term id="Crocodilia">
+        <definition xml:lang="en">
+            Crocodilia (or Crocodylia) is an order of large reptiles that appeared 83.5 million years ago in the Late Cretaceous period (Campanian stage). They are the closest living relatives of birds, as the two groups are the only known survivors of the Archosauria.[1] Members of the crocodilian total group, the clade Crurotarsi, appeared about 220 million years ago in the Triassic period, and exhibited a wide diversity of forms during the Mesozoic era.
+            The order Crocodilia includes the true crocodiles (family Crocodylidae), the alligators and caimans (family Alligatoridae) and the gharials (family Gavialidae), as well as the Crocodylomorpha, which include prehistoric crocodile relatives and ancestors. Although the term 'crocodiles' is sometimes used to refer to all of these, a less ambiguous vernacular term for this group is 'crocodilians'.
+        </definition>
+        <definition xml:lang="de">
+            Die Ordnung der Krokodile (Crocodilia; altgr. κροκόδιλος, „Krokodil“) umfasst zusammen mit den Vögeln die letzten Überlebenden der Archosaurier, zu denen außer diesen noch die ausgestorbenen Pterosaurier und Dinosaurier gehörten. Von den heute noch existierenden Tiergruppen stellen die Krokodile also die Schwestergruppe der Vögel dar. Diese Verwandtschaft lässt sich aufgrund einer ganzen Reihe von Merkmalen, vor allem der Ausbildung des Herz-Kreislauf-Systems, begründen. Aufgrund eines Knochenpanzers unter der Haut werden sie auch als Panzerechsen bezeichnet.
+            Es werden etwa 25 heute lebende Arten der Krokodile unterschieden, die in drei Familien eingeteilt werden.[1] Sie leben in Flüssen und Seen der Tropen und Subtropen, nur das Salzwasserkrokodil kann auch im Meer leben und kommt häufig an den Küsten verschiedener Inseln vor. Als Anpassung an ihren Lebensraum können die Tiere sehr gut schwimmen und tarnen sich im Wasser, indem sie bis auf Augen und Nasenlöcher vollständig untertauchen.
+        </definition>
+        <definition xml:lang="fr">
+            Les Crocodilia, ou crocodiliens, sont un ordre de reptiles.
+            Il regroupe tous les Crurotarsi actuels en trois familles : les Crocodylidae (crocodiles et faux-gavials), les Alligatoridae (alligators et caïmans) et les Gavialidae (gavials). Ces animaux sont bien connus du public en raison de la crainte qu'ils inspirent, certains spécimens vivants pouvant atteindre jusqu'à 7 mètres de long et presque une tonne.
+            Les conceptions modernes situent l'origine des crocodiliens parmi un sous-groupe d'archosauriens terrestres du Trias ancien, il y a environ 240 millions d'années. De ce fait, ils sont considérés aujourd'hui comme les plus proches parents des oiseaux, lesquels descendent des dinosaures, autres archosauriens. Ces animaux possèdent certaines caractéristiques, tant au niveau du système de circulation sanguine qu'au niveau digestif, qui ont beaucoup surpris les premiers zoologistes à les examiner du fait de leur sophistication.
+        </definition>
+    </term>
+
+
+    <term id="Rhinoceros">
+        <definition xml:lang="en">
+            Rhinoceros /raɪˈnɒsərəs/, often abbreviated as rhino, is a group of five extant species of odd-toed ungulates in the family Rhinocerotidae. Two of these species are native to Africa and three to Southern Asia.
+            Members of the rhinoceros family are characterized by their large size (they are some of the largest remaining megafauna, with all of the species able to reach one tonne or more in weight); as well as by a herbivorous diet; a thick protective skin, 1.5–5 cm thick, formed from layers of collagen positioned in a lattice structure; relatively small brains for mammals this size (400–600 g); and a large horn. They generally eat leafy material, although their ability to ferment food in their hindgut allows them to subsist on more fibrous plant matter, if necessary. Unlike other perissodactyls, the two African species of rhinoceros lack teeth at the front of their mouths, relying instead on their powerful premolar and molar teeth to grind up plant food.[1]
+            Rhinoceros are killed by humans for their horns, which are bought and sold on the black market, and which are used by some cultures for ornamental or traditional medicinal purposes. The horns are made of keratin, the same type of protein that makes up hair and fingernails.[2] Both African species and the Sumatran rhinoceros have two horns, while the Indian and Javan rhinoceros have a single horn.
+            The IUCN Red List identifies three of the species as critically endangered.
+        </definition>
+        <definition xml:lang="de">
+            Die Nashörner (Rhinocerotidae) oder auch Rhinozerosse bilden eine Familie der Unpaarhufer (Perissodactyla) mit heute noch fünf lebenden Arten. Sie sind charakterisiert durch einen kräftigen Körper und kurze Gliedmaßen mit drei Zehen sowie einen großen Kopf, der bei allen heute lebenden Vertretern eine markante Bildung bestehend aus einem oder zwei – für die Familie namengebenden – Hörnern trägt. Die Familie stellt eine der vielfältigsten und erfolgreichsten in der Geschichte der Säugetiere dar und war während ihrer vor nahezu 50 Millionen Jahren beginnenden Entwicklungsgeschichte über weite Teile Eurasiens, Afrikas und Nordamerikas verbreitet. Ihr Niedergang begann Ende des Miozäns vor rund 6 bis 5 Millionen Jahren in Verbindung mit klimatischen und damit einhergehenden Landschaftsveränderungen, die zum Aussterben der nordamerikanischen sowie zahlreicher weiterer Nashornvertreter im ursprünglichen Verbreitungsgebiet führten. Gegen Ende des Pleistozäns gab es eine erneute Aussterbephase, während der alle nordeurasischen Vertreter verschwanden. Überlebt haben die heute noch bestehenden Nashornarten Breitmaul- und Spitzmaulnashorn im Afrika südlich der Sahara sowie Panzer-, Java- und Sumatra-Nashorn im süd- bis südöstlichen Asien, die teilweise in ihrem Bestand aber stark bedroht sind.
+        </definition>
+        <definition xml:lang="fr">
+            Les rhinocéros sont des mammifères herbivores appartenant à la famille des Rhinocerotidae, ordre des périssodactyles. Toutes les espèces de rhinocéros sont considérées comme menacées de disparition. Le rhinocéros fait localement l'objet d'un programme ou de projets de réintroduction.
+            Ils peuvent mesurer 4 m de longueur pour 2 m de hauteur, et un poids pouvant avoisiner les 3 tonnes. Ce sont les plus gros mammifères terrestres actuels après l'éléphant.
+            Comme l'éléphant, le rhinocéros barète ou barrit.
+            Le mot rhinocéros vient du grec rhinos, nez, et keras, corne, car il porte une ou deux cornes sur le nez, et non sur le front comme les autres mammifères cornus.
+            On décrit quatre genres et cinq espèces encore en vie :
+            En Afrique
+            Ceratotherium
+            Ceratotherium simum ou rhinocéros blanc, qui possède 2 cornes.
+            Diceros
+            Diceros bicornis ou rhinocéros noir, qui possède 2 cornes.
+            En Asie
+            Dicerorhinus
+            Dicerorhinus sumatrensis ou rhinocéros de Sumatra, qui possède 2 cornes.
+            Rhinoceros
+            Rhinoceros sondaicus ou rhinocéros de Java, qui possède 1 corne.
+            Rhinoceros unicornis ou rhinocéros indien, qui possède 1 corne.
+        </definition>
+    </term>
+
+
+    <term id="Elephant">
+        <definition xml:lang="en">
+            Elephants are large mammals of the family Elephantidae and the order Proboscidea. Traditionally, two species are recognised, the African elephant (Loxodonta africana) and the Asian elephant (Elephas maximus), although some evidence suggests that African bush elephants and African forest elephants are separate species (L. africana and L. cyclotis respectively). Elephants are scattered throughout sub-Saharan Africa, and South and Southeast Asia. They are the only surviving proboscideans; extinct species include mammoths and mastodons. The largest living terrestrial animals, male African elephants can reach a height of 4 m (13 ft) and weigh 7,000 kg (15,000 lb). These animals have several distinctive features, including a long proboscis or trunk used for many purposes, particularly for grasping objects. Their incisors grow into tusks, which serve as tools for moving objects and digging and as weapons for fighting. The elephant's large ear flaps help to control the temperature of its body. African elephants have larger ears and concave backs while Asian elephants have smaller ears and convex or level backs.
+            Elephants are herbivorous and can be found in different habitats including savannahs, forests, deserts and marshes. They prefer to stay near water. They are considered to be keystone species due to their impact on their environments. Other animals tend to keep their distance, and predators such as lions, tigers, hyenas and wild dogs usually target only the young elephants (or "calves"). Females (or "cows") tend to live in family groups, which can consist of one female with her calves or several related females with offspring. The latter are led by the oldest cow, known as the matriarch. Elephants have a fission-fusion society in which multiple family groups come together to socialise. Males (or "bulls") leave their family groups when they reach puberty, and may live alone or with other males. Adult bulls mostly interact with family groups when looking for a mate and enter a state of increased testosterone and aggression known as musth, which helps them gain dominance and reproductive success. Calves are the centre of attention in their family groups and rely on their mothers for as long as three years. Elephants can live up to 70 years in the wild. They communicate by touch, sight, and sound; elephants use infrasound, and seismic communication over long distances. Elephant intelligence has been compared with that of primates and cetaceans. They appear to have self-awareness and show empathy for dying or dead individuals of their kind.
+            African elephants are listed as vulnerable by the International Union for Conservation of Nature (IUCN), while the Asian elephant is classed as endangered. One of the biggest threats to elephant populations is the ivory trade, as the animals are poached for their ivory tusks. Other threats to wild elephants include habitat destruction and conflicts with local people. Elephants are used as working animals in Asia. In the past they were used in war; today, they are often put on display in zoos and circuses. Elephants are highly recognisable and have been featured in art, folklore, religion, literature and popular culture.
+        </definition>
+        <definition xml:lang="de">
+            Die Elefanten (Elephantidae) (altgr. ἐλέφαντ- eléfant-, Stamm von ἐλέφᾱς eléfās ‚Elefant‘) bilden eine Familie der Rüsseltiere. Diese Familie umfasst alle heute noch lebenden Vertreter der Rüsseltiere.
+            Elefanten sind die größten noch lebenden Landtiere. Schon bei der Geburt wiegt ein Kalb bis zu 100 Kilogramm. Die Tragzeit ist mit 20 bis 22 Monaten die längste aller Landsäugetiere. Je nach Art kann ein Elefant im Durchschnitt zwischen zwei und fünf Tonnen Körpergewicht und eine Größe von bis zu vier Metern erreichen. Das größte bekannte Exemplar war ein am 4. April 1978 im Damaraland (Namibia) erlegter Bulle, der 4,21 Meter groß und 10,39 Meter lang war.[1] Der älteste Elefant lebte im Zoo von Taipeh und wurde 86 Jahre alt.[2][3]
+        </definition>
+        <definition xml:lang="fr">
+            Éléphant est un nom vernaculaire ambigu désignant en français certains grands mammifères, pour la plupart éteints qui font partie, tout comme les mammouths et d'autres espèces disparues, de la famille des Elephantidae, répartis dans divers genres biologiques de cette famille.
+            Les animaux encore en vie au xxie siècle sont l'éléphant de savane, l'éléphant de forêt, autrefois regroupés sous l’expression « éléphant d'Afrique », et l'éléphant d'Asie, parfois anciennement appelé « éléphant indien ». Ils se différencient par certaines caractéristiques anatomiques, les éléphants d'Asie étant en général plus petits avec des oreilles plus petites, ou encore une différence du bout de la trompe. Ces espèces survivantes font localement l'objet de programmes ou de projets de réintroduction et de protection.
+            Le mot « éléphant » tient son origine du grec ἐλέφας qui signifie « ivoire » ou « éléphant »1. Il tient également son origine du latin elephantus pour les mêmes raisons2.
+            L'éléphant apparaît dans de nombreuses cultures. Il est symbole de sagesse dans la culture asiatique, connu pour sa mémoire et son intelligence, qui est comparée à celle des cétacés3 et hominidés4. Aristote avait dit que l'éléphant est « la bête qui dépasse toutes les autres par l'intelligence et l'esprit »5.
+        </definition>
+    </term>
+
+
+    <!-- TEMPLATE
+
+        <term id="">
+            <definition xml:lang="en">
+
+            </definition>
+            <definition xml:lang="de">
+
+            </definition>
+            <definition xml:lang="fr">
+
+            </definition>
+        </term>
+
+
+    -->
+
+</definitions>

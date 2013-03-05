@@ -6,23 +6,16 @@ import org.semanticweb.owl.apibinding.OWLManager;
 import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.inference.OWLReasonerException;
 import org.semanticweb.owl.io.WriterOutputTarget;
-import org.semanticweb.owl.io.OWLOntologyOutputTarget;
 import org.semanticweb.owl.io.OWLOntologyInputSource;
 import org.semanticweb.owl.vocab.OWLRDFVocabulary;
 
-import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.*;
 import java.lang.reflect.Constructor;
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
 
-import net.i2geo.onto.parse.GeoSkillsParseListener;
-import uk.ac.manchester.cs.owl.OWLDataPropertyAssertionAxiomImpl;
 import com.sun.msv.datatype.xsd.datetime.ISO8601Parser;
 
 /** Commidity class to access the GeoSkills ontology
@@ -70,7 +63,7 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
     private OWLObjectProperty hasTopicProp;
     private OWLObjectProperty belongsToEducationalPathway;
     private OWLObjectProperty inEducationalRegion;
-    private OWLObjectProperty age;
+    private OWLDataProperty age;
 
     private OWLDataProperty creationDateProp, modificationDateProp;
     private OWLDataProperty creationUserProp, modificationUserProp;
@@ -184,7 +177,7 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
             URI.create(ontBaseU + "#belongsToEducationalPathway"));
         inEducationalRegion = manager.getOWLDataFactory().getOWLObjectProperty(
             URI.create(ontBaseU + "#inEducationalRegion"));
-        age = manager.getOWLDataFactory().getOWLObjectProperty(
+        age = manager.getOWLDataFactory().getOWLDataProperty(
             URI.create(ontBaseU + "#age"));
 
         Set<OWLClass> inconsistentClasses = reasoner.getInconsistentClasses();
@@ -303,11 +296,12 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
                 craftURI(shortName));
     }
 
-    public Set<OWLIndividual> getPropertyValue(OWLIndividual i, OWLProperty prop) {
+    public Set<OWLIndividual> getObjectPropertyValue(OWLIndividual i, OWLProperty prop) {
         return i.getObjectPropertyValues(ont).get(prop);
     }
+
     public Set<String> getTopicsOfCompetencies(String sourceUri) {
-        Set<OWLIndividual> indivs = getPropertyValue(getOntologyIndividualOfName(sourceUri),
+        Set<OWLIndividual> indivs = getObjectPropertyValue(getOntologyIndividualOfName(sourceUri),
                 hasTopicProp);
         if(indivs == null) return new HashSet<String>();
         Set<String> s = new HashSet<String>(indivs.size());
@@ -334,7 +328,7 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
         //        .iterator().next().getLiteral().toString();
     }
 
-    public String getStringPropertyValue(OWLIndividual i, OWLObjectProperty prop) {
+    public String getStringPropertyValue(OWLIndividual i, OWLProperty prop) {
         try {
             Map<OWLDataPropertyExpression,Set<OWLConstant>> m = i.getDataPropertyValues(ont);
             Set<OWLConstant> s = reasoner.getDataPropertyRelationships(i).get(prop);
@@ -513,24 +507,22 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
         return s;
     }
 
-    public boolean isOfLevelType(OWLIndividual node) {
+    public boolean isOfType(OWLIndividual node, OWLClass cls) {
         for(OWLDescription desc: node.getTypes(ont)) {
-            if(isSubclassOf(desc.asOWLClass(),levelClass)) return true;
+            if(isSubclassOf(desc.asOWLClass(), cls)) return true;
         }
         return false;
     }
 
+    public boolean isOfLevelType(OWLIndividual node) {
+        return isOfType(node, levelClass);
+    }
+
     public boolean isOfTopicType(OWLIndividual node) {
-        for(OWLDescription desc: node.getTypes(ont)) {
-            if(isSubclassOf(desc.asOWLClass(),topicClass)) return true;
-        }
-        return false;
+        return isOfType(node, topicClass);
     }
     public boolean isOfCompetencyType(OWLIndividual node) {
-        for(OWLDescription desc: node.getTypes(ont)) {
-            if(isSubclassOf(desc.asOWLClass(),competencyClass)) return true;
-        }
-        return false;
+        return isOfType(node, competencyClass);
     }
 
     public Set<OWLClass> getAncestorClasses(OWLIndividual node) {
@@ -621,7 +613,7 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
         return inEducationalRegion;
     }
 
-    public OWLObjectProperty getAge() {
+    public OWLDataProperty getAge() {
         return age;
     }
 }
