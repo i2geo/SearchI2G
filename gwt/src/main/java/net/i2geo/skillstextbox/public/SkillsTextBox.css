@@ -10,6 +10,7 @@
 
 .gwt-SuggestBoxPopup {
     z-index: 30000;
+    box-shadow: 5px 5px 20px #AAAAAA;
 }
 
 .gwt-SuggestBoxPopup .item {
