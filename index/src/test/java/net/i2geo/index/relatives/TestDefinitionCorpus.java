@@ -9,10 +9,7 @@ import pitt.search.semanticvectors.SearchResult;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class TestDefinitionCorpus extends TestCase {
 
@@ -54,7 +51,9 @@ public class TestDefinitionCorpus extends TestCase {
         System.out.println("Test " + getName() + " starting.");
 
         Set<String> relatedWords = new HashSet<String>();
-        for(Object o: corpus.searchNeighbourTerms("en", 1000, "giraff")) {
+        List<SearchResult> results = corpus.searchNeighbourTerms("en", 1000, "giraff");
+        assertTrue("There should be something related to girafe.", ! results.isEmpty());
+        for(Object o: results) {
             SearchResult result = (SearchResult) o;
             String word = (String) result.getObjectVector().getObject();
             relatedWords.add(word);
@@ -66,13 +65,27 @@ public class TestDefinitionCorpus extends TestCase {
     }
 
     public void testDocumentsSimilarity() throws Exception {
+        System.out.flush(); System.err.flush();
         System.out.println("Test " + getName() + " starting.");
+        System.out.println("================ finding documents similar to girafe ===========================");
         List<DefinitionsCorpus.Neighbour> results = corpus.searchNeighbourDocs("uri_Girafe","en", 5);
         for(DefinitionsCorpus.Neighbour result: results) {
             System.out.println(" ---- " + result);
         }
+
+        System.out.println("================ finding documents similar to elephant ===========================");
+        results = corpus.searchNeighbourDocs("uri_Elephant","en", 10);
+        assertTrue("There should be documented related to elephant.", !results.isEmpty());
+        List<String> uris = new LinkedList<String>();
+        for(DefinitionsCorpus.Neighbour result: results) {
+            System.out.println(" ---- " + result);
+            String uri = result.uri;
+            if(uri.startsWith("uri_")) uri = uri.substring("uri_".length());
+            uris.add(uri);
+        }
+        assertTrue("Lion is more similar to elephant than falcon.", uris.indexOf("Lion")<uris.indexOf("Peregrine_falcon"));
+
         System.out.println("Test " + getName() + " finished.");
     }
-
 
 }

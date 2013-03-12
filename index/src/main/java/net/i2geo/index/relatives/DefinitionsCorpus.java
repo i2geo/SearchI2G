@@ -39,11 +39,13 @@ public class DefinitionsCorpus {
         for(String lang: supportedLanguages)
             configs.add(FlagConfig.getFlagConfig(new String[]{
                     "-contentsfields", "contents_" + lang + ",uri",
+                    "-docidfield", "uri",
                     "-luceneindexpath", this.indexPath,
                     "-termvectorsfile", "termVectors-" + lang,
                     "-queryvectorfile", "termVectors-" + lang,
                     "-docvectorsfile", "docVectors-" + lang,
-                    "-trainingcycles", "5"}));
+                    "-termweight", "logentropy",
+                    "-trainingcycles", "3"}));
     }
 
     private static Log LOG = LogFactory.getLog(DefinitionsCorpus.class);
@@ -113,7 +115,7 @@ public class DefinitionsCorpus {
     public List<Neighbour> searchNeighbourDocs(String uri, String language, int maxResults) throws IOException, ZeroVectorException{
         FlagConfig config = configs.get(supportedLanguages.indexOf(language));
         CloseableVectorStore queryVecReader = VectorStoreReader.openVectorStore(config.termvectorsfile(), config),
-            resultsVecReader = VectorStoreReader.openVectorStore(config.docvectorsfile(), config);
+            resultsVecReader = VectorStoreReader.openVectorStore(config.docvectorsfile(), config); // config.docvectorsfile()
         LuceneUtils luceneUtils = new LuceneUtils(config);
         LOG.info("Searching term vectors, searchtype " + config.searchtype() + "\n");
         VectorSearcher  vecSearcher = new VectorSearcher.VectorSearcherCosine(
@@ -213,11 +215,13 @@ public class DefinitionsCorpus {
 
         if(!(new File(termFile).equals(new File(config.termvectorsfile() + ".bin")))) {
             LOG.info("Moving "+termFile+" to " + config.termvectorsfile() + ".bin");
+            //FileUtils.copyFileToDirectory(new File(config.termvectorsfile() + ".bin"),new File("/tmp/"));
             new File(config.termvectorsfile() + ".bin").delete();
             new File(termFile).renameTo(new File(config.termvectorsfile() + ".bin"));
         }
         if(!(new File(termFile).equals(new File(config.docvectorsfile() + ".bin")))) {
             LOG.info("Moving "+docFile+" to " + config.docvectorsfile() + ".bin");
+            // FileUtils.copyFileToDirectory(new File(config.docvectorsfile() + ".bin"),new File("/tmp/"));
             new File(config.docvectorsfile() + ".bin").delete();
             new File(docFile).renameTo(new File(config.docvectorsfile() + ".bin"));
         }
