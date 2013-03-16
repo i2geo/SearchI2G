@@ -1,0 +1,171 @@
+<definitions>
+    <!-- the definitions here are extracted from the firt section of wikipedia entries in the respective language -->
+    <term id="Disc_r">
+        <definition xml:lang="en">
+            In geometry, a disk (also spelled disc) is the region in a plane bounded by a circle.
+
+            A disk is said to be closed or open according to whether or not it contains the circle that constitutes its boundary. In Cartesian coordinates, the open disk of center (a, b) and radius R is given by the formula
+
+            D=\{(x, y)\in {\mathbb R^2}: (x-a)^2+(y-b)^2 &lt; R^2\}
+
+            while the closed disk of the same center and radius is given by
+
+            \overline{ D }=\{(x, y)\in {\mathbb R^2}: (x-a)^2+(y-b)^2 \le R^2\}.
+
+            The area of a closed or open disk of radius R is πR2 (see π).
+
+            The ball is the disk generalised to metric spaces. In context, the term ball may be used instead of disk.
+
+            In theoretical physics a disk is a rigid body which is capable of participating in collisions in a two-dimensional gas. Usually the disk is considered rigid so that collisions are deemed elastic.
+        </definition>
+        <definition xml:lang="fr">
+            Un disque est une figure géométrique dans un plan (ou plutôt une surface plane) formée des points situés à une distance inférieure ou égale à une valeur donnée R d'un point O nommé centre. R est le rayon du disque. La frontière du disque est un cercle de centre O et de rayon R.
+
+            Dans le langage courant, on appelle disque un objet plat circulaire, qui est plus exactement un cylindre de faible épaisseur.        </definition>
+        <definition xml:lang="de">
+            Eine Scheibe ist ein Zylinder, dessen Radius (r) um ein Vielfaches höher ist als dessen Dicke (z). Viele Scheiben haben aus technischen Gründen eine konzentrische, hohlzylindrische Ausnehmung oder eine entsprechende Bohrung. Scheiben, deren Rand in Relation zur mittigen Ausnehmung um ein Vielfaches dünner ist, werden gemeinhin als Ring bezeichnet. Die Abgrenzungen zwischen Zylinder, Scheibe, Platte, Ring und ähnlichen Begriffen ist nicht exakt definiert und in vielen Fällen vom Kontext abhängig.
+
+            Mit „Scheibe“ kann aber auch ein Sichtfenster mit einer nicht näher bestimmten Form gemeint sein (von Fensterscheibe). Umgangssprachlich ist es bzw. Scheibenkleister ein Ausweichwort für den meistgebrauchten deutschen Fluch        </definition>
+    </term>
+    <term id="Circumcircle_r">
+        <definition xml:lang="en">
+            In geometry, the circumscribed circle or circumcircle of a polygon is a circle which passes through all the vertices of the polygon. The center of this circle is called the circumcenter and its radius is called the circumradius.
+
+            A polygon which has a circumscribed circle is called a cyclic polygon (sometimes a concyclic polygon, because the vertices are concyclic). All regular simple polygons, isosceles trapezoids, all triangles and all rectangles are cyclic.
+
+            A related notion is the one of a minimum bounding circle, which is the smallest circle that completely contains the polygon within it. Not every polygon has a circumscribed circle, as the vertices of a polygon do not need to all lie on a circle, but every polygon has a unique minimum bounding circle, which may be constructed by a linear time algorithm.[1] Even if a polygon has a circumscribed circle, it may not coincide with its minimum bounding circle; for example, for an obtuse triangle, the minimum bounding circle has the longest side as diameter and does not pass through the opposite vertex.        </definition>
+        <definition xml:lang="fr">
+            En géométrie, un cercle circonscrit à un polygone est un cercle passant par tous les sommets du polygone. Le polygone est alors dit inscrit dans le cercle : on parle de polygone inscriptible. Les sommets sont alors cocycliques, situés sur un même cercle. Ce cercle est unique et son centre est le point d'intersection des médiatrices des côtés.        </definition>
+        <definition xml:lang="de">
+            In der ebenen Geometrie ist ein Umkreis ein Kreis, der durch alle Eckpunkte eines Polygons (Vielecks) geht.
+
+            Nicht für jedes Polygon existiert ein solcher Umkreis. Allgemein besitzt ein konvexes Polygon genau dann einen Umkreis, wenn die Mittelsenkrechten aller Seiten einander in einem Punkt schneiden. In diesem Fall ist der gemeinsame Punkt der Mittelpunkt des Umkreises.
+        </definition>
+    </term>
+
+    <term id="Incircle_r">
+        <definition xml:lang="en">
+            In geometry, the incircle or inscribed circle of a triangle is the largest circle contained in the triangle; it touches (is tangent to) the three sides. The center of the incircle is called the triangle's incenter.
+
+            An excircle or escribed circle of the triangle is a circle lying outside the triangle, tangent to one of its sides and tangent to the extensions of the other two. Every triangle has three distinct excircles, each tangent to one of the triangle's sides.
+
+            The center of the incircle can be found as the intersection of the three internal angle bisectors. The center of an excircle is the intersection of the internal bisector of one angle and the external bisectors of the other two. Because the internal bisector of an angle is perpendicular to its external bisector, it follows that the center of the incircle together with the three excircle centers form an orthocentric system.        </definition>
+        <definition xml:lang="fr">
+            Étant donnés trois points non alignés A, B et C du plan, il existe quatre cercles tangents aux trois droites (AB), (AC) et (BC). Ce sont le cercle inscrit (pour celui qui est intérieur au triangle) et les cercles exinscrits du triangle ABC.        </definition>
+        <definition xml:lang="de">
+            Wenn in der Geometrie von Kreisen am Dreieck die Rede ist, sind in erster Linie die folgenden Kreise gemeint, die schon in der Antike von griechischen Mathematikern untersucht wurden.
+
+            Der Umkreis eines Dreiecks ist der Kreis, der durch alle drei Ecken des gegebenen Dreiecks geht. Sein Mittelpunkt ist von den drei Ecken gleich weit entfernt und liegt daher auf allen drei Mittelsenkrechten (Streckensymmetralen).
+
+            Der Inkreis eines Dreiecks ist der Kreis, der alle drei Seiten des gegebenen Dreiecks im Inneren berührt, also der größte Kreis, der im Inneren des Dreiecks liegt. Der Mittelpunkt des Inkreises hat zu allen drei Seiten den gleichen Abstand und liegt folglich auf allen drei Winkelhalbierenden (Winkelsymmetralen) der Innenwinkel.
+        </definition>
+    </term>
+
+    <term id="Meridian_r">
+        <definition xml:lang="en">
+            A meridian (or line of longitude) is the half of an imaginary great circle on the Earth's surface terminated by the North Pole and the South Pole, connecting points of equal longitude. The position of a point along the meridian is given by its latitude. Each meridian is perpendicular to all circles of latitude. Each is also the same size, being half of a great circle on the Earth's surface and therefore measuring 20,003.93 km (12,429.9 miles).        </definition>
+        <definition xml:lang="fr">
+            En géographie, un méridien est un demi grand cercle imaginaire tracé sur le globe terrestre reliant les pôles géographiques. Tous les points de la Terre situés sur un même méridien ont la même longitude. On parle également d'arc de méridien entre deux latitudes.
+
+            En astronomie, un méridien est un grand cercle imaginaire tracé sur la sphère céleste, passant par les pôles célestes. L'ascension droite, par exemple, est repérée par les méridiens célestes. Le méridien, ou plan méridien, d'un lieu est un grand cercle de la sphère céleste passant par le pôle céleste, le zénith et le nadir du lieu. À midi solaire, le Soleil est dans le plan méridien.        </definition>
+        <definition xml:lang="de">
+            Das Wort Meridian bezeichnet im Gradnetz der Erde einen halben Längenkreis auf der Erdoberfläche, der von einem geographischen Pol zum anderen verläuft. Er ist die Verbindungslinie aller Orte auf der Erde, an denen die Sonne zur gleichen Zeit den höchsten Punkt ihrer Tageslaufbahn (Tagesbogen) am Himmel einnimmt, an denen also gleichzeitig Mittag ist. Die Wortherkunft vom lateinischen circulus meridianus („Mittagskreis“) weist ebenfalls auf diesen Zusammenhang hin.
+
+            Alle Punkte mit gleicher geographischer Länge, also mit dem gleichen "Längengrad", liegen auf dem selben Meridian. Die Begriffe 'Längengrad' und 'Meridian' bezeichnen also genau gleiche Linien auf der Erdoberfläche und können daher synonym verwendet werden. Allerdings wird bei der Verwendung des Begriffs 'Längengrad' der Aspekt der Winkelangabe und bei der Verwendung des Begriffs 'Meridian' der Aspekt des Sonnenstandes zur Mittagszeit betont.
+
+            Manchmal wird der Begriff ungenauerweise auch als Synonym zum vollen Längenkreis verwendet (siehe Erdmeridianquadrant).
+
+            Verwechslungsgefahr besteht mit dem Meridianbegriff der Astronomen: Sie nennen den Himmelsmeridian in der Kurzform ebenfalls Meridian, verstehen darunter aber einen speziellen Großkreis an der Himmelskugel.        </definition>
+    </term>
+
+    <term id="Circle_of_latitude_r">
+        <definition xml:lang="en">
+        A circle of latitude on the Earth is an imaginary east-west circle connecting all locations (not taking into account elevation) having a given latitude. A location's position along a circle of latitude is given by its longitude.
+
+        Circles of latitude are often called parallels because they are parallel to each other – that is, any two parallels are everywhere the same distance apart. (Since the Earth isn't spherical the distance from the equator to 10 degrees north is slightly less than the distance from 10 to 20 degrees north. On some map projections, like the Equirectangular projection, they are drawn equidistant.)
+
+        Circles of latitude become smaller the farther they are from the equator and the closer they are to the poles. A circle of latitude is perpendicular to all meridians, and is hence a special case of a loxodrome.
+
+        The latitude of the circle is (roughly) the angle between the Equator and the circle, with the angle's vertex at the Earth's centre. The Equator is at 0°, and the North and South Pole are at 90° north and 90° south respectively. There are 89 integral (whole degree) circles of latitude between the Equator and the Poles in each hemisphere, but these can be divided into more precise measurements of latitude, and are often represented as a decimal degree (e.g. 34.637°N) or with minutes and seconds (e.g. 22°14'26"S). There is no limit to how precisely latitude can be measured, and so there are an infinite number of circles of latitude on Earth.
+
+        Many maps show circles of latitude as straight lines, but a circle of latitude is not (except the Equator) the shortest distance between two points on the Earth. In other words, circles of latitude (except for the Equator) are not great circles (see also great-circle distance), but are rhumb lines. So an aircraft flying between a European and North American city that share the same latitude will fly farther north, over Greenland for example.
+
+        Arcs of circles of latitude are sometimes used as boundaries between countries or regions where distinctive natural borders are lacking (such as in deserts), or when an artificial border is drawn as a "line on a map", as happened in Korea.        </definition>
+        <definition xml:lang="fr">
+            Sur Terre, un parallèle est un cercle imaginaire reliant tous les lieux situés sur une même latitude.
+        </definition>
+        <definition xml:lang="de">
+            Breitenkreise sind die parallel zur Äquatorebene in Ost-West-Richtung verlaufenden Kreise auf der (idealisierten) Erdoberfläche mit konstanter geographischer Breite β. Ein Synonym zu „der Breitenkreis“ ist die in der Navigationslehre übliche Bezeichnung „das Breitenparallel“.
+
+            Während die zu den Breitenkreisen senkrecht verlaufenden Längenkreise sämtlich Großkreise sind, sind die Breitenkreise im Allgemeinen Kleinkreise – bis auf den Äquator, der als nullter Breitengrad die Erde in eine nördliche und eine südliche Hemisphäre teilt. Weitere besondere Breitenkreise sind die Wendekreise und die Polarkreise, die ihre Bedeutung für den Sonnenstand im Verlauf der Jahreszeiten durch die Schiefe der Ekliptik erlangen. Auch die Definition der Klimazonen bezieht sich auf bestimmte Breitenkreise.
+
+            Der Abstand zweier Breitenkreise mit einem Breitenunterschied von einem Grad beträgt im Mittel annähernd 111 km, ist aber wegen der Erdabplattung in Äquatornähe kleiner als in den extrem nördlichen und südlichen Breiten. Einen ähnlichen Fehler hätte die Berechnung der Länge der Breitenkreise als 2πR·cos β mit konstantem Erdradius R.        </definition>
+    </term>
+
+    <term id="Circumference_r">
+        <definition xml:lang="en">
+            Circumference is the linear distance around the outside of a closed curve or circular object.[1] The circumference of a circle is of special importance to geometric and trigonometric concepts. However circumference may also describe the outside of elliptical closed curves. Circumference is a special example of perimeter.[2]
+        </definition>
+        <definition xml:lang="fr">
+            La circonférence est une ligne courbe fermée limitant une surface. C'est aussi la longueur de cette ligne courbe fermée.
+
+            Circonférence est un synonyme de périmètre, bien que ce dernier ait l'acception un peu plus générale d'une ligne fermée de forme quelconque (polygonale ou courbe).
+
+            Le mot « circonférence » est particulièrement adapté au cas d'un disque, où elle désigne la longueur du cercle dont tous les points se trouvent à égale distance d'un point fixe appelé centre.
+
+            La notion de circonférence s'applique bien également au cas voisin d'une ellipse
+        </definition>
+        <definition xml:lang="de">
+            Der Umfang einer ebenen Figur, die durch eine Linie begrenzt ist, bezeichnet die Länge ihrer Begrenzungslinie.
+
+            Beispielsweise lautet die Formel für den Kreisumfang
+
+            U = \pi \, d = 2 \pi \, r
+
+            U steht dabei für den Umfang,
+            r für den Radius des Kreises und
+            \pi für die Kreiszahl pi mit dem Wert 3,14159265...
+            d für den Kreisdurchmesser
+
+            Der Umfang eines Vielecks ist die Summe seiner Seitenlängen.        </definition>
+    </term>
+
+    <term id="xx">
+        <definition xml:lang="en">
+            A circle is a simple shape of Euclidean geometry that is the set of all points in a plane that are a given distance from a given point, the centre. The distance between any of the points and the centre is called the radius. It can also be defined as the locus of a point equidistant from a fixed point.
+
+            A circle is a simple closed curve which divides the plane into two regions: an interior and an exterior. In everyday use, the term "circle" may be used interchangeably to refer to either the boundary of the figure, or to the whole figure including its interior; in strict technical usage, the circle is the former and the latter is called a disk.
+
+            A circle can be defined as the curve traced out by a point that moves so that its distance from a given point is constant.
+
+            A circle may also be defined as a special ellipse in which the two foci are coincident and the eccentricity is 0. Circles are conic sections attained when a right circular cone is intersected by a plane perpendicular to the axis of the cone.
+        </definition>
+        <definition xml:lang="de">
+            Ein Kreis ist definiert als Menge aller Punkte auf einer Ebene, deren Abstand von einem vorgegebenen Punkt dieser Ebene konstant ist. Der vorgegebene Punkt heißt Mittelpunkt des Kreises. Der Abstand der Kreispunkte zum Mittelpunkt ist der Radius oder Halbmesser des Kreises, er ist eine positive reelle Zahl. Der Begriff Kreis gehört zu den wichtigsten Begriffen der euklidischen Geometrie.
+
+            Schon die alten Ägypter und Babylonier versuchten, den Flächeninhalt des Kreises näherungsweise zu bestimmen. Besonders in der griechischen Antike war der Kreis wegen seiner Vollkommenheit von großem Interesse. Beispielsweise versuchte Archimedes erfolglos, mit den Werkzeugen Zirkel und Lineal den Kreis in ein Quadrat mit gleichem Flächeninhalt zu überführen, um so den Flächeninhalt des Kreises bestimmen zu können. Ein solches Verfahren zur Berechnung des Flächeninhalts nennt man die Quadratur des Kreises. Erst 1882 konnte Ferdinand von Lindemann durch Nachweis einer besonderen Eigenschaft der Kreiszahl zeigen, dass diese Aufgabe unlösbar ist.
+        </definition>
+        <definition xml:lang="fr">
+            Un cercle est une courbe plane fermée constituée des points situés à égale distance d'un point nommé centre. La valeur de cette distance est appelée rayon du cercle. Celui-ci étant infiniment variable, il existe donc une infinité de cercles pour un centre quelconque, dans chacun des plans de l'espace.
+
+            Dans le plan euclidien, il s'agit du « rond » qui est associé en français au terme de cercle. Dans un plan non euclidien ou dans le cas de la définition d'une distance non euclidienne, la forme peut être plus complexe. Dans un espace de dimensions quelconque, l'ensemble des points placés à une distance constante d'un centre est appelé sphère.
+
+            D'autres formes peuvent être qualifiées de « rondes » : les surfaces et solides dont certaines sections planes sont des cercles (cylindres, cônes, etc)1.
+
+            Pendant longtemps, le langage courant employait ce terme autant pour nommer la courbe (circonférence) que la surface qu'elle délimite. De nos jours, en mathématiques, le cercle désigne exclusivement la courbe ; la surface étant appelée disque.
+
+            Le rapport de la circonférence du cercle à son diamètre définit le nombre pi.        </definition>
+    </term>
+
+
+    <!--
+    <term id="xx">
+        <definition xml:lang="en">
+        </definition>
+        <definition xml:lang="fr">
+        </definition>
+        <definition xml:lang="de">
+        </definition>
+    </term>
+    -->
+</definitions>

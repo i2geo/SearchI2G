@@ -51,10 +51,10 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
     private boolean opened = false;
 
     protected OWLOntologyManager manager;
-    protected OWLOntology ont;
-    private OWLReasoner reasoner;
+    protected OWLOntology ont, anotherOnt;
+    protected OWLReasoner reasoner;
 
-    protected URL ontologyURL;
+    protected URL ontologyURL, anotherOntologyURL;
     private OWLDataProperty commonNameProp;
     private OWLDataProperty defaultCommonNameProp;
     private OWLDataProperty unCommonNameProp;
@@ -96,6 +96,11 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
 
     public GeoSkillsAccess(URL ontologyURL) {
         this.ontologyURL = ontologyURL;
+    }
+
+    public GeoSkillsAccess(URL ontologyURL, URL anotherOntologyURL) {
+        this.ontologyURL = ontologyURL;
+        this.anotherOntologyURL = anotherOntologyURL;
     }
 
     public URL getOntologyURL() {
@@ -144,9 +149,11 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
         
         ont = manager.loadOntology(source);
         System.out.println("Ontology loaded from " + ontologyURL.toExternalForm());
-        reasoner = createReasoner(manager);
-        Set<OWLOntology> importsClosure = manager.getImportsClosure(ont);
-        reasoner.loadOntologies(importsClosure);
+        if(anotherOntologyURL!=null) {
+            anotherOnt = manager.loadOntology(anotherOntologyURL.toURI());
+            System.out.println("Other Ontology loaded from " + anotherOntologyURL.toExternalForm());
+        }
+        reasoner = createReasoner(manager, ont, anotherOnt);
 
 
         competencyClass = manager.getOWLDataFactory().getOWLClass(URI.create(ontBaseU + "#Competency"));
@@ -195,7 +202,7 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
         return hasTopicProp;
     }
 
-    private static OWLReasoner createReasoner(OWLOntologyManager man) {
+    private static OWLReasoner createReasoner(OWLOntologyManager manager, OWLOntology ont, OWLOntology anotherOnt) {
            try {
                // Where the full class name for Reasoner is org.mindswap.pellet.owlapi.Reasoner
                // Pellet requires the Pellet libraries  (pellet.jar, aterm-java-x.x.jar) and the
@@ -203,7 +210,13 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
                String reasonerClassName = "org.mindswap.pellet.owlapi.Reasoner";
                Class reasonerClass = Class.forName(reasonerClassName);
                Constructor<OWLReasoner> con = reasonerClass.getConstructor(OWLOntologyManager.class);
-               return con.newInstance(man);
+               OWLReasoner reasoner = con.newInstance(manager);
+               Set<OWLOntology> importsClosure;
+               if(anotherOnt !=null)
+                   importsClosure = manager.getImportsClosure(anotherOnt);
+               else importsClosure = manager.getImportsClosure(ont);
+               reasoner.loadOntologies(importsClosure);
+               return reasoner;
            }
            catch (Exception e) {
                throw new RuntimeException(e);
@@ -591,7 +604,7 @@ public class GeoSkillsAccess implements GeoSkillsConstants {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ont = manager.loadOntologyFromPhysicalURI(URI.create(new URL(args[0]).toExternalForm()));
         System.out.println("Ontology loaded.");
-        OWLReasoner reasoner = createReasoner(manager);
+        OWLReasoner reasoner = createReasoner(manager, ont, null);
         Set<OWLOntology> importsClosure = manager.getImportsClosure(ont);
         reasoner.loadOntologies(importsClosure);
         //GeoSkillsAccess access = new GeoSkillsAccess(args[0]);

@@ -98,15 +98,15 @@ public class GSIUtil {
         return firstNames;
     } */
 
-    static String nameOf(OWLNamedObject o) {
+    public static String nameOf(OWLNamedObject o) {
         return uriToName(o.getURI());
     }
 
-    static String uriToName(URI uri) {
+    public static String uriToName(URI uri) {
         return uriToName(uri.toString());
     }
 
-    static String uriToName(String uri) {
+    public static String uriToName(String uri) {
         return uriToName(uri,true);
     }
 

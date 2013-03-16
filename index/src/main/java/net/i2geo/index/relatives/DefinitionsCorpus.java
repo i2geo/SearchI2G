@@ -117,9 +117,9 @@ public class DefinitionsCorpus {
         CloseableVectorStore queryVecReader = VectorStoreReader.openVectorStore(config.termvectorsfile(), config),
             resultsVecReader = VectorStoreReader.openVectorStore(config.docvectorsfile(), config); // config.docvectorsfile()
         LuceneUtils luceneUtils = new LuceneUtils(config);
-        LOG.info("Searching term vectors, searchtype " + config.searchtype() + "\n");
+        LOG.info("Searching term vectors, searchtype " + config.searchtype() + " for query \"" + uri + "\".");
         VectorSearcher  vecSearcher = new VectorSearcher.VectorSearcherCosine(
-                queryVecReader, resultsVecReader, luceneUtils, config, new String[] {uri}); // "uri:" +
+                queryVecReader, resultsVecReader, luceneUtils, config, new String[] {"uri_" + uri}); // "uri:" +
         LinkedList<SearchResult> results = vecSearcher.getNearestNeighbors(maxResults);
 
         return searchResultsToNeighbours(results);
