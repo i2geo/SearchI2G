@@ -145,6 +145,11 @@ class GSRelativesAccess extends GeoSkillsAccess {
         return individual;
     }
 
+    public void assertI18nStringProperty(OWLIndividual node, OWLDataProperty property, String value, String lang) throws Exception {
+        OWLUntypedConstant constant = manager.getOWLDataFactory().getOWLUntypedConstant(value, lang);
+        OWLDataPropertyAssertionAxiom assertion = manager.getOWLDataFactory().getOWLDataPropertyAssertionAxiom(node, property,  constant);
+        manager.addAxiom(anotherOnt, assertion);
+    }
     public void assertStringProperty(OWLIndividual node, OWLDataProperty property, String value) throws Exception {
         OWLDataPropertyAssertionAxiom assertion = manager.getOWLDataFactory().getOWLDataPropertyAssertionAxiom(node, property, value);
         manager.addAxiom(anotherOnt, assertion);
